@@ -1,7 +1,19 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './views/LandingPage';
+import Home from './views/Home';
+import AdoptForm from './views/AdoptForm';
+import './styles/App.css';
 
-export default function App() {
-
+function App() {
   return (
-    <div className="text-center text-5xl font-bold">App</div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/inicio" element={<Home />} />
+        <Route path="/formulario-de-adopcion" element={<AdoptForm />} />
+      </Routes>
+    </Router>
+  );
 }
+
+export default App;
