@@ -9,9 +9,9 @@ const RegisterPage = () => {
     return (
        <>
        <RegisterForm />
-       <div className="flex flex-col justify-items-center">
+       <div className="flex flex-col justify-items-center ml-[52px]">
        <RegisterButton/>
-       <span className="">
+       <span className="ml-[37px] mt-[20px]">
         Ya tienes cuenta ? Inicia sesión
        </span>
        </div>

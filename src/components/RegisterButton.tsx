@@ -1,7 +1,7 @@
 const RegisterButton = () => {
 return (
     <>
-    <button className="border-2 rounded-3xl h-10 w-4/5 ml-[52px]">
+    <button className="border-2 rounded-3xl h-14 w-4/5">
     Registrar
     </button>
     </>
