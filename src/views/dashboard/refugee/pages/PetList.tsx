@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PetCard from "../components/PetCard";
+import PetCard from "../../../../components/PetCard";
 import { FaFilter } from "react-icons/fa6";
 
 interface Pet {
