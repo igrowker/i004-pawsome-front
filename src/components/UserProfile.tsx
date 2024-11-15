@@ -131,8 +131,8 @@ const UserProfile: React.FC = () => {
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Solicitudes de adopción</h3>
           {adoptionRequests.map((request, index) => (
             <div key={index} className="bg-gray-100 p-4 rounded-lg mb-4 w-full">
-              <p><strong>Animal:</strong> {request.animal}</p>
-              <p><strong>Status:</strong> {request.status}</p>
+              <p><strong>Animal: </strong>{request.animal}</p>
+              <p><strong>Status: </strong>{request.status}</p>
             </div>
           ))}
         </div>
