@@ -17,20 +17,17 @@ const AdoptForm = () => {
         },
     })
 
+    // Creamos un state para los errores si los terminos no son aceptados
     const [errors, setErrors] = useState<{ termsAccepted?: string }>({});
 
-    // Función para manejar el submit
+    // Función para manejar el submit de evento de Formulario
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Validar que se hayan aceptado los términos y condiciones
+        // Si no se aceptan los terminos y condiciones aparecerá un escrito diciendo que debemos aceptarlos"
         if (!formData.termsAccepted) {
             setErrors({ termsAccepted: "Debes aceptar los términos y condiciones." });
             return;
         }
-
-        // Aquí puedes manejar el envío del formulario
-        console.log("Formulario enviado:", formData);
     };
 
     return (
@@ -45,7 +42,7 @@ const AdoptForm = () => {
                     </div>
                     <div>
                         <label htmlFor="phone" className="block text-sm font-medium text-gray-600">Telefono de Contacto:</label>
-                        <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.phone} placeholder="+34 666 666 666" onChange={(e) => updateForm({ phone: e.target.value })} />
+                        <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.phone} placeholder="+34666666666" onChange={(e) => updateForm({ phone: e.target.value })} />
                     </div>
                     <div className="flex flex-row gap-3">
                         <div>
@@ -59,9 +56,16 @@ const AdoptForm = () => {
                     </div>
                     <div>
                         <label htmlFor="compatibility" className="block text-sm font-medium text-gray-600">Compatibilidad:</label>
-                        <input type="text" className="align-text-top mt-1 block w-full px-3 py-10 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.compatibility} placeholder="¿Por qué quieres adoptar?" onChange={(e) => updateForm({ compatibility: e.target.value })} />
+                        <textarea
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-teal-500 resize-none"
+                            rows={4} // Número de líneas de texto que se verán.
+                            value={formData.compatibility}
+                            placeholder="¿Por qué quieres adoptar?"
+                            onChange={(e) => updateForm({ compatibility: e.target.value })}
+                        />
                     </div>
                     <div>
+                        {/* Solo se puede seleccionar o Habitación o Departamento */}
                         <label htmlFor="homeSituation" className="block text-sm font-medium text-gray-700 pt-2">Situación Habitacional</label>
                         <div className="flex items-center space-x-4 py-2">
                             <label className="flex items-center text-gray-800 text-sm">
@@ -71,7 +75,6 @@ const AdoptForm = () => {
                                     value="Casa"
                                     checked={formData.housingSituation === "Casa"}
                                     onChange={() => updateForm({ housingSituation: "Casa" })}
-                                // className="form-radio text-gray-600"
                                 />
                                 <span className="ml-2">Casa</span>
                             </label>
