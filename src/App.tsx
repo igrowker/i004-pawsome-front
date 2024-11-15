@@ -8,7 +8,7 @@ function App() {
       <h1 className="bg-secondaryLight p-5">SecondaryDark</h1>
       <h1 className="bg-dark text-light p-5" >dark(backround), light(text)</h1>
       <h1 className="bg-secondaryLight p-5">ROBOTO</h1>
-    </div> 
+    </div>
   );
 }
 
