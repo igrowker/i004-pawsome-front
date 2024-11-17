@@ -171,45 +171,46 @@ const VolunteerForm = () => {
             text="Condiciones de Salud y Requisitos Especiales"
             className="text-2xl font-bold font-roboto"
           />
-          <label htmlFor="medicalConditions" className="block">
-            Condiciones médicas o restricciones físicas
-          </label>
-          <Input
-            placeholder="Condiciones médicas o restricciones físicas"
-            name="medicalConditions"
-            required={true}
-          />
-          <Input
-            placeholder="Restricciones alimenticias o alergias"
-            name="alergics"
-            required={true}
-          />
+          <div>
+            <Input
+              placeholder="Condiciones médicas o restricciones físicas"
+              name="medicalConditions"
+              required={true}
+            />
+            <Input
+              placeholder="Restricciones alimenticias o alergias"
+              name="alergics"
+              required={true}
+            />
+          </div>
         </fieldset>
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Compromiso y Confirmación"
             className="text-2xl font-bold font-roboto"
           />
-          <Input
-            placeholder="Disponibilidad para cumplir con el compromiso requerido"
-            name="commitment"
-            required={true}
-          />
-          <Input
-            type="number"
-            placeholder="Firma"
-            name="sign"
-            required={true}
-          />
-          <label htmlFor="permission" className="block">
-            
-          </label>
-          <Input
-            type="number"
-            placeholder="Consentimiento para tratamiento de datos personales"
-            name="permission"
-            required={true}
-          />
+          <div>
+            <Input
+              placeholder="Disponibilidad para cumplir con el compromiso requerido"
+              name="commitment"
+              required={true}
+            />
+            <Input
+              type="number"
+              placeholder="Firma"
+              name="sign"
+              required={true}
+            />
+            <label htmlFor="permission" className="block">
+              
+            </label>
+            <Input
+              type="number"
+              placeholder="Consentimiento para tratamiento de datos personales"
+              name="permission"
+              required={true}
+            />
+          </div>
         </fieldset>
         <fieldset className="space-y-2 mt-10">
           <Legend
@@ -220,11 +221,15 @@ const VolunteerForm = () => {
             
           </label>
           <Input
-            placeholder="Notas o información adicional que el voluntario desee agregar"
             name="adicionalInfo"
             required={true}
           />
         </fieldset>
+        <button
+          type="submit"
+          className="bg-primaryDark w-full
+          py-3 mt-4 hover:contrast-125 transition-all"
+        >Enviar</button>
       </form>
     </>
   );
