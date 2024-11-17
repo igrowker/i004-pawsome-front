@@ -10,12 +10,12 @@ const Footer: React.FC = () => {
             <img src="/login.png" alt="Logo" className="w-16 h-16" />
             <h1 className="text-4xl font-bold">PAWSOME</h1>
           </div>
-          <p className="text-white text-sm text-center">"Making every paw count."</p>
+          <p className="text-white text-sm text-center">"Un lugar, todos los refugios"</p>
         </div>
 
         {/* Social Media */}
         <div className="text-center">
-          <p className="text-md font-bold mb-4">Follow us on</p>
+          <p className="text-md font-bold mb-4">Síguenos en</p>
           <div className="w-12 h-1 bg-primaryLight mx-auto mb-5"></div>
           <div className="flex justify-center space-x-4">
             <a
@@ -47,40 +47,40 @@ const Footer: React.FC = () => {
 
         {/* Quick Links */}
         <div>
-          <h2 className="text-lg font-bold text-gray-300 mb-4 text-center">Quick Links</h2>
+          <h2 className="text-lg font-bold text-gray-300 mb-4 text-center">Enlaces rápidos</h2>
           <div className="w-12 h-1 bg-primaryLight mx-auto mb-5"></div>
           <div className="grid grid-cols-2 gap-4 p-2">
             <a
               href="/about"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
-              About Us
+              Sobre nosotros
             </a>
             <a
               href="/adoptions"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
-              Register
+              Registrarse
             </a>
             <a
               href="/register"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
-              Donations
+              Donaciones
             </a>
             <a
               href="/donations"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
-              Privacy Policy
+              Política de privacidad
             </a>
           </div>
         </div>
 
         {/* Contact Us */}
         <div className="mt-8 text-center space-y-4 md:col-span-3 mx-auto">
-          <h2 className="text-lg font-bold">Contact Us</h2>
-          <div className="w-12 h-1 bg-primaryLight mx-auto mb-5"></div> {/* Aseguramos que sea idéntica */}
+          <h2 className="text-lg font-bold">Contáctanos</h2>
+          <div className="w-12 h-1 bg-primaryLight mx-auto mb-5"></div>
           <div className="flex flex-col items-center md:items-start space-y-2">
             <div className="flex items-center space-x-2">
               <FaPhone className="text-primaryLight" />
@@ -88,7 +88,7 @@ const Footer: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2">
               <FaEnvelope className="text-primaryLight" />
-              <span>contact@pawsome.com</span>
+              <span>contacto@pawsome.com</span>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
 
       {/* Rights Reserved */}
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} <b>PAWSOME.</b> All rights reserved.
+        © {new Date().getFullYear()} <b>PAWSOME.</b> Todos los derechos reservados.
       </div>
     </footer>
   );
