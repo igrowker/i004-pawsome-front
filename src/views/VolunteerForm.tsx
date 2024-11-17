@@ -97,232 +97,133 @@ const VolunteerForm = () => {
             className="text-2xl font-bold font-roboto"
           />
 
-          <Input
-            placeholder="Experiencia previa en voluntariado"
-            name="experience"
-            required={true}
+          <div>
+            <Input
+              placeholder="Experiencia previa en voluntariado"
+              name="experience"
+              required={true}
+            />
+  
+            <Input
+              placeholder="Áreas de interés o preferencia"
+              name="preferenceArea"
+              required={true}
+            />
+  
+  
+            <Input
+              placeholder="Habilidades o conocimientos"
+              name="knowledge"
+              required={true}
+            />
+          </div>
+
+        </fieldset>
+        <fieldset className="space-y-2 mt-10">
+
+          <Legend
+            text="Motivación"
+            className="text-2xl font-bold font-roboto"
           />
 
-          <Input
-            placeholder="Áreas de interés o preferencia"
-            name="dni"
-            required={true}
-          />
-          <input
-            type="text"
-            className="bg-transparent border-b-4 w-full outline-none leading-7"
-            id="preferenceArea"
-          />
-          <label htmlFor="knowledge" className="block">
-            Habilidades o conocimientos
-          </label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
-          <textarea
-            name="knowledge"
-            id="knowledge"
-            className="bg-transparent border-4 w-full outline-none leading-7 rounded h-32"
-          ></textarea>
+          <div>
+            <Input
+              type="number"
+              placeholder="¿Por qué quieres ser voluntario?"
+              name="volunteer"
+              required={true}
+            />
+  
+            <Input
+              type="number"
+              placeholder="¿Qué esperas lograr o aprender?"
+              name="learn"
+              required={true}
+            />
+          </div>
+
         </fieldset>
         <fieldset className="space-y-2 mt-10">
-          <legend className="text-2xl font-bold font-roboto">Motivación</legend>
           <Legend
-            text="Datos Personales"
+            text="Preferencias de Rol"
             className="text-2xl font-bold font-roboto"
           />
-          <label htmlFor="volunteer" className="block">
-            ¿Por qué quieres ser voluntario?
-          </label>
           <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
+            placeholder="Rol o actividad específica de interés"
+            name="role"
             required={true}
           />
-          <textarea
-            name="volunteer"
-            id="volunteer"
-            className="bg-transparent border-4 w-full outline-none leading-7 rounded h-32"
-          ></textarea>
-          <label htmlFor="learn" className="block">
-            ¿Qué esperas lograr o aprender?
-          </label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
-          <textarea
-            name="learn"
-            id="learn"
-            className="bg-transparent border-4 w-full outline-none leading-7 rounded h-32"
-          ></textarea>{" "}
-        </fieldset>
-        <fieldset className="space-y-2 mt-10">
-          <legend className="text-2xl font-bold font-roboto">
-            Preferencias de Rol
-          </legend>
-          <Legend
-            text="Datos Personales"
-            className="text-2xl font-bold font-roboto"
-          />
-          <label htmlFor="role" className="block">
-            Rol o actividad específica de interés
-          </label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
-          <input
-            type="text"
-            id="role"
-            className="bg-transparent border-b-4 w-full outline-none leading-7"
-          />
+  
           <label className="block">
             Preferencia de trabajo individual o en equipo
           </label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
           <input type="radio" name="individual-team" id="individual" />{" "}
-          <label htmlFor="individual">Individual</label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
+          <label htmlFor="individual">Individual</label>{" "}
+
           <input type="radio" name="individual-team" id="team" />{" "}
           <label htmlFor="team" className="align-middle">
             Equipo
           </label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
+
         </fieldset>
         <fieldset className="space-y-2 mt-10">
-          <legend className="text-2xl font-bold font-roboto">
-            Condiciones de Salud y Requisitos Especiales
-          </legend>
           <Legend
-            text="Datos Personales"
+            text="Condiciones de Salud y Requisitos Especiales"
             className="text-2xl font-bold font-roboto"
           />
           <label htmlFor="medicalConditions" className="block">
             Condiciones médicas o restricciones físicas
           </label>
           <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
-            required={true}
-          />
-          <textarea
+            placeholder="Condiciones médicas o restricciones físicas"
             name="medicalConditions"
-            id="medicalConditions"
-            className="bg-transparent border-4 w-full outline-none leading-7 rounded h-32"
-          ></textarea>
-          <label htmlFor="alergics" className="block">
-            Restricciones alimenticias o alergias
-          </label>
-          <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
             required={true}
           />
-          <textarea
+          <Input
+            placeholder="Restricciones alimenticias o alergias"
             name="alergics"
-            id="alergics"
-            className="bg-transparent border-4 w-full outline-none leading-7 rounded h-32"
-          ></textarea>
+            required={true}
+          />
         </fieldset>
         <fieldset className="space-y-2 mt-10">
-          <legend className="text-2xl font-bold font-roboto">
-            Compromiso y Confirmación
-          </legend>
           <Legend
-            text="Datos Personales"
+            text="Compromiso y Confirmación"
             className="text-2xl font-bold font-roboto"
           />
-          <label htmlFor="commitment" className="block">
-            Disponibilidad para cumplir con el compromiso requerido
-          </label>
           <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
+            placeholder="Disponibilidad para cumplir con el compromiso requerido"
+            name="commitment"
             required={true}
           />
-          <input
-            type="text"
-            id="commitment"
-            className="bg-transparent border-b-4 w-full outline-none leading-7"
-          />
-          <label htmlFor="sign" className="block">
-            Firma
-          </label>
           <Input
             type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
+            placeholder="Firma"
+            name="sign"
             required={true}
-          />
-          <input
-            type="text"
-            id="sign"
-            className="bg-transparent border-b-4 w-full outline-none leading-7"
           />
           <label htmlFor="permission" className="block">
-            Consentimiento para tratamiento de datos personales
+            
           </label>
           <Input
             type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
+            placeholder="Consentimiento para tratamiento de datos personales"
+            name="permission"
             required={true}
-          />
-          <input
-            type="text"
-            id="permission"
-            className="bg-transparent border-b-4 w-full outline-none leading-7"
           />
         </fieldset>
         <fieldset className="space-y-2 mt-10">
-          <legend className="text-2xl font-bold font-roboto">
-            Observaciones Adicionales
-          </legend>
           <Legend
-            text="Datos Personales"
+            text="Observaciones Adicionales"
             className="text-2xl font-bold font-roboto"
           />
           <label htmlFor="adicionalInfo" className="block">
-            Notas o información adicional que el voluntario desee agregar
+            
           </label>
           <Input
-            type="number"
-            placeholder="Documento de Identidad"
-            name="dni"
+            placeholder="Notas o información adicional que el voluntario desee agregar"
+            name="adicionalInfo"
             required={true}
           />
-          <textarea
-            name="adicionalInfo"
-            id="adicionalInfo"
-            className="bg-transparent border-4 w-full outline-none leading-7 rounded h-32"
-          ></textarea>
         </fieldset>
       </form>
     </>
