@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import React from 'react';
 import Login from './components/Login';
 import RegisterPage from './views/RegisterPage';
+import MessageShelterModal from './components/MessageShelterModal';
 
 
 const App: React.FC = () => {
@@ -20,6 +21,8 @@ const App: React.FC = () => {
       <h1 className="bg-secondaryLight p-5">ROBOTO</h1>
     </div> */}
     <Route path="/registerForm" element={<RegisterPage />}  ></Route>
+    <Route path="/messageShelter" element={<MessageShelterModal isOpen={true} // Aquí puedes manejar la apertura
+      onClose={() => console.log("Cerrar modal")}/>} />
     </Routes> 
     
   );
