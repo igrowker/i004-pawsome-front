@@ -1,7 +1,9 @@
 import { useForm } from "react-form-ease";
+import { useState } from "react";
 
 
 const RegisterForm = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false); 
   const { formData, updateForm, validateForm, errors = {}} = useForm({
     data: {
       email: "",
@@ -40,7 +42,6 @@ const RegisterForm = () => {
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(formData);
     e.preventDefault();
     
 
@@ -49,9 +50,14 @@ const RegisterForm = () => {
       console.log("Errores en el formulario" , errors)
       return
     }
- 
+    
+    console.log("Datos enviados:", formData);
+    setIsSubmitted(true);
   };
   
+  const closePopup = () => {
+    setIsSubmitted(false);
+  };
 
   return (
     <>
@@ -148,6 +154,20 @@ const RegisterForm = () => {
         Registrar
       </button>
       </form>
+      {isSubmitted && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
+            <p className="text-lg mb-6">Tus datos han sido registrados correctamente.</p>
+            <button
+              className="bg-primaryLight text-white px-4 py-2 rounded-md"
+              onClick={closePopup}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
