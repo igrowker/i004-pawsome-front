@@ -11,6 +11,8 @@ import LandingPage from "./views/LandingPage";
 import UsersRoutes from "./views/dashboard/user/UsersRoutes";
 import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
+import Footer from "./components/Footer";
+
 
 
 
@@ -39,6 +41,7 @@ function App() {
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
 
         </Routes>
+        <Footer />
       </div>
     </BrowserRouter >
   );

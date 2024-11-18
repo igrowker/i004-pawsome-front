@@ -1,6 +1,6 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaPhone, FaEnvelope } from 'react-icons/fa';
 
-const Footer: React.FC = () => {
+const FooterLight: React.FC = () => {
   return (
     <footer className="py-8">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
@@ -103,4 +103,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+export default FooterLight;
