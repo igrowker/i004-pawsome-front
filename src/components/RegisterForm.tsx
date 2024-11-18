@@ -1,10 +1,11 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
-import useRegister from './../hooks/useRegister';
+// import useRegister from './../hooks/useRegister';
 
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const { formData, updateForm, validateForm, errors = {}} = useForm({
     data: {
       email: "",
@@ -42,8 +43,8 @@ const RegisterForm = () => {
     }
   });
 
-  const { isLoading, error, isSuccess, registerUser } = useRegister(); 
-
+  // const { isLoading, error, isSuccess, registerUser } = useRegister(); 
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
@@ -56,16 +57,30 @@ const RegisterForm = () => {
     
     console.log("Datos enviados:", formData);
 
-    const result = await registerUser(formData);
+    // const result = await registerUser({
+    //   email: formData.email,
+    //   password: formData.password,
+    //   name: formData.name,
+    //   lastName: formData.lastName,
+    //   registerUser: formData.registerUser
+    // })
 
-    if(result){
-      setIsSubmitted(true)
-    }
+    // if(result){
+    //   setIsSubmitted(true)
+    // }
+
+    setTimeout(() => {
+      setIsLoading(true)
+      setIsSubmitted(true); 
+      console.log("Usuario registrado con éxito");
+    }, 1000);
+    
   };
   
   
   const closePopup = () => {
     setIsSubmitted(false);
+    setIsLoading(false)
   };
 
   return (
@@ -163,7 +178,7 @@ const RegisterForm = () => {
         Registrar
       </button>
       </form>
-      {isSubmitted && (
+      {isSubmitted  && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
@@ -178,7 +193,7 @@ const RegisterForm = () => {
         </div>
       )}
 
-  {error && <p className="text-red-500">{error}</p>}
+  {/* {errors && <p className="text-red-500">{errors}</p>} */}
   {isLoading && <p>Cargando...</p>}
     </>
   );
