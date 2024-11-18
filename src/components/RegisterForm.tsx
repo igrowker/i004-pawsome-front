@@ -24,6 +24,7 @@ const RegisterForm = () => {
     if (!validateForm()) return 
  
   };
+  
 
   return (
     <>
@@ -112,7 +113,7 @@ const RegisterForm = () => {
             Adoptante
           </label>
         </div>
-        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight" type="submit" onClick={() => console.log("Botón presionado")}>
+        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight tex" type="submit" onClick={() => console.log("Botón presionado")}>
         Registrar
       </button>
       </form>
