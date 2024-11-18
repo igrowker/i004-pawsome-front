@@ -1,5 +1,6 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
+import useRegister from './../hooks/useRegister';
 
 
 const RegisterForm = () => {
@@ -11,7 +12,7 @@ const RegisterForm = () => {
       confirmPassword: "",
       name: "",
       lastName: "",
-      registerOptions: "",
+      registerUser: "",
     },
 
     validations: {
@@ -41,7 +42,9 @@ const RegisterForm = () => {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { isLoading, error, isSuccess, registerUser } = useRegister(); 
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
 
@@ -52,8 +55,14 @@ const RegisterForm = () => {
     }
     
     console.log("Datos enviados:", formData);
-    setIsSubmitted(true);
+
+    const result = await registerUser(formData);
+
+    if(result){
+      setIsSubmitted(true)
+    }
   };
+  
   
   const closePopup = () => {
     setIsSubmitted(false);
@@ -125,7 +134,7 @@ const RegisterForm = () => {
               name="option"
               value="refugio"
               className="mb-[15px]"
-              onChange={(e) => updateForm({ registerOptions: e.target.value })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Refugio
           </label>
@@ -135,7 +144,7 @@ const RegisterForm = () => {
               name="option"
               value="voluntario"
               className="mb-[15px]"  
-              onChange={(e) => updateForm({ registerOptions: e.target.value })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Voluntario
           </label>
@@ -145,7 +154,7 @@ const RegisterForm = () => {
               name="option"
               value="adoptante"
               className="mb-[40px]"
-              onChange={(e) => updateForm({ registerOptions: e.target.value })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Adoptante
           </label>
@@ -168,6 +177,9 @@ const RegisterForm = () => {
           </div>
         </div>
       )}
+
+  {error && <p className="text-red-500">{error}</p>}
+  {isLoading && <p>Cargando...</p>}
     </>
   );
 };

@@ -19,7 +19,7 @@ const App: React.FC = () => {
       <h1 className="bg-dark text-light p-5" >dark(backround), light(text)</h1>
       <h1 className="bg-secondaryLight p-5">ROBOTO</h1>
     </div> */}
-    <Route path="/register" element={<RegisterPage />}  ></Route>
+    <Route path="/registerForm" element={<RegisterPage />}  ></Route>
     </Routes> 
     
   );
