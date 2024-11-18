@@ -10,6 +10,7 @@ import AnimalProfile from "./components/AnimalProfile";
 import LandingPage from "./views/LandingPage";
 import UsersRoutes from "./views/dashboard/user/UsersRoutes";
 import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
+import Login from "./components/Login";
 
 
 
@@ -21,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
           {/* <Route path="/signin" element={<Singin />} /> */}
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
