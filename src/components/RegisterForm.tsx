@@ -2,10 +2,11 @@ import { useForm } from "react-form-ease";
 
 
 const RegisterForm = () => {
-  const { formData, updateForm, validateForm, errors} = useForm({
+  const { formData, updateForm, validateForm, errors = {}} = useForm({
     data: {
       email: "",
       password: "",
+      confirmPassword: "",
       name: "",
       lastName: "",
       registerOptions: "",
@@ -13,7 +14,27 @@ const RegisterForm = () => {
 
     validations: {
         email: (value) => {
-            if(!value) return "Por favor ingresa el email"
+            if(!value) return "Por favor ingresa el email";
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Email no válido.";
+        },
+
+        password: (value) => {
+          if (!value) return "Por favor ingresa una contraseña.";
+          if (value.length < 8) return "La contraseña debe tener al menos 6 caracteres.";
+          if (value.length > 12) return "La contraseña no puede tener más de 12 caracteres.";
+          return undefined; 
+        },
+        confirmPassword: (value, data) => {
+          if (!value) return "Por favor confirma tu contraseña.";
+          if (value !== data.password) return "Las contraseñas no coinciden.";
+        },
+      
+        name: (value) => {
+          if(!value) return "Por favor ingresa un nombre"
+        },
+        
+        lastName: (value) => {
+          if(!value) return "Por favor ingresa apellidos"
         }
     }
   });
@@ -21,7 +42,13 @@ const RegisterForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     console.log(formData);
     e.preventDefault();
-    if (!validateForm()) return 
+    
+
+    const isValid = validateForm();
+    if(!isValid){
+      console.log("Errores en el formulario" , errors)
+      return
+    }
  
   };
   
@@ -43,7 +70,7 @@ const RegisterForm = () => {
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
           ></input>
-          <p>{errors?.email}</p>
+          {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
         <div className="password">
           <input
@@ -53,16 +80,17 @@ const RegisterForm = () => {
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           ></input>
-          <p>{errors?.password}</p>
+          {errors.password && <p className="text-red-500">{errors.password}</p>}
         </div>
-        <div className="password">
+        <div className="confirmPassword">
           <input
             type="password"
             placeholder="Confirmar Contraseña"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
-            value={formData.password}
-            onChange={(e) => updateForm({ password: e.target.value })}
+            value={formData.confirmPassword}
+            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
           ></input>
+          {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
         </div>
         <div className="name">
           <input
@@ -72,7 +100,7 @@ const RegisterForm = () => {
             value={formData.name}
             onChange={(e) => updateForm({ name: e.target.value })}
           ></input>
-          <p>{errors?.name}</p>
+      {errors.name && <p className="text-red-500">{errors.name}</p>}
         </div>
         <div className="lastName">
           <input
@@ -82,7 +110,7 @@ const RegisterForm = () => {
             value={formData.lastName}
             onChange={(e) => updateForm({ lastName: e.target.value })}
           ></input>
-          <p>{errors?.lastName}</p>
+           {errors.lastName && <p className="text-red-500">{errors.lastName}</p>}
         </div>
         <div className="registerOptions inline-grid">
           <label>
@@ -91,6 +119,7 @@ const RegisterForm = () => {
               name="option"
               value="refugio"
               className="mb-[15px]"
+              onChange={(e) => updateForm({ registerOptions: e.target.value })}
             />{" "}
             Refugio
           </label>
@@ -99,7 +128,8 @@ const RegisterForm = () => {
               type="radio"
               name="option"
               value="voluntario"
-              className="mb-[15px]"
+              className="mb-[15px]"  
+              onChange={(e) => updateForm({ registerOptions: e.target.value })}
             />{" "}
             Voluntario
           </label>
@@ -109,11 +139,12 @@ const RegisterForm = () => {
               name="option"
               value="adoptante"
               className="mb-[40px]"
+              onChange={(e) => updateForm({ registerOptions: e.target.value })}
             />{" "}
             Adoptante
           </label>
         </div>
-        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight tex" type="submit" onClick={() => console.log("Botón presionado")}>
+        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white" type="submit">
         Registrar
       </button>
       </form>
