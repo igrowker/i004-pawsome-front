@@ -227,7 +227,7 @@ const VolunteerForm = () => {
         </fieldset>
         <button
           type="submit"
-          className="bg-primaryDark w-full
+          className="bg-primaryLight w-full rounded-full
           py-3 mt-4 hover:contrast-125 transition-all"
         >Enviar</button>
       </form>
