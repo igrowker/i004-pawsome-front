@@ -7,7 +7,7 @@ function DashboardRoutes() {
   return (
     <Routes>
       <Route path="/" element={<h1>Bienvenido al Dashboard</h1>} />
-
+      {/* User, Refugee y Admin son subrutas de Dashboard y no hace falta poner /dashboard porque en app.tsx ya están envueltas en /dashboard */}
       <Route path="user/*" element={<UsersRoutes />} />
       <Route path="refugee/*" element={<RefugeeRoutes />} />
       <Route path="admin/*" element={<AdminRoutes />} />
