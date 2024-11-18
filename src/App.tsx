@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import React from 'react';
 import Login from './components/Login';
+import RegisterPage from './views/RegisterPage';
 
 
 const App: React.FC = () => {
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       <h1 className="bg-dark text-light p-5" >dark(backround), light(text)</h1>
       <h1 className="bg-secondaryLight p-5">ROBOTO</h1>
     </div> */}
+    <Route path="/register" element={<RegisterPage />}  ></Route>
     </Routes> 
     
   );
