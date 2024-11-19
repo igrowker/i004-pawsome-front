@@ -24,14 +24,14 @@ const AnimalProfile: React.FC = () => {
     sex: "Macho",
     age: 2,
     size: "Grande",
-    photo: "/animal-profile.png",
+    photo: "/animalprofile.png",
     history: "Buddy is a friendly and energetic Golden retriever. He loves playing fetch and is great with kids. He's looking for a loving home where he can be part of the family.",
     characteristics: ["Bueno con niños y gatos"],
     availability: "Disponible"
   };
 
   return (
-    <div className="animal-profile p-4 max-w-md mx-auto bg-white rounded-xl">
+    <div className="animal-profile p-4 max-w-md mx-auto my-auto bg-white rounded-xl mt-20">
       {/* Foto */}
       <div className="w-full h-full overflow-hidden ">
         <img src={animalData.photo} alt={`Foto de ${animalData.name}`} className="object-cover w-full h-full" />
