@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface Shelter {
   id: number;
@@ -21,7 +22,7 @@ const ShelterCard: React.FC<{ shelter: Shelter }> = ({ shelter }) => (
             className="w-10 h-10 rounded-full mr-4"
           />
           <div>
-            <h2 className="font-semibold text-lg">{shelter.name}</h2>
+            <Link to={"/refugee"}><h2 className="font-semibold text-lg">{shelter.name}</h2></Link>
             <div className="flex space-x-2 mt-1">
               {shelter.tags.map((tag, index) => (
                 <span
