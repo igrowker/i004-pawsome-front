@@ -1,9 +1,10 @@
+
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
 
 interface InputProps {
-  placeholder: string;
+  placeholder?: string;
   name: string;
   type?: string;
   required?: boolean;

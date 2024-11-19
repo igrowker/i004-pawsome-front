@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AdoptForm from "./views/AdoptForm";
 import DonationList from "./views/DonationList";
