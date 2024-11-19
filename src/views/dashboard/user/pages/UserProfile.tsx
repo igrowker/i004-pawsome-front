@@ -16,7 +16,7 @@ const UserProfile: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8">
+    <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
       <div className="flex flex-col sm:flex-row items-center sm:items-start mb-8">
         <div className="flex items-center">
           <img
