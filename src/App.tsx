@@ -12,6 +12,7 @@ import UsersRoutes from "./views/dashboard/user/UsersRoutes";
 import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
+import RegisterPage from "./views/RegisterPage";
 
 
 
@@ -25,7 +26,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/signin" element={<Singin />} /> */}
+          <Route path="/signin" element={<RegisterPage />} />
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adoptform" element={<AdoptForm />} />

@@ -86,7 +86,7 @@ const RegisterForm = () => {
   return (
     <>
       <div className="">
-        <img src="../../public/register.png" alt="" className="w-full" />
+        <img src="/dog.webp" alt="" className="w-full mt-[25px]" />
       </div>
       <form
         className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
