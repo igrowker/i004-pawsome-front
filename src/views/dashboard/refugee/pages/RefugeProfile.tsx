@@ -30,7 +30,7 @@ export default function RefugeProfile() {
           <h5 className="text-lg font-roboto">Filtros</h5>
           <div className="flex justify-around mt-2">
             {
-              ["Perros", "Gatos", "Donar", "Voluntarios"].map(item => (
+              ["Perros", "Gatos", "Otros"].map(item => (
                 <button
                   key={item}
                   onClick={handleSetFilter}
