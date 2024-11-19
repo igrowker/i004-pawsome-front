@@ -2,6 +2,7 @@ import React from 'react';
 import { FaDog } from "react-icons/fa"; 
 import { FaPaw } from 'react-icons/fa';
 import { FaCakeCandles } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 // Interfaces para los datos del perfil de animal
 interface AnimalProfileProps {
@@ -24,14 +25,14 @@ const AnimalProfile: React.FC = () => {
     sex: "Macho",
     age: 2,
     size: "Grande",
-    photo: "/animal-profile.png",
+    photo: "/animalprofile.png",
     history: "Buddy is a friendly and energetic Golden retriever. He loves playing fetch and is great with kids. He's looking for a loving home where he can be part of the family.",
     characteristics: ["Bueno con niños y gatos"],
     availability: "Disponible"
   };
 
   return (
-    <div className="animal-profile p-4 max-w-md mx-auto bg-white rounded-xl">
+    <div className="animal-profile p-4 max-w-md mx-auto my-auto bg-white rounded-xl mt-20">
       {/* Foto */}
       <div className="w-full h-full overflow-hidden ">
         <img src={animalData.photo} alt={`Foto de ${animalData.name}`} className="object-cover w-full h-full" />
@@ -74,7 +75,7 @@ const AnimalProfile: React.FC = () => {
       {/* Botón formulario */}  
       <div className="flex justify-center mt-3">
         <button className="button-form inline-flex text-center bg-primaryLight text-white rounded-2xl py-3 px-4 text-sm">
-          <p>Rellena el formulario</p>
+          <Link to={"/adoptform"}>Rellena el formulario</Link>
         </button>
       </div>
     </div>
