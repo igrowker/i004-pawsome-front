@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface AdoptionCardProps {
   name: string;
@@ -24,7 +25,9 @@ const AdoptionCard: React.FC<AdoptionCardProps> = ({ name, breed, age, imageUrl,
     
     {/* Botón de adopción */}
     <button className="w-full bg-teal-500 text-white font-semibold py-3 mt-4 rounded-b-lg">
-      Quiero adoptar
+    <Link to={"/animalprofile"}>      Quiero adoptar
+    </Link>
+
     </button>
   </div>
 );
