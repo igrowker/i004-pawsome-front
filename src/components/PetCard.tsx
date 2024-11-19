@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import Modal from "./ui/modal";
-import { LuDog } from "react-icons/lu";
 import Input from "./ui/input";
-
-interface PetCardProps {
-  imageUrl: string;
-  name: string;
-  breed: string;
-}
+import { IAnimal } from "../interfaces/IAnimal";
 
 const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
 
-const PetCard: React.FC<PetCardProps> = ({ name, breed }) => {
+const PetCard: React.FC<Partial<IAnimal>> = ({
+  name = "N/A",
+  breed = "N/A",
+  photos = "N/A",
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -21,18 +19,16 @@ const PetCard: React.FC<PetCardProps> = ({ name, breed }) => {
   return (
     <div className="flex items-center justify-between bg-white rounded-3xl shadow p-4 mb-4 max-w-sm w-full">
       <div className="flex items-center">
-        {/* <img
-          src={imageUrl}
+        <img
+          src={photos[0]}
           alt={name}
           className="w-16 h-16 rounded-full object-cover mr-4 bg-gray-400"
-        /> */}
-        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-200 text-gray-400 px-3">
-          <LuDog className="w-10 h-10 " />
-        </div>
+        />
+
         <div className="flex flex-col max-w-[8rem] sm:max-w-xs ml-3">
           <h2 className="text-md font-semibold">{truncateText(name, 9)}</h2>
           <p className="text-gray-600 text-sm mt-1">
-            {truncateText(breed, 15)}
+            {truncateText(breed!, 15)}
           </p>
         </div>
       </div>
@@ -51,7 +47,10 @@ const PetCard: React.FC<PetCardProps> = ({ name, breed }) => {
             <Input placeholder="Name" name="name" />
             <Input placeholder="Breed" name="breed" />
             <div className="flex justify-center items-center  text-sm w-full">
-              <button className="flex-1 py-2 bg-primaryDark text-white rounded-md">
+              <button
+                onClick={closeModal}
+                className="flex-1 py-2 bg-primaryDark text-white rounded-md"
+              >
                 Cerrar
               </button>
               <button className="flex-1 py-2 bg-light border border-primaryDark text-primaryDark rounded-md ml-2">
