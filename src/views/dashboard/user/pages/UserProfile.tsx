@@ -40,7 +40,7 @@ const UserProfile: React.FC = () => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab as 'profile' | 'donations' | 'requests')}
-            className={`pb-2 px-4 text-lg ${activeTab === tab ? 'text-secondaryDark border-b-2 border-[#b4a293] font-semibold' : 'text-gray-500'}`}
+            className={`pb-2 px-4 text-lg ${activeTab === tab ? 'text-secondaryDark border-b-2 border-secondaryDark font-semibold' : 'text-gray-500'}`}
           >
             {tab === 'profile' && 'Perfil'}
             {tab === 'donations' && 'Donaciones'}
