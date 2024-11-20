@@ -1,13 +1,32 @@
+import axios from "axios";
 import { MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import { IAnimal } from "../../../../interfaces/IAnimal";
+
+const URL = import.meta.env.VITE_BACKEND_URL
+const DOGS = "Perros"
 
 export default function RefugeProfile() {
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
+  const [animals, setAnimals] = useState<IAnimal[]>([])
+  const [animalsSpecies, setAnimalsSpecies] = useState<IAnimal[]>([])
 
-  const handleSetFilter = (event: MouseEvent<HTMLButtonElement>) => {
+  const setAnimalFilter = (event: MouseEvent<HTMLButtonElement>) => {
     // el .currentTarget me da el botón actual que dio click
     setFilter(event.currentTarget.textContent || "")
+  }
+
+  const getAnimalsBySpecie = async (event: MouseEvent<HTMLButtonElement>) => {
+    const { data } = await axios<IAnimal[]>(`${URL}/animals`)
+    setAnimals(data)
+
+    if (data && filter === DOGS) {
+      const fetchAnimalsBySpecie = data.filter(animal => animal.species.toLowerCase().includes(DOGS.toLowerCase()))
+      console.log(fetchAnimalsBySpecie);
+    }
+    
+    
   }
 
   const getStylesButton = (labelButton: string) => filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : ""
@@ -33,7 +52,10 @@ export default function RefugeProfile() {
               ["Perros", "Gatos", "Otros"].map(item => (
                 <button
                   key={item}
-                  onClick={handleSetFilter}
+                  onClick={event => {
+                    setAnimalFilter(event)
+                    getAnimalsBySpecie(event)
+                  }}
                   className={getStylesButton(item)}
               >{item}</button>
               ))
