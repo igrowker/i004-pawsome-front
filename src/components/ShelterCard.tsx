@@ -1,5 +1,8 @@
+
 import React, { useState } from 'react';
 import MessageShelterModal from './MessageShelterModal';
+import { Link } from 'react-router-dom';
+
 
 interface Shelter {
   id: number;
@@ -10,6 +13,7 @@ interface Shelter {
   profileUrl: string;
   tags: string[];
 }
+
 
 const ShelterCard: React.FC<{ shelter: Shelter }> = ({ shelter }) => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -36,6 +40,7 @@ const ShelterCard: React.FC<{ shelter: Shelter }> = ({ shelter }) => {
                   </span>
                 ))}
               </div>
+
             </div>
           </div>
           <p className="text-sm text-gray-500">{shelter.timeAgo}</p>

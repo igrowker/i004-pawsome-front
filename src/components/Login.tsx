@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-500">
             ¿Aún no tienes cuenta?{" "}
-            <a href="#" className="text-green-500 hover:underline">
+            <a href="/register" className="text-green-500 hover:underline">
               Regístrate
             </a>
           </p>

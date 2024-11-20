@@ -7,6 +7,7 @@ const RegisterPage = () => {
 
 
     return (
+
        <>
        <RegisterForm />
        <div className="flex flex-col justify-items-center ml-[52px]">
@@ -18,5 +19,6 @@ const RegisterPage = () => {
        
        </>
 )}
+
 
 export default RegisterPage;

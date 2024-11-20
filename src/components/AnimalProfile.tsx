@@ -2,6 +2,7 @@ import React from 'react';
 import { FaDog } from "react-icons/fa"; 
 import { FaPaw } from 'react-icons/fa';
 import { FaCakeCandles } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 // Interfaces para los datos del perfil de animal
 interface AnimalProfileProps {
@@ -74,7 +75,7 @@ const AnimalProfile: React.FC = () => {
       {/* Botón formulario */}  
       <div className="flex justify-center mt-3">
         <button className="button-form inline-flex text-center bg-primaryLight text-white rounded-2xl py-3 px-4 text-sm">
-          <p>Rellena el formulario</p>
+          <Link to={"/adoptform"}>Rellena el formulario</Link>
         </button>
       </div>
     </div>

@@ -1,4 +1,3 @@
-
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AdoptForm from "./views/AdoptForm";
 import DonationList from "./views/DonationList";
@@ -39,25 +38,6 @@ function App() {
           {/* Ruta del dashboard y sus subrutas */}
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
 
-          {/* TO DELETE
-          <Route
-            path="/messageShelter"
-            element={
-              <MessageShelterModal
-                isOpen={true}
-                onClose={() => console.log("Cerrar modal")}
-                shelter={{
-                  id: 1,
-                  name: "Voluntario Roque",
-                  location: "Madrid",
-                  timeAgo: "Hace 5 minutos",
-                  imageUrl: "/public/Group.png",
-                  profileUrl: "/public/Vector.png",
-                  tags: ["RESCATE", "PERRO"],
-                }}
-              /> */}
-            {/* }
-          /> */}
         </Routes>
         <Footer />
       </div>
@@ -66,3 +46,4 @@ function App() {
 }
 
 export default App;
+
