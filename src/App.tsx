@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AdoptForm from "./views/AdoptForm";
 import DonationList from "./views/DonationList";
@@ -42,8 +43,27 @@ function App() {
         <Footer />
       </div>
     </BrowserRouter>
+=======
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+import Login from './components/Login';
+import Logout from './components/Logout';
+
+const App: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
+    </Routes>
+>>>>>>> 9889d0904536d0ae3cd69cfb6a5294746cedffe4
   );
 }
 
 export default App;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9889d0904536d0ae3cd69cfb6a5294746cedffe4
