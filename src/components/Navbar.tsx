@@ -22,7 +22,7 @@ export default function Navbar() {
 
   const menuItems = [
     { icon: FiHome, text: "Home", href: "/" },
-    { icon: CiUser, text: "Profile", href: "/" },
+    { icon: CiUser, text: "Profile", href: "/user" },
     { icon: FaPaw, text: "Adopt", href: "/" },
     { icon: FiInfo, text: "About us", href: "/" },
     { icon: CiLogout, text: "Log out", href: "/" },
