@@ -43,8 +43,8 @@ shelter,
         </div>
       </div>
       <div className="flex w-full pt-2">
-      <img src={shelter.imageUrl} alt="perroprofile" className="my-4 h-[155px]  rounded-lg shadow-md" />
-      <p className="text-gray-700 ml-[25px] h-fit mt-[10px]">
+      <img src={shelter.imageUrl} alt="perroprofile" className="my-4 h-[125px] w-full md:w-[155px] rounded-lg shadow-md" />
+      <p className="text-gray-700 ml-[25px] h-fit mt-[10px] text-sm md:text-base ">
       Ayuda para rescate de perro en {shelter.location}, está solo en la calle, no tiene comida y está
       lloviendo. Si otro voluntario puede acogerlo hasta que llegue, por favor que me envíe un mensaje urgente.
       </p>
