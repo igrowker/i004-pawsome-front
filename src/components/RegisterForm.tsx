@@ -1,6 +1,6 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
-import useRegister from './../hooks/useRegister';
+import useRegister from "../hooks/useRegister";
 
 
 
@@ -67,7 +67,9 @@ const RegisterForm = () => {
         registerUser: formData.registerUser,
       });
 
-      if (result) setIsSubmitted(true);
+      if (result) 
+        setIsSubmitted(true);
+        isSuccess === true
     } catch (err) {
       console.error("Error al registrar:", err);
     }
