@@ -36,7 +36,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
     <div className="relative">
       <label
         htmlFor="upload-photo"
-        className="bg-green-400 text-white py-1 px-3 rounded-full text-sm cursor-pointer hover:bg-green-500"
+        className="hover:bg-secondaryLight bg-primaryLight text-white py-1 px-3 rounded-full text-sm cursor-pointer"
         style={{ marginLeft: '16px' }}
       >
         Editar foto

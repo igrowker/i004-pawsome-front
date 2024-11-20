@@ -1,9 +1,11 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
+// import useRegister from './../hooks/useRegister';
 
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const { formData, updateForm, validateForm, errors = {}} = useForm({
     data: {
       email: "",
@@ -11,7 +13,7 @@ const RegisterForm = () => {
       confirmPassword: "",
       name: "",
       lastName: "",
-      registerOptions: "",
+      registerUser: "",
     },
 
     validations: {
@@ -41,7 +43,9 @@ const RegisterForm = () => {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // const { isLoading, error, isSuccess, registerUser } = useRegister(); 
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
 
@@ -52,17 +56,37 @@ const RegisterForm = () => {
     }
     
     console.log("Datos enviados:", formData);
-    setIsSubmitted(true);
+
+    // const result = await registerUser({
+    //   email: formData.email,
+    //   password: formData.password,
+    //   name: formData.name,
+    //   lastName: formData.lastName,
+    //   registerUser: formData.registerUser
+    // })
+
+    // if(result){
+    //   setIsSubmitted(true)
+    // }
+
+    setTimeout(() => {
+      setIsLoading(true)
+      setIsSubmitted(true); 
+      console.log("Usuario registrado con éxito");
+    }, 1000);
+    
   };
+  
   
   const closePopup = () => {
     setIsSubmitted(false);
+    setIsLoading(false)
   };
 
   return (
     <>
       <div className="">
-        <img src="../../public/register.png" alt="" className="w-full" />
+        <img src="/dog.webp" alt="" className="w-full mt-[25px]" />
       </div>
       <form
         className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
@@ -125,7 +149,7 @@ const RegisterForm = () => {
               name="option"
               value="refugio"
               className="mb-[15px]"
-              onChange={(e) => updateForm({ registerOptions: e.target.value })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Refugio
           </label>
@@ -135,7 +159,7 @@ const RegisterForm = () => {
               name="option"
               value="voluntario"
               className="mb-[15px]"  
-              onChange={(e) => updateForm({ registerOptions: e.target.value })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Voluntario
           </label>
@@ -145,7 +169,7 @@ const RegisterForm = () => {
               name="option"
               value="adoptante"
               className="mb-[40px]"
-              onChange={(e) => updateForm({ registerOptions: e.target.value })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Adoptante
           </label>
@@ -154,7 +178,7 @@ const RegisterForm = () => {
         Registrar
       </button>
       </form>
-      {isSubmitted && (
+      {isSubmitted  && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
@@ -168,6 +192,9 @@ const RegisterForm = () => {
           </div>
         </div>
       )}
+
+  {/* {errors && <p className="text-red-500">{errors}</p>} */}
+  {isLoading && <p>Cargando...</p>}
     </>
   );
 };

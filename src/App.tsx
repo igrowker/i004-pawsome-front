@@ -12,9 +12,7 @@ import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import RegisterPage from "./views/RegisterPage";
-
-
-
+// import MessageShelterModal from "./components/MessageShelterModal";
 
 function App() {
   return (
@@ -25,9 +23,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegisterPage />} />
-
-          {/* <Route path="/signin" element={<Singin />} /> */}
+          <Route path="/signin" element={<RegisterPage />} />
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adoptform" element={<AdoptForm />} />
@@ -45,8 +41,9 @@ function App() {
         </Routes>
         <Footer />
       </div>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 }
 
 export default App;
+
