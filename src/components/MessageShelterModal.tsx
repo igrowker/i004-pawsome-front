@@ -51,7 +51,7 @@ shelter,
       </div>
       <div className="flex flex-col">
       <label className="text-black font-bold mt-6">Escribe un mensaje al refugio</label>
-      <textarea placeholder="¿Cómo puedes ayudar al refugio?" className="w-full h-[45vh] mt-4 p-2 border border-gray-800 rounded-3xl"></textarea>
+      <textarea placeholder="¿Cómo puedes ayudar al refugio?" className="w-full h-[35vh] mt-4 p-2 border border-gray-800 rounded-3xl"></textarea>
       <button className="mt-8 px-4 py-2 bg-primaryLight text-white rounded-3xl">
           Enviar
         </button>
