@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AdoptForm from "./views/AdoptForm";
 import DonationList from "./views/DonationList";
@@ -13,9 +13,7 @@ import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import RegisterPage from "./views/RegisterPage";
-
-
-
+// import MessageShelterModal from "./components/MessageShelterModal";
 
 function App() {
   return (
@@ -41,10 +39,29 @@ function App() {
           {/* Ruta del dashboard y sus subrutas */}
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
 
+          {/* TO DELETE
+          <Route
+            path="/messageShelter"
+            element={
+              <MessageShelterModal
+                isOpen={true}
+                onClose={() => console.log("Cerrar modal")}
+                shelter={{
+                  id: 1,
+                  name: "Voluntario Roque",
+                  location: "Madrid",
+                  timeAgo: "Hace 5 minutos",
+                  imageUrl: "/public/Group.png",
+                  profileUrl: "/public/Vector.png",
+                  tags: ["RESCATE", "PERRO"],
+                }}
+              /> */}
+            {/* }
+          /> */}
         </Routes>
         <Footer />
       </div>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 }
 
