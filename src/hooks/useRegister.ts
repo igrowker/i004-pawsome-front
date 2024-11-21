@@ -2,9 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
-
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface RegisterData {
     email: string;
@@ -33,14 +31,14 @@ const useRegister = () : useRegisterReturn => {
         const role = data.registerUser === 'voluntario' ? 'user' : 'refugee';
 
         try {
-            const response = await axios.post(`${apiUrl}`, {
+            const response = await axios.post(`${apiUrl}/auth/register`, {
                 name: data.name,
                 password: data.password,
                 email: data.email,
                 role: role
             });
 
-            if(response.status === 201) {
+            if(response.status === 200) {
                 setIsSuccess(true);
                 return response.data;
             } else {

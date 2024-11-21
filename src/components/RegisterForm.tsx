@@ -99,6 +99,7 @@ const RegisterForm = () => {
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
+            
           ></input>
           {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
@@ -200,3 +201,4 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
