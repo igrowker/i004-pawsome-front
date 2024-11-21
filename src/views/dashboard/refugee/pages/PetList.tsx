@@ -1,42 +1,18 @@
 import React, { useState } from "react";
 import PetCard from "../../../../components/PetCard";
 import { FaFilter } from "react-icons/fa6";
-
-interface Pet {
-  id: number;
-  imageUrl: string;
-  name: string;
-  breed: string;
-}
+import { IAnimal } from "../../../../interfaces/IAnimal";
+import { animals } from "../../../../data/Animals";
 
 const PetList: React.FC = () => {
   const [filter, setFilter] = useState("");
 
-  const pets: Pet[] = [
-    {
-      id: 1,
-      imageUrl: "/",
-      name: "Buddy",
-      breed: "Golden Retriever",
-    },
-    {
-      id: 2,
-      imageUrl: "/",
-      name: "Whiskersssssss",
-      breed: "Tabby Cat",
-    },
-    {
-      id: 3,
-      imageUrl: "/",
-      name: "Polly",
-      breed: "Parrot",
-    },
-  ];
+  const pets: Partial<IAnimal>[] = animals;
 
   const filteredPets = pets.filter(
     (pet) =>
-      pet.name.toLowerCase().includes(filter.toLowerCase()) ||
-      pet.breed.toLowerCase().includes(filter.toLowerCase())
+      pet.name!.toLowerCase().includes(filter.toLowerCase()) ||
+      pet.breed!.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
@@ -58,10 +34,10 @@ const PetList: React.FC = () => {
       <div>
         {filteredPets.map((pet) => (
           <PetCard
-            key={pet.id}
-            imageUrl={pet.imageUrl}
-            name={pet.name}
-            breed={pet.breed}
+            key={pet._id}
+            photos={pet.photos}
+            name={pet.name!}
+            breed={pet.breed!}
           />
         ))}
       </div>
