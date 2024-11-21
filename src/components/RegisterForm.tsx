@@ -1,20 +1,19 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
-import useRegister from "../hooks/useRegister";
-
-
+// import useRegister from './../hooks/useRegister';
 
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
-  const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
+  const [isLoading, setIsLoading] = useState(false);
+  const { formData, updateForm, validateForm, errors = {}} = useForm({
     data: {
       email: "",
       password: "",
       confirmPassword: "",
       name: "",
       lastName: "",
-      registerUser: "" as "user" | "refugee",
+      registerUser: "",
     },
 
     validations: {
@@ -40,45 +39,49 @@ const RegisterForm = () => {
         
         lastName: (value) => {
           if(!value) return "Por favor ingresa apellidos"
-        },
-        registerUser: (value) => {
-          if (!value) return "Por favor selecciona una opción.";
-        },
+        }
     }
   });
 
-  const { isLoading, error: apiError, isSuccess, registerUser } = useRegister(); 
+  // const { isLoading, error, isSuccess, registerUser } = useRegister(); 
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
 
     const isValid = validateForm();
-    if (!isValid) {
-      console.log("Errores en el formulario:", formErrors);
-      return;
+    if(!isValid){
+      console.log("Errores en el formulario" , errors)
+      return
     }
+    
+    console.log("Datos enviados:", formData);
 
-    try {
-      const result = await registerUser({
-        email: formData.email,
-        password: formData.password,
-        name: formData.name,
-        lastName: formData.lastName,
-        registerUser: formData.registerUser,
-      });
+    // const result = await registerUser({
+    //   email: formData.email,
+    //   password: formData.password,
+    //   name: formData.name,
+    //   lastName: formData.lastName,
+    //   registerUser: formData.registerUser
+    // })
 
-      if (result) 
-        setIsSubmitted(true);
-        isSuccess === true
-    } catch (err) {
-      console.error("Error al registrar:", err);
-    }
+    // if(result){
+    //   setIsSubmitted(true)
+    // }
+
+    setTimeout(() => {
+      setIsLoading(true)
+      setIsSubmitted(true); 
+      console.log("Usuario registrado con éxito");
+    }, 1000);
+    
   };
-
+  
+  
   const closePopup = () => {
     setIsSubmitted(false);
+    setIsLoading(false)
   };
-
 
   return (
     <>
@@ -97,7 +100,7 @@ const RegisterForm = () => {
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
           ></input>
-          {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
+          {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
         <div className="password">
           <input
@@ -107,7 +110,7 @@ const RegisterForm = () => {
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           ></input>
-          {formErrors.password && <p className="text-red-500">{formErrors.password}</p>}
+          {errors.password && <p className="text-red-500">{errors.password}</p>}
         </div>
         <div className="confirmPassword">
           <input
@@ -117,7 +120,7 @@ const RegisterForm = () => {
             value={formData.confirmPassword}
             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
           ></input>
-          {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
         </div>
         <div className="name">
           <input
@@ -127,7 +130,7 @@ const RegisterForm = () => {
             value={formData.name}
             onChange={(e) => updateForm({ name: e.target.value })}
           ></input>
-      {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
+      {errors.name && <p className="text-red-500">{errors.name}</p>}
         </div>
         <div className="lastName">
           <input
@@ -137,7 +140,7 @@ const RegisterForm = () => {
             value={formData.lastName}
             onChange={(e) => updateForm({ lastName: e.target.value })}
           ></input>
-           {formErrors.lastName && <p className="text-red-500">{formErrors.lastName}</p>}
+           {errors.lastName && <p className="text-red-500">{errors.lastName}</p>}
         </div>
         <div className="registerOptions inline-grid">
           <label>
@@ -146,7 +149,7 @@ const RegisterForm = () => {
               name="option"
               value="refugio"
               className="mb-[15px]"
-              onChange={(e) => updateForm({ registerUser: e.target.value as "user" | "refugee" })}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Refugio
           </label>
@@ -154,9 +157,19 @@ const RegisterForm = () => {
             <input
               type="radio"
               name="option"
+              value="voluntario"
+              className="mb-[15px]"  
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
+            />{" "}
+            Voluntario
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="option"
               value="adoptante"
               className="mb-[40px]"
-              onChange={(e) => updateForm({ registerUser: e.target.value as "user" | "refugee"})}
+              onChange={(e) => updateForm({ registerUser: e.target.value })}
             />{" "}
             Adoptante
           </label>
@@ -165,7 +178,7 @@ const RegisterForm = () => {
         Registrar
       </button>
       </form>
-      {isSubmitted  && isSuccess && (
+      {isSubmitted  && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
@@ -180,7 +193,7 @@ const RegisterForm = () => {
         </div>
       )}
 
-  {formErrors && <p className="text-red-500">{apiError}</p>}
+  {/* {errors && <p className="text-red-500">{errors}</p>} */}
   {isLoading && <p>Cargando...</p>}
     </>
   );

@@ -1,15 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-form-ease";
 import axios from "axios"; //Hook de React para los formularios
 
 const AdoptForm = () => {
-
     // Hook 
     const { formData, updateForm } = useForm({
         data: {
             fullName: "",
             phone: "",
-            city: "",
+            // city: "",
             country: "",
             compatibility: "",
             housingSituation: "",
@@ -24,6 +23,13 @@ const AdoptForm = () => {
     // Controlar si se ha procesado la solicitud
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    // const [newAdoptionRequest, setNetAdoptionRequest] = useState<>
+
+    // Función para crear la solicitud de adopción.
+    const createAdoptionRequest = () => {
+
+    }
+
     // Creamos un state para los errores si los terminos no son aceptados
     const [errors, setErrors] = useState<{ termsAccepted?: string }>({});
 
@@ -36,7 +42,14 @@ const AdoptForm = () => {
             setErrors({ termsAccepted: "Debes aceptar los términos y condiciones." });
             return;
         }
+        setIsSubmitted(true);
     };
+
+    // useEffect(() => {
+    //     if (isSubmitted) {
+    //         console.log("El formulario ha sido enviado:", isSubmitted);
+    //     }
+    // }, [isSubmitted]);
 
     return (
         <div className="flex flex-col justify-center items-center bg-gray-100 p-4 mt-10">
@@ -53,10 +66,10 @@ const AdoptForm = () => {
                         <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.phone} placeholder="+34666666666" onChange={(e) => updateForm({ phone: e.target.value })} />
                     </div>
                     <div className="flex flex-row gap-3">
-                        <div>
-                            <label htmlFor="city" className="block text-sm font-medium text-gray-600">Ciudad:</label>
+                        {/* <div> */}
+                        {/* <label htmlFor="city" className="block text-sm font-medium text-gray-600">Ciudad:</label>
                             <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.city} placeholder="Tu ciudad" onChange={(e) => updateForm({ city: e.target.value })} />
-                        </div>
+                        </div> */}
                         <div>
                             <label htmlFor="cityAndCountry" className="block text-sm font-medium text-gray-600">País:</label>
                             <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.country} placeholder="Tu País" onChange={(e) => updateForm({ country: e.target.value })} />
