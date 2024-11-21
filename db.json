@@ -1,53 +1,185 @@
 {
-    "results": [
+    "donations": [
       {
-        "nombre": "Alimentos para perros y gatos",
-        "descripcion_corta": "Donación de alimentos para garantizar una dieta saludable a nuestros animales.",
-        "foto": "https://cdn0.uncomo.com/es/posts/7/2/3/por_que_los_gatos_no_pueden_comer_comida_de_perro_conoce_los_motivos_28327_orig.jpg",
-        "valor_necesitado": 500
+        "id": 1,
+        "refugeId": 101,
+        "title": "Donación de alimentos para perros",
+        "description": "Ayuda a alimentar a nuestros perros rescatados con una donación de alimentos. Cada aportación cuenta para brindarles una mejor calidad de vida.",
+        "imageUrl": "https://example.com/images/donacion_comida_perros.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 100,
+        "donationNumber": 50,
+        "deadlineDonation": "2024-12-31T23:59:59Z"
       },
       {
-        "nombre": "Camas y mantas para animales",
-        "descripcion_corta": "Camas cómodas y mantas para ofrecerles un descanso adecuado.",
-        "foto": "https://cdn0.expertoanimal.com/es/posts/7/2/7/las_mejores_mantas_termicas_para_perros_26727_600.jpg",
-        "valor_necesitado": 300
+        "id": 2,
+        "refugeId": 101,
+        "title": "Donación monetaria para gastos médicos",
+        "description": "Realiza una donación monetaria para cubrir los gastos médicos de los animales en nuestro refugio, incluyendo tratamientos y cirugías urgentes.",
+        "imageUrl": "https://example.com/images/donacion_dinero_medicos.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 500,
+        "donationNumber": 150,
+        "deadlineDonation": "2024-11-30T23:59:59Z"
       },
       {
-        "nombre": "Servicios veterinarios",
-        "descripcion_corta": "Donación para cubrir los costos de atención veterinaria de nuestros animales rescatados.",
-        "foto": "https://mundovets.com/wp-content/uploads/2022/06/mascotas-favoritas-profesionales-veterinarios.jpg",
-        "valor_necesitado": 1000
+        "id": 3,
+        "refugeId": 101,
+        "title": "Donación de cobijas y mantas",
+        "description": "Dona cobijas y mantas para mantener a nuestros animales calientes y cómodos durante el invierno.",
+        "imageUrl": "https://example.com/images/donacion_cobijas.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 200,
+        "donationNumber": 30,
+        "deadlineDonation": "2024-12-15T23:59:59Z"
       },
       {
-        "nombre": "Juguetes y entretenimiento",
-        "descripcion_corta": "Juguetes y actividades que ayudan a mantener a nuestros animales activos y felices.",
-        "foto": "https://www.canuto.com.mx/cdn/shop/articles/blog_juguetes.jpg?v=1662703924",
-        "valor_necesitado": 200
+        "id": 4,
+        "refugeId": 101,
+        "title": "Donación de juguetes para gatos",
+        "description": "Dona juguetes para mantener a nuestros gatos entretenidos y felices mientras esperan un hogar.",
+        "imageUrl": "https://example.com/images/donacion_juguetes_gatos.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 150,
+        "donationNumber": 40,
+        "deadlineDonation": "2024-12-31T23:59:59Z"
       },
       {
-        "nombre": "Medicamentos para animales",
-        "descripcion_corta": "Medicamentos para tratar enfermedades y mejorar la salud de los animales rescatados.",
-        "foto": "https://0d2ujxjiqkxw.cdn.shift8web.com/wp-content/uploads/2018/04/medicamentos_veterinarios_farmacias.jpg",
-        "valor_necesitado": 750
+        "id": 5,
+        "refugeId": 101,
+        "title": "Campaña de vacunas para animales",
+        "description": "Realiza una donación para cubrir los costos de las vacunas necesarias para nuestros animales rescatados.",
+        "imageUrl": "https://example.com/images/donacion_vacunas.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 300,
+        "donationNumber": 120,
+        "deadlineDonation": "2024-11-25T23:59:59Z"
       },
       {
-        "nombre": "Ropa para el invierno",
-        "descripcion_corta": "Ropa abrigada para perros y gatos, ideal para los días fríos.",
-        "foto": "https://pampermut.com/blog/wp-content/uploads/2020/09/Ropa-para-perros-para-combatir-el-frio-de-fuzzyard-australia-blog-de-pampermut.jpg",
-        "valor_necesitado": 400
+        "id": 6,
+        "refugeId": 101,
+        "title": "Donación de pienso para gatos",
+        "description": "Ayuda a alimentar a nuestros gatos con una donación de pienso de alta calidad.",
+        "imageUrl": "https://example.com/images/donacion_penso_gatos.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 80,
+        "donationNumber": 60,
+        "deadlineDonation": "2024-12-31T23:59:59Z"
       },
       {
-        "nombre": "Casetas y refugios exteriores",
-        "descripcion_corta": "Casetas y refugios para proteger a los animales en exteriores del clima adverso.",
-        "foto": "https://m.media-amazon.com/images/I/71Q7dC6UzrL._AC_UF894,1000_QL80_.jpg",
-        "valor_necesitado": 1200
+        "id": 7,
+        "refugeId": 102,
+        "title": "Donación de medicina veterinaria",
+        "description": "Dona medicamentos y suministros veterinarios para el tratamiento de nuestros animales enfermos.",
+        "imageUrl": "https://example.com/images/donacion_medicina.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 200,
+        "donationNumber": 80,
+        "deadlineDonation": "2024-12-10T23:59:59Z"
       },
       {
-        "nombre": "Transporte para adopciones",
-        "descripcion_corta": "Donación para cubrir el costo de transporte seguro para los animales adoptados.",
-        "foto": "https://i0.wp.com/agro-natura.com/wp-content/uploads/2023/09/adopcion_perro_tarragona_reus.webp?resize=1080%2C628&ssl=1",
-        "valor_necesitado": 600
-      }
+        "id": 8,
+        "refugeId": 103,
+        "title": "Donación de correas y collares",
+        "description": "Colabora con el refugio donando correas y collares para nuestros perros rescatados.",
+        "imageUrl": "https://example.com/images/donacion_correas.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 150,
+        "donationNumber": 35,
+        "deadlineDonation": "2024-12-20T23:59:59Z"
+      },
+      {
+        "id": 9,
+        "refugeId": 104,
+        "title": "Campaña para esterilización de gatos",
+        "description": "Ayuda a cubrir los costos de esterilización para controlar la población felina en nuestro refugio.",
+        "imageUrl": "https://example.com/images/donacion_esterilizacion.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 250,
+        "donationNumber": 110,
+        "deadlineDonation": "2024-12-05T23:59:59Z"
+      },
+      {
+        "id": 10,
+        "refugeId": 101,
+        "title": "Donación de alimentos para cachorros",
+        "description": "Dona alimentos específicos para cachorros, esenciales para su crecimiento y bienestar.",
+        "imageUrl": "https://example.com/images/donacion_comida_cachorros.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 120,
+        "donationNumber": 50,
+        "deadlineDonation": "2024-12-31T23:59:59Z"
+      },
+      {
+        "id": 11,
+        "refugeId": 102,
+        "title": "Donación de jaulas para animales",
+        "description": "Donar jaulas de transporte para facilitar la adopción y transporte de nuestros animales.",
+        "imageUrl": "https://example.com/images/donacion_jaulas.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 30,
+        "donationNumber": 20,
+        "deadlineDonation": "2024-12-15T23:59:59Z"
+      },
+      {
+        "id": 12,
+        "refugeId": 103,
+        "title": "Donación para alimentos orgánicos",
+        "description": "Colabora con la compra de alimentos orgánicos y saludables para nuestros animales.",
+        "imageUrl": "https://example.com/images/donacion_alimentos_organicos.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 400,
+        "donationNumber": 150,
+        "deadlineDonation": "2024-12-25T23:59:59Z"
+      },
+      {
+        "id": 13,
+        "refugeId": 104,
+        "title": "Donación de ropa para voluntarios",
+        "description": "Dona ropa cómoda y adecuada para nuestros voluntarios que trabajan en el refugio.",
+        "imageUrl": "https://example.com/images/donacion_ropa_voluntarios.jpg",
+        "monetaryDonation": false,
+        "kindDonation": true,
+        "cuantityDonatio": 50,
+        "donationNumber": 20,
+        "deadlineDonation": "2024-11-30T23:59:59Z"
+      },
+      {
+        "id": 14,
+        "refugeId": 101,
+        "title": "Donación de medicamentos para animales",
+        "description": "Dona medicamentos para el tratamiento de enfermedades comunes entre los animales.",
+        "imageUrl": "https://example.com/images/donacion_medicamentos.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 150,
+        "donationNumber": 100,
+        "deadlineDonation": "2024-11-25T23:59:59Z"
+      },
+      {
+        "id": 15,
+        "refugeId": 102,
+        "title": "Campaña de adopción responsable",
+        "description": "Apoya nuestra campaña de adopción responsable donando dinero para promover la adopción de animales.",
+        "imageUrl": "https://example.com/images/donacion_adopcion.jpg",
+        "monetaryDonation": true,
+        "kindDonation": false,
+        "cuantityDonatio": 350,
+        "donationNumber": 130,
+        "deadlineDonation": "2024-12-31T23:59:59Z"
+      }  
     ]
     }
   
