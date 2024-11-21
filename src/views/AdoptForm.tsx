@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useForm } from "react-form-ease"; //Hook de React para los formularios
+import { useForm } from "react-form-ease";
+import axios from "axios"; //Hook de React para los formularios
 
 const AdoptForm = () => {
 
@@ -17,12 +18,19 @@ const AdoptForm = () => {
         },
     })
 
+    // creamos const para la URL del back
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    // Controlar si se ha procesado la solicitud
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
     // Creamos un state para los errores si los terminos no son aceptados
     const [errors, setErrors] = useState<{ termsAccepted?: string }>({});
 
     // Función para manejar el submit de evento de Formulario
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        console.log("Datos del formulario:", formData);
         // Si no se aceptan los terminos y condiciones aparecerá un escrito diciendo que debemos aceptarlos"
         if (!formData.termsAccepted) {
             setErrors({ termsAccepted: "Debes aceptar los términos y condiciones." });
@@ -31,7 +39,7 @@ const AdoptForm = () => {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center bg-gray-100 p-4">
+        <div className="flex flex-col justify-center items-center bg-gray-100 p-4 mt-10">
             <h1 className="text-2xl font-bold text-center mb-6 text-gray-700 pt-5">Formulario De Adopción</h1>
             <div className="bg-white rounded-3xl shadow-lg p-5 max-h-full w-full max-w-lg">
                 <form noValidate className="space-y-4 mb-5" onSubmit={handleSubmit}>
