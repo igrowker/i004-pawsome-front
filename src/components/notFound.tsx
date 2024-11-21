@@ -28,16 +28,16 @@ export default function NotFound() {
 
         <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
           <a
-            href="/"
+            href="/home"
             className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
           >
-            Volver a la página principal
+            Back to main page{" "}
           </a>
           <a
-            href="/adoptar"
+            href="/adopt"
             className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200"
           >
-            Adoptar una mascota
+            Adopt a pet{" "}
           </a>
         </div>
       </div>
