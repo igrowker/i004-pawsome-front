@@ -13,7 +13,7 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import RegisterPage from "./views/RegisterPage";
 import NotFound from "./components/notFound";
-import Adopt from "./components/adopt";
+import Adopt from "./views/adopt";
 // import MessageShelterModal from "./components/MessageShelterModal";
 
 function App() {
