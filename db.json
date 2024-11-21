@@ -1,0 +1,53 @@
+{
+    "results": [
+      {
+        "nombre": "Alimentos para perros y gatos",
+        "descripcion_corta": "Donación de alimentos para garantizar una dieta saludable a nuestros animales.",
+        "foto": "https://cdn0.uncomo.com/es/posts/7/2/3/por_que_los_gatos_no_pueden_comer_comida_de_perro_conoce_los_motivos_28327_orig.jpg",
+        "valor_necesitado": 500
+      },
+      {
+        "nombre": "Camas y mantas para animales",
+        "descripcion_corta": "Camas cómodas y mantas para ofrecerles un descanso adecuado.",
+        "foto": "https://cdn0.expertoanimal.com/es/posts/7/2/7/las_mejores_mantas_termicas_para_perros_26727_600.jpg",
+        "valor_necesitado": 300
+      },
+      {
+        "nombre": "Servicios veterinarios",
+        "descripcion_corta": "Donación para cubrir los costos de atención veterinaria de nuestros animales rescatados.",
+        "foto": "https://mundovets.com/wp-content/uploads/2022/06/mascotas-favoritas-profesionales-veterinarios.jpg",
+        "valor_necesitado": 1000
+      },
+      {
+        "nombre": "Juguetes y entretenimiento",
+        "descripcion_corta": "Juguetes y actividades que ayudan a mantener a nuestros animales activos y felices.",
+        "foto": "https://www.canuto.com.mx/cdn/shop/articles/blog_juguetes.jpg?v=1662703924",
+        "valor_necesitado": 200
+      },
+      {
+        "nombre": "Medicamentos para animales",
+        "descripcion_corta": "Medicamentos para tratar enfermedades y mejorar la salud de los animales rescatados.",
+        "foto": "https://0d2ujxjiqkxw.cdn.shift8web.com/wp-content/uploads/2018/04/medicamentos_veterinarios_farmacias.jpg",
+        "valor_necesitado": 750
+      },
+      {
+        "nombre": "Ropa para el invierno",
+        "descripcion_corta": "Ropa abrigada para perros y gatos, ideal para los días fríos.",
+        "foto": "https://pampermut.com/blog/wp-content/uploads/2020/09/Ropa-para-perros-para-combatir-el-frio-de-fuzzyard-australia-blog-de-pampermut.jpg",
+        "valor_necesitado": 400
+      },
+      {
+        "nombre": "Casetas y refugios exteriores",
+        "descripcion_corta": "Casetas y refugios para proteger a los animales en exteriores del clima adverso.",
+        "foto": "https://m.media-amazon.com/images/I/71Q7dC6UzrL._AC_UF894,1000_QL80_.jpg",
+        "valor_necesitado": 1200
+      },
+      {
+        "nombre": "Transporte para adopciones",
+        "descripcion_corta": "Donación para cubrir el costo de transporte seguro para los animales adoptados.",
+        "foto": "https://i0.wp.com/agro-natura.com/wp-content/uploads/2023/09/adopcion_perro_tarragona_reus.webp?resize=1080%2C628&ssl=1",
+        "valor_necesitado": 600
+      }
+    ]
+    }
+  
