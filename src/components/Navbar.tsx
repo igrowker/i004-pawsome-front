@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
 import { FaPaw } from "react-icons/fa";
@@ -23,14 +21,14 @@ export default function Navbar() {
   const menuItems = [
     { icon: FiHome, text: "Home", href: "/" },
     { icon: CiUser, text: "Profile", href: "/user" },
-    { icon: FaPaw, text: "Adopt", href: "/" },
+    { icon: FaPaw, text: "Adopt", href: "/adopt" },
     { icon: FiInfo, text: "About us", href: "/" },
     { icon: CiLogout, text: "Log out", href: "/" },
   ];
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#6AB4A8] p-4 shadow-md">
+      <nav className="sticky top-0 z-50 bg-primaryLight p-4 shadow-md">
         <div className="flex justify-between items-center">
           <div className="text-white font-bold text-xl">Logo</div>
           <button
@@ -49,7 +47,7 @@ export default function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-[#6AB4A8] text-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${
               isOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >

@@ -12,6 +12,8 @@ import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import RegisterPage from "./views/RegisterPage";
+import NotFound from "./components/notFound";
+import Adopt from "./views/adopt";
 // import MessageShelterModal from "./components/MessageShelterModal";
 
 function App() {
@@ -37,7 +39,8 @@ function App() {
 
           {/* Ruta del dashboard y sus subrutas */}
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
-
+          <Route path="*" element={<NotFound />} />
+          <Route path="/adopt" element={<Adopt />} />
         </Routes>
         <Footer />
       </div>
@@ -46,4 +49,3 @@ function App() {
 }
 
 export default App;
-
