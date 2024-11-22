@@ -16,6 +16,7 @@ import NotFound from "./components/notFound";
 import Adopt from "./views/adopt";
 import Logout from "./components/Logout"
 import ForgotPassword from './components/ForgotPassword';
+import SelectionUserRegister from "./components/SelectionRegister";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/adoptform" element={<AdoptForm />} />
           <Route path="/animalprofile" element={<AnimalProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
+          <Route path="/userintentscreen" element={<SelectionUserRegister/>}/>
 
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />
