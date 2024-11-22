@@ -28,6 +28,12 @@ const useRegister = () : useRegisterReturn => {
         setIsLoading(true);
         setError(null);
 
+        if (data.registerUser !== 'refugio' && data.registerUser !== 'adoptante') {
+            setError("Valor de 'registerUser' inválido");
+            setIsLoading(false);
+            return;
+        }
+        
         const role = data.registerUser === 'refugio' ? 'refugee' : 'user';
 
         try {
