@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 interface AdoptionCardProps {
+  id: string;
   name: string;
   breed: string;
   age: string;
@@ -9,7 +10,7 @@ interface AdoptionCardProps {
   tag: string;
 }
 
-const AdoptionCard: React.FC<AdoptionCardProps> = ({ name, breed, age, imageUrl, tag }) => (
+const AdoptionCard: React.FC<AdoptionCardProps> = ({ id, name, breed, age, imageUrl, tag }) => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
     {/* Tag en la esquina superior derecha */}
     <div className="self-end bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-1 rounded-full mt-2 mr-2">
@@ -25,8 +26,7 @@ const AdoptionCard: React.FC<AdoptionCardProps> = ({ name, breed, age, imageUrl,
     
     {/* Botón de adopción */}
     <button className="w-full bg-teal-500 text-white font-semibold py-3 mt-4 rounded-b-lg">
-    <Link to={"/animalprofile"}>      Quiero adoptar
-    </Link>
+    <Link to={`/animalprofile/${id}`}>Quiero adoptar</Link>
 
     </button>
   </div>
