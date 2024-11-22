@@ -28,7 +28,13 @@ const useRegister = () : useRegisterReturn => {
         setIsLoading(true);
         setError(null);
 
-        const role = data.registerUser === 'voluntario' ? 'user' : 'refugee';
+        if (data.registerUser !== 'refugio' && data.registerUser !== 'adoptante') {
+            setError("Valor de 'registerUser' inválido");
+            setIsLoading(false);
+            return;
+        }
+        
+        const role = data.registerUser === 'refugio' ? 'refugee' : 'user';
 
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, {
@@ -38,7 +44,7 @@ const useRegister = () : useRegisterReturn => {
                 role: role
             });
 
-            if(response.status === 200) {
+            if(response.status === 201) {
                 setIsSuccess(true);
                 return response.data;
             } else {
