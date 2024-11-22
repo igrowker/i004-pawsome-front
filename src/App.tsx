@@ -16,7 +16,7 @@ import NotFound from "./components/notFound";
 import Adopt from "./views/adopt";
 import Logout from "./components/Logout"
 import ForgotPassword from './components/ForgotPassword';
-// import MessageShelterModal from "./components/MessageShelterModal";
+
 
 function App() {
   return (
