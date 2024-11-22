@@ -32,7 +32,7 @@ function App() {
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adoptform" element={<AdoptForm />} />
-          <Route path="/animalprofile" element={<AnimalProfile />} />
+          <Route path="/animalprofile/:id" element={<AnimalProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
 
           {/* Ruta del usuario refugio y sus subrutas */}
