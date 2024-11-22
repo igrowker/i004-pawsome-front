@@ -22,10 +22,13 @@ const AnimalProfile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const defaultImage = "/animalprofile.png";
+
   useEffect(() => {
     const fetchAnimal = async () => {
       try {
-        const response = await apiClient.get(`/animals/${id}`); // Usa axios para la solicitud
+        const response = await apiClient.get(`/animals/${id}`);
+        console.log("Datos del animal recibidos:", response.data);
         setAnimal(response.data);
         setLoading(false);
       } catch (err) {
@@ -45,18 +48,20 @@ const AnimalProfile: React.FC = () => {
   return (
     <div className="animal-profile p-4 max-w-md mx-auto my-auto bg-white rounded-xl mt-20">
       <div className="w-full h-full overflow-hidden">
-        {animal.photos?.[0] ? (
-          <img
-            src={animal.photos[0]}
-            alt={`Foto de ${animal.name}`}
-            className="object-cover w-full h-full"
-          />
-        ) : (
-          <div className="w-full h-64 flex items-center justify-center bg-gray-200">
-            <p>Sin imagen disponible</p>
-          </div>
-        )}
-      </div>
+  {animal.photos && animal.photos.length > 2 ? ( //cambiar el 2 por un 0 cuando esté implementado cloudinary
+    <img
+      src={animal.photos[0]}
+      alt={`Foto de ${animal.name}`}
+      className="object-cover w-full h-full"
+    />
+  ) : (
+    <img
+      src={defaultImage}
+      alt="Imagen por defecto"
+      className="object-cover w-full h-full"
+    />
+  )}
+</div>
       <div className="ficha p-4 max-w-md mx-auto bg-white rounded-xl shadow-xl mt-4 space-y-2">
         <div>
           <div className="flex justify-between items-center">
