@@ -1,55 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AdoptionCard from './AdoptionCard';
 
-interface Adoption {
-  id: number;
-  name: string;
-  breed: string;
-  age: string;
-  imageUrl: string;
-  tag: string;
-}
+const AdoptionList: React.FC = () => {
+  const [adoptions, setAdoptions] = useState<any[]>([]);
 
-const adoptions: Adoption[] = [
-  {
-    id: 1,
-    name: 'Bella',
-    breed: 'Labrador Retriever',
-    age: '2 years old',
-    imageUrl: 'https://es.mypet.com/wp-content/uploads/sites/23/2021/03/GettyImages-1143107320-e1597136744606.jpg',
-    tag: 'PERRO',
-  },
-  {
-    id: 2,
-    name: 'Milo',
-    breed: 'Siamese Cat',
-    age: '3 years old',
-    imageUrl: 'https://www.lavanguardia.com/files/og_thumbnail/uploads/2023/10/24/653782d413b16.jpeg',
-    tag: 'GATO',
-  },
-  {
-    id: 3,
-    name: 'Luna',
-    breed: 'Golden Retriever',
-    age: '4 years old',
-    imageUrl: 'https://www.zooplus.es/magazine/wp-content/uploads/2024/08/El-perro-mas-viejo-del-mundo.jpeg',
-    tag: 'PERRO',
-  },
-];
+  useEffect(() => {
+    const fetchAdoptions = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/animals');
+        if (!response.ok) throw new Error('Error al obtener los animales');
+        const data = await response.json();
+        setAdoptions(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-const AdoptionList: React.FC = () => (
-  <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-    {adoptions.map((adoption) => (
-      <AdoptionCard
-        key={adoption.id}
-        name={adoption.name}
-        breed={adoption.breed}
-        age={adoption.age}
-        imageUrl={adoption.imageUrl}
-        tag={adoption.tag}
-      />
-    ))}
-  </div>
-);
+    fetchAdoptions();
+  }, []);
+
+  return (
+    <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {adoptions.map((adoption) => (
+        <AdoptionCard
+          key={adoption._id}
+          id={adoption._id} // Usa el _id del backend
+          name={adoption.name}
+          breed={adoption.breed || 'Desconocido'}
+          age={`${adoption.age} años`}
+          imageUrl={adoption.photos[0]} // Usa la primera foto
+          tag={adoption.adoption_status}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default AdoptionList;

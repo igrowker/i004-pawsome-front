@@ -67,7 +67,7 @@ export default function Modal({
         >
           &times;
         </button>
-        <div className="flex-grow overflow-y-auto p-6">{children}</div>
+        <div className="flex-grow overflow-y-auto">{children}</div>
       </div>
     </div>
   );
