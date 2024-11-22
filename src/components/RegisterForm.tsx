@@ -77,8 +77,6 @@ const RegisterForm = () => {
     setIsSubmitted(false);
   };
 
-  setTimeout 
-
   return (
     <>
       <div className="">
