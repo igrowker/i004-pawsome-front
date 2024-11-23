@@ -10,8 +10,8 @@ function UsersRoutes() {
     <Routes>
       <Route path="/" element={<UserProfile />} />
       {/* Pendiente de hacer favorites ,no MVP */}
-      <Route path="/favorites" element={<Favorites />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="favorites" element={<Favorites />} />
+      <Route path="login" element={<Login />} />
     </Routes>
   );
 }

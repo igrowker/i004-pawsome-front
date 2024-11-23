@@ -1,9 +1,7 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import useRegister from "../hooks/useRegister";
-
-
-
+import { Spinner } from "./ui/spinner";
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
@@ -79,7 +77,6 @@ const RegisterForm = () => {
     setIsSubmitted(false);
   };
 
-
   return (
     <>
       <div className="">
@@ -96,6 +93,7 @@ const RegisterForm = () => {
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
+            
           ></input>
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
         </div>
@@ -165,6 +163,7 @@ const RegisterForm = () => {
         Registrar
       </button>
       </form>
+      {isLoading && (<Spinner/>)}
       {isSubmitted  && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -181,9 +180,9 @@ const RegisterForm = () => {
       )}
 
   {formErrors && <p className="text-red-500">{apiError}</p>}
-  {isLoading && <p>Cargando...</p>}
     </>
   );
 };
 
 export default RegisterForm;
+
