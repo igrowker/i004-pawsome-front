@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
 import UploadPhoto from '../../../../components/UploadPhoto';
 
 const UserProfile: React.FC = () => {
@@ -8,7 +9,7 @@ const UserProfile: React.FC = () => {
   const [donations, setDonations] = useState<any[]>([]);
   const [adoptionRequests, setAdoptionRequests] = useState<any[]>([]);
 
-   const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -16,7 +17,7 @@ const UserProfile: React.FC = () => {
         const response = await fetch(`${apiUrl}/api/user-profile`);
         const data = await response.json();
         setUserData(data);
-        setProfilePhoto(data.profilePhoto || 'https://via.placeholder.com/150'); 
+        setProfilePhoto(data.profilePhoto || 'https://via.placeholder.com/150');
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -28,9 +29,9 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/donations`); 
+        const response = await fetch(`${apiUrl}/api/donations`);
         const data = await response.json();
-        setDonations(data); 
+        setDonations(data);
       } catch (error) {
         console.error('Error fetching donations:', error);
       }
@@ -64,8 +65,12 @@ const UserProfile: React.FC = () => {
           />
         </div>
         <div className="flex flex-col sm:ml-6 sm:flex-grow text-center sm:text-left">
-          <h2 className="text-2xl font-semibold text-gray-900">{userData ? userData.name : 'No tienes nombre'}</h2>
-          <p className="text-secondaryDark text-sm">{userData ? userData.email : 'No tienes mail'}</p>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            {userData ? userData.name : 'No tienes nombre'}
+          </h2>
+          <p className="text-secondaryDark text-sm">
+            {userData ? userData.email : 'No tienes email'}
+          </p>
         </div>
 
         <div className="ml-auto">
@@ -129,6 +134,9 @@ const UserProfile: React.FC = () => {
                 <p className="text-gray-500 text-sm">
                   <strong>Status:</strong> {request.status}
                 </p>
+                <Link to={`/animal-profile/${request.animalId}`} className="text-primaryLight hover:underline mt-2 inline-block">
+                  Ver perfil de {request.animal}
+                </Link>
               </div>
             )) : (
               <p>No has realizado solicitudes de adopción aún.</p>
