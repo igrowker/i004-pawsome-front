@@ -20,7 +20,7 @@ const DonationForm = () =>{
                 <label className="block mb-2 text-sm font-medium text-gray-600 " htmlFor="small_size">Imagen</label>
                 <input className="block w-full mb-5 text-sm text-gray-300 border border-gray-300 rounded-2xl cursor-pointer dark:text-gray-500 focus:outline-none  dark:border-gray-300 dark:placeholder-gray-400" id="small_size" type="file"/>
                 </div>
-                <label htmlFor="homeSituation" className="block text-sm font-medium text-gray-600 pt-2">Tipo de donación </label>
+                <label htmlFor="donationkind" className="block text-sm font-medium text-gray-600 pt-2">Tipo de donación </label>
                 <div className="flex items-center space-x-4">
                         <label className="flex items-center text-gray-800 text-sm">
                             <input
@@ -42,15 +42,15 @@ const DonationForm = () =>{
                     </div>
                 <div>
                 <div className="mb-3">
-                    <label htmlFor="donationDescription" className="block text-sm font-medium text-gray-600">¿Cuanto dinero necesitas recuardar?</label>
+                    <label htmlFor="donationAmount" className="block text-sm font-medium text-gray-600">¿Cuanto dinero necesitas recuardar?</label>
                     <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="donationDescription" className="block text-sm font-medium text-gray-600">¿Cuantas unidades necesitas recuardar?</label>
+                    <label htmlFor="donationCuantity" className="block text-sm font-medium text-gray-600">¿Cuantas unidades necesitas recuardar?</label>
                     <input type="number" id="number-input" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" />
                 </div>   
                 </div>
-                <label htmlFor="donationDescription" className="block text-sm font-medium text-gray-600">Fecha de meta</label>
+                <label htmlFor="deadLine" className="block text-sm font-medium text-gray-600">Fecha de meta</label>
                 <div id="date-range-picker" date-rangepicker className="flex items-center">
                         <div className="relative">
                             <input id="datepicker-range-end" name="end" type="date" className="border border-gray-300 text-gray-900 text-sm rounded-2xl  block w-full ps-10 p-2.5  dark:text-gray-600" placeholder="Select date end"/>
