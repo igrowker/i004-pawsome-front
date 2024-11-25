@@ -1,56 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Importa useNavigate
-import { FaDog, FaPaw } from "react-icons/fa";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaBriefcaseMedical } from "react-icons/fa";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { FaDog, FaPaw, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
 import { FaCakeCandles } from "react-icons/fa6";
-import apiClient from "../apiClient";
-import { Link } from 'react-router-dom';
-
-interface Animal {
-  name: string;
-  species: string;
-  sex: string;
-  age: number;
-  breed: string;
-  description: string;
-  health_status: string;
-  photos: string[];
-  adoption_status: string;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAnimal } from "../redux/actions/animalActions";
+import { RootState } from "../redux/rootReducer";
+import { AppDispatch } from "../redux/store";
+import { Link } from "react-router-dom";
 
 const AnimalProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [animal, setAnimal] = useState<Animal | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch(); // Usa el tipo AppDispatch
+
+  // Obtener el estado desde Redux
+  const { data: animal, loading, error } = useSelector(
+    (state: RootState) => state.animal
+  );
 
   const defaultImage = "/animalprofile.png";
 
   useEffect(() => {
-    const fetchAnimal = async () => {
-      try {
-        const response = await apiClient.get(`/animals/${id}`);
-        console.log("Datos del animal recibidos:", response.data);
-        setAnimal(response.data);
-        setLoading(false);
-      } catch (err) {
-        const errorMessage =
-          (err as any)?.response?.data?.message || "Ocurrió un error inesperado";
-        setError(errorMessage);
-        setLoading(false);
-      }
-    };
-    if (id) fetchAnimal();
-  }, [id]);
+    if (id) {
+      dispatch(fetchAnimal(id)); // Despacha la acción para obtener el animal
+    }
+  }, [id, dispatch]);
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!animal) return <div>No se encontró el animal</div>;
 
   return (
-    <div className="animal-profile p-4 max-w-7xl mx-auto bg-white rounded-3xl shadow-lg sm:p-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center  lg:mb-40 lg:mt-10">
+    <div className="animal-profile p-4 max-w-7xl mx-auto bg-white rounded-3xl shadow-lg sm:p-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center lg:mb-40 lg:mt-10">
       {/* Imagen */}
       <div className="w-full h-full flex justify-center lg:justify-start">
         {animal.photos && animal.photos.length > 2 ? (
