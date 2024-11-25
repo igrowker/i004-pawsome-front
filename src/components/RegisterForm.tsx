@@ -24,8 +24,11 @@ const RegisterForm = () => {
 
         password: (value) => {
           if (!value) return "Por favor ingresa una contraseña.";
-          if (value.length < 8) return "La contraseña debe tener al menos 6 caracteres.";
-          if (value.length > 12) return "La contraseña no puede tener más de 12 caracteres.";
+          if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
+          if (value.length > 50) return "La contraseña no puede tener más de 50 caracteres.";
+          if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)) {
+            return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
+          }
           return undefined; 
         },
         confirmPassword: (value, data) => {
