@@ -1,9 +1,7 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import useRegister from "../hooks/useRegister";
-
-
-
+import { Spinner } from "./ui/spinner";
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
@@ -25,8 +23,11 @@ const RegisterForm = () => {
 
         password: (value) => {
           if (!value) return "Por favor ingresa una contraseña.";
-          if (value.length < 8) return "La contraseña debe tener al menos 6 caracteres.";
-          if (value.length > 12) return "La contraseña no puede tener más de 12 caracteres.";
+          if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
+          if (value.length > 50) return "La contraseña no puede tener más de 50 caracteres.";
+          if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)) {
+            return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
+          }
           return undefined; 
         },
         confirmPassword: (value, data) => {
@@ -79,7 +80,6 @@ const RegisterForm = () => {
     setIsSubmitted(false);
   };
 
-
   return (
     <>
       <div className="">
@@ -96,6 +96,7 @@ const RegisterForm = () => {
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
+            
           ></input>
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
         </div>
@@ -165,6 +166,7 @@ const RegisterForm = () => {
         Registrar
       </button>
       </form>
+      {isLoading && (<Spinner/>)}
       {isSubmitted  && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -181,9 +183,9 @@ const RegisterForm = () => {
       )}
 
   {formErrors && <p className="text-red-500">{apiError}</p>}
-  {isLoading && <p>Cargando...</p>}
     </>
   );
 };
 
 export default RegisterForm;
+

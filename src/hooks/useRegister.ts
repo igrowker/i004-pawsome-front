@@ -2,9 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
-
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface RegisterData {
     email: string;
@@ -30,10 +28,16 @@ const useRegister = () : useRegisterReturn => {
         setIsLoading(true);
         setError(null);
 
-        const role = data.registerUser === 'voluntario' ? 'user' : 'refugee';
+        if (data.registerUser !== 'refugio' && data.registerUser !== 'adoptante') {
+            setError("Valor de 'registerUser' inválido");
+            setIsLoading(false);
+            return;
+        }
+        
+        const role = data.registerUser === 'refugio' ? 'refugee' : 'user';
 
         try {
-            const response = await axios.post(`${apiUrl}`, {
+            const response = await axios.post(`${apiUrl}/auth/register`, {
                 name: data.name,
                 password: data.password,
                 email: data.email,

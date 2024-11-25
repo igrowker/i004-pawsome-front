@@ -14,7 +14,10 @@ import Footer from "./components/Footer";
 import RegisterPage from "./views/RegisterPage";
 import NotFound from "./components/notFound";
 import Adopt from "./views/adopt";
-// import MessageShelterModal from "./components/MessageShelterModal";
+import Logout from "./components/Logout"
+import ForgotPassword from './components/ForgotPassword';
+import SelectionUserRegister from "./components/SelectionRegister";
+
 
 function App() {
   return (
@@ -25,11 +28,14 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/signin" element={<RegisterPage />} />
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adoptform" element={<AdoptForm />} />
           <Route path="/animalprofile" element={<AnimalProfile />} />
+          <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
+          <Route path="/userintentscreen" element={<SelectionUserRegister/>}/>
 
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />
@@ -41,6 +47,8 @@ function App() {
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/adopt" element={<Adopt />} />
+          
+          
         </Routes>
         <Footer />
       </div>
@@ -48,4 +56,14 @@ function App() {
   );
 }
 
+
+
+
+
+
+
+
 export default App;
+
+
+
