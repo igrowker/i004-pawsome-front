@@ -45,7 +45,7 @@ const AdoptForm = () => {
                 const response = await axios.post(`${apiUrl}/adoption-request`, {
                     animal_id: "673f85866a27d6c31587ac02",
                     adopter_id: "673f695ab50b8e95dc88e085",
-                    name: data.fullName,
+                    name: formData.fullName,
                     details: formData.phone,
                     compatibility: formData.compatibility,
                     location: formData.country,
@@ -87,7 +87,7 @@ const AdoptForm = () => {
             return;
         }
 
-        setIsSubmitted(true);
+        // setIsSubmitted(true);
     };
 
     // useEffect(() => {
