@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { date, useForm } from "react-form-ease";
+import { useForm } from "react-form-ease";
 import axios from "axios"; //Hook de React para los formularios
 
 
@@ -7,7 +7,8 @@ import axios from "axios"; //Hook de React para los formularios
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const AdoptForm = () => {
-    // Hook 
+
+    // Hook de formulario 
     const { formData, updateForm } = useForm({
         data: {
             fullName: "",
@@ -21,72 +22,67 @@ const AdoptForm = () => {
         },
     })
 
-
-
-    // Creamos interfaz de la respuesta que nos devuelva el fetch 
-    interface dataAdoptionFormRequestReturn {
-        isLoading: boolean;
-        error: string | null;
-        isSuccess: boolean;
-        adoptionRequest: (data: FormData) => Promise<any>;
-    }
-
-    // Función para crear la solicitud de adopción.
-    const createAdoptionRequest = (): dataAdoptionFormRequestReturn => {
-        const [isLoading, setIsLoading] = useState<boolean>(false);
-        const [error, setError] = useState<string | null>(null);
-        const [isSuccess, setIsSuccess] = useState<boolean>(false);
-
-        const adoptionRequest = async (data: FormData) => {
-            setIsLoading(true);
-            setError(null);
-
-            try {
-                const response = await axios.post(`${apiUrl}/adoption-request`, {
-                    animal_id: "673f85866a27d6c31587ac02",
-                    adopter_id: "673f695ab50b8e95dc88e085",
-                    name: formData.fullName,
-                    details: formData.phone,
-                    compatibility: formData.compatibility,
-                    location: formData.country,
-                    housingSituation: formData.housingSituation,
-                    experience: formData.experienceWithPets,
-                    request_date: new Date(),
-                    status: "en revisión"
-                });
-                if (response.status === 200) {
-                    setIsSuccess(true);
-                    return response.data;
-                } else {
-                    throw new Error("Hubo un problema con la solicitud de adopción");
-                }
-            } catch (error: any) {
-                if (error.response) {
-                    setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
-                } else if (error.request) {
-                    setError(`Error: ${error.message}`);
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        return { isLoading, error, isSuccess, adoptionRequest };
-    }
-
+    // Estado para manejar errores, éxito y carga
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [isLogged, setIsLogged] = useState<boolean>(false);
 
     // Creamos un state para los errores si los terminos no son aceptados
-    const [errors, setErrors] = useState<{ termsAccepted?: string }>({});
+    const [termsIsClicked, setTermsIsClicked] = useState<{ termsAccepted?: string }>({});
+
+
+    // Función para crear la solicitud de adopción.
+    const createAdoptionRequest = async () => {
+        if (!isLogged) {
+            setError("Debes estar logueado para enviar una solicitud de adopción.");
+            return;
+        }
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await axios.post(`${apiUrl}/adoption-request`, {
+                animal_id: "673f85866a27d6c31587ac02",
+                adopter_id: "673f695ab50b8e95dc88e085", //Deberia ser codigo desde redux 
+                name: formData.fullName,
+                details: formData.phone,
+                compatibility: formData.compatibility,
+                location: formData.country,
+                housingSituation: formData.housingSituation,
+                experience: formData.experienceWithPets,
+                request_date: new Date(),
+                status: "en revisión"
+            });
+            if (response.status === 200) {
+                setIsSuccess(true);
+                return response.data;
+            } else {
+                throw new Error("Hubo un problema con la solicitud de adopción. Inténtalo de nuevo");
+            }
+        } catch (error: any) {
+            if (error.response) {
+                setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
+            } else if (error.request) {
+                setError(`Error: ${error.message}`);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     // Función para manejar el submit de evento de Formulario
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Datos del formulario:", formData);
+        console.log("Datos del formulario:", FormData);
+
         // Si no se aceptan los terminos y condiciones aparecerá un escrito diciendo que debemos aceptarlos"
-        if (!formData.termsAccepted) {
-            setErrors({ termsAccepted: "Debes aceptar los términos y condiciones." });
+        if (!FormData.termsAccepted) {
+            setTermsIsClicked({ termsAccepted: "Debes aceptar los términos y condiciones." })
             return;
         }
-
+        createAdoptionRequest();
         // setIsSubmitted(true);
     };
 
@@ -178,8 +174,8 @@ const AdoptForm = () => {
                                 />
                                 <span className="ml-2 text-sm font-medium text-gray-700">Acepto los términos y condiciones</span>
                             </label>
-                            {errors.termsAccepted && (
-                                <p className="text-red-500 text-sm mt-1">{errors.termsAccepted}</p>
+                            {termsIsClicked.termsAccepted && (
+                                <p className="text-red-500 text-sm mt-1">{termsIsClicked.termsAccepted}</p>
                             )}
                         </div>
                     </div>

@@ -1,28 +1,33 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const navigate = useNavigate();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-        throw new Error("Function not implemented.");
-    };
+
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    navigate("/adoptform")
+    throw new Error("Function not implemented.");
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
 
       <div className="text-center mb-10">
-        <img  src="./public/login.png" alt="logo" />
+        <img src="./public/login.png" alt="logo" />
         <h1 className="text-4xl font-extrabold text-black">Pawsome</h1>
         <p className="text-black-500">Un lugar, todos los refugios</p>
       </div>
 
-     
+
       <div className="bg-white shadow-lg rounded-xl p-8 w-80">
-        <form>
-             <div className="mb-4">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
             <input
               type="text"
               placeholder="Usuario"
@@ -37,7 +42,7 @@ const Login: React.FC = () => {
             />
           </div>
           <button
-            type="submit"
+            type="submit" 
             className="w-full text-white py-2 rounded-full transtion bg-[#6AB4A8] hover:bg-green-600 transition"
           >
             Login
@@ -61,7 +66,7 @@ const Login: React.FC = () => {
         </div>
       </div>
 
-      
+
     </div>
   );
 };
