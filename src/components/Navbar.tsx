@@ -3,6 +3,9 @@ import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
 import { FaPaw } from "react-icons/fa";
 import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,11 +77,16 @@ export default function Navbar() {
               </div>
 
               <div className="flex justify-center items-center px-4 py-2 gap-2 text-sm w-full">
-                <button className="flex-1 py-2 bg-primaryDark text-white rounded-md">
-                  Login
-                </button>
+                  <button className="flex-1 py-2 bg-primaryDark text-white rounded-md">
+                    <Link to="/login">
+                      Login
+                    </Link>
+                  </button>
+                
                 <button className="flex-1 py-2 bg-light border border-primaryDark text-primaryDark rounded-md ml-2">
-                  Subscribe
+                  <Link to="/signin">
+                    Subscribe
+                  </Link>
                 </button>
               </div>
 
