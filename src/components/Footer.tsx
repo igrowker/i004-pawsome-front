@@ -57,19 +57,19 @@ const Footer: React.FC = () => {
               Sobre nosotros
             </a>
             <a
-              href="/adoptions"
+              href="/signin"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
               Registrarse
             </a>
             <a
-              href="/register"
+              href="/donations"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
               Donaciones
             </a>
             <a
-              href="/donations"
+              href="/*"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
               Política de privacidad
