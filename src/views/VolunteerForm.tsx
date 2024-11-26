@@ -1,5 +1,6 @@
-import Input from "../components/ui/input";
-import Legend from "../components/ui/legend";
+import Input from "@/components/ui/input";
+import Legend from "@/components/ui/legend";
+
 
 const VolunteerForm = () => {
   return (

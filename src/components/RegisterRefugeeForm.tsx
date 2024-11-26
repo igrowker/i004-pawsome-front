@@ -1,7 +1,8 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
-import useRefugeeRegister from "./../hooks/refugeeRegister"; // Asegúrate de importar correctamente el hook
+import useRefugeeRegister from "@/hooks/refugeeRegister";
+ // Asegúrate de importar correctamente el hook
 
 const RegisterRefugeeForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);

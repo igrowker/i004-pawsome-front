@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
 import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/rootReducer";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/rootReducer";
+import { logout } from "@/redux/actions/authActions";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

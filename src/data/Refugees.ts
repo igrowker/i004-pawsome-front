@@ -1,4 +1,4 @@
-import { IRefuge } from "../interfaces/IRefugee";
+import { IRefuge } from "@/interfaces/IRefugee";
 
 export const refuges: IRefuge[] = [
   {
