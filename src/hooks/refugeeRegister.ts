@@ -7,8 +7,8 @@ interface RefugeeRegisterData {
     email: string;
     password: string;
     name: string;
-    lastName: string;
-    refugeeName: string; 
+    last_name: string;
+    name_refugee: string; 
     description: string;
     registerUser: string; 
     img?: string; 
@@ -42,11 +42,12 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
         try {
           
             const userResponse = await axios.post(`${apiUrl}/auth/register`, {
+                name: data.name,
+                last_name: data.last_name,
                 email: data.email,
                 password: data.password,
-                name: data.name,
-                lastName: data.lastName,
-                role: role,
+                role: role
+        
             });
 
             if (userResponse.status !== 201) {
@@ -58,7 +59,7 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
          
             const refugeeResponse = await axios.post(`${apiUrl}/refugees`, {
                 user_id: userId,
-                refugeeName: data.refugeeName,
+                name_refugee: data.name_refugee,
                 description: data.description,
                 img: data.img || undefined, 
                 ...(data.pets ? { pets: data.pets } : {}),

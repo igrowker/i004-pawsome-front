@@ -12,11 +12,11 @@ const RegisterRefugeeForm = () => {
       password: "",
       confirmPassword: "",
       name: "",
-      lastName: "",
-      refugeeName: "",
+      last_name: "",
+      name_refugee: "",
       description: "",
-      image: "",  // El campo de imagen es opcional
-      pets: "",  // Lista de IDs de mascotas
+      image: "",  
+      pets: "", 
       registerUser: "refugio",
     },
     validations: {
@@ -40,10 +40,10 @@ const RegisterRefugeeForm = () => {
       name: (value) => {
         if (!value) return "Por favor ingresa un nombre";
       },
-      lastName: (value) => {
+      last_name: (value) => {
         if (!value) return "Por favor ingresa apellidos";
       },
-      refugeeName: (value) => {
+      name_refugee: (value) => {
         if (!value) return "Por favor ingresa un nombre del refugio";
       },
       description: (value) => {
@@ -52,7 +52,7 @@ const RegisterRefugeeForm = () => {
     },
   });
 
-  // Invoca el hook 'useRefugeeRegister'
+
   const { isLoading, error: apiError, isSuccess, registerRefugee } = useRefugeeRegister();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,8 +70,8 @@ const RegisterRefugeeForm = () => {
         email: formData.email,
         password: formData.password,
         name: formData.name,
-        lastName: formData.lastName,
-        refugeeName: formData.refugeeName,
+        last_name: formData.last_name,
+        name_refugee: formData.name_refugee,
         description: formData.description,
         registerUser: formData.registerUser,
         img: formData.image || undefined, 
@@ -148,10 +148,10 @@ const RegisterRefugeeForm = () => {
             type="text"
             placeholder="Apellidos"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
-            value={formData.lastName}
-            onChange={(e) => updateForm({ lastName: e.target.value })}
+            value={formData.last_name}
+            onChange={(e) => updateForm({ last_name: e.target.value })}
           />
-          {formErrors.lastName && <p className="text-red-500">{formErrors.lastName}</p>}
+          {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>
 
         <div className="refugeeName">
@@ -159,15 +159,15 @@ const RegisterRefugeeForm = () => {
             type="text"
             placeholder="Nombre del Refugio"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
-            value={formData.refugeeName}
-            onChange={(e) => updateForm({ refugeeName: e.target.value })}
+            value={formData.name_refugee}
+            onChange={(e) => updateForm({ name_refugee: e.target.value })}
           />
-          {formErrors.refugeeName && <p className="text-red-500">{formErrors.refugeeName}</p>}
+          {formErrors.name_refugee && <p className="text-red-500">{formErrors.name_refugee}</p>}
         </div>
 
         <div className="description">
           <textarea
-            placeholder="Descripción"
+            placeholder="Descripción del Refugio"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.description}
             onChange={(e) => updateForm({ description: e.target.value })}
@@ -177,8 +177,8 @@ const RegisterRefugeeForm = () => {
 
         <div className="image">
           <input
-            type="text"
-            placeholder="Imagen URL (Opcional)"
+            type="file"
+            placeholder="Sube un imagen (opcional)"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.image}
             onChange={(e) => updateForm({ image: e.target.value })}
@@ -188,7 +188,7 @@ const RegisterRefugeeForm = () => {
         <div className="pets">
           <input
             type="text"
-            placeholder="ID de mascotas (separados por comas)"
+            placeholder="Animales en el refugio (opcional)"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.pets}
             onChange={(e) => updateForm({ pets: e.target.value })}
