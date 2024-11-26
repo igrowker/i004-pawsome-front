@@ -4,8 +4,9 @@ import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/rootReducer";
-import { logout } from "../redux/actions/authActions";
+import { RootState } from "@/redux/rootReducer";
+import { logout } from "@/redux/actions/authActions";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

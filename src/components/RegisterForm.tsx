@@ -1,7 +1,7 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
-import useRegister from "../hooks/useRegister";
 import { Spinner } from "./ui/spinner";
+import useRegister from "@/hooks/useRegister";
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 

@@ -1,9 +1,10 @@
+import AdoptionList from "@/components/AdoptionList";
+import FilterAdoption from "@/components/FilterAdoption";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
+import ShelterList from "@/components/ShelterList";
 import React, { useState } from "react";
-import Header from "../../components/Header";
-import Navigation from "../../components/Navigation";
-import ShelterList from "../../components/ShelterList";
-import AdoptionList from "../../components/AdoptionList";
-import FilterAdoption from "../../components/FilterAdoption";
+
 
 interface Shelter {
   id: number;
