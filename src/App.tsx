@@ -11,12 +11,13 @@ import UsersRoutes from "./views/dashboard/user/UsersRoutes";
 import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
-import RegisterPage from "./views/RegisterPage";
 import NotFound from "./components/notFound";
 import Adopt from "./views/adopt";
 import Logout from "./components/Logout"
 import ForgotPassword from './components/ForgotPassword';
-import SelectionUserRegister from "./components/SelectionRegister";
+import RegisterForm from "./components/RegisterForm";
+import RegisterRefugeeForm from "./components/RegisterRefugeeForm";
+import RegisterPage from "./views/RegisterPage";
 
 
 function App() {
@@ -29,13 +30,14 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/signin" element={<RegisterPage />} />
+          <Route path="/signin" element={< RegisterPage/>} />
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adoptform" element={<AdoptForm />} />
-          <Route path="/animalprofile" element={<AnimalProfile />} />
+          <Route path="/animalprofile/:id" element={<AnimalProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
-          <Route path="/userintentscreen" element={<SelectionUserRegister/>}/>
+          <Route path="userRegister" element={<RegisterForm></RegisterForm>}></Route>
+          <Route path="/shelterRegister" element={<RegisterRefugeeForm></RegisterRefugeeForm>}></Route>
 
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />

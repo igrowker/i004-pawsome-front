@@ -12,8 +12,8 @@ const RegisterForm = () => {
       password: "",
       confirmPassword: "",
       name: "",
-      lastName: "",
-      registerUser: "",
+      last_name: "",
+      registerUser: "user", 
     },
 
     validations: {
@@ -40,9 +40,10 @@ const RegisterForm = () => {
           if(!value) return "Por favor ingresa un nombre"
         },
         
-        lastName: (value) => {
+        last_name: (value) => {
           if(!value) return "Por favor ingresa apellidos"
-        }
+        },
+
     }
   });
 
@@ -58,15 +59,15 @@ const RegisterForm = () => {
       return
     }
     
-    console.log("Datos enviados:", formData);
-
-    // const result = await registerUser({
-    //   email: formData.email,
-    //   password: formData.password,
-    //   name: formData.name,
-    //   lastName: formData.lastName,
-    //   registerUser: formData.registerUser
-    // })
+   
+    try {
+      const result = await registerUser({
+        name: formData.name,
+        last_name: formData.last_name,
+        email: formData.email,
+        password: formData.password,
+        role: 'user'
+      });
 
     // if(result){
     //   setIsSubmitted(true)
@@ -89,7 +90,7 @@ const RegisterForm = () => {
   return (
     <>
       <div className="">
-        <img src="/dog.webp" alt="" className="w-full mt-[25px]" />
+        <img src="/dog.webp" alt="" className="w-full" />
       </div>
       <form
         className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
@@ -141,44 +142,12 @@ const RegisterForm = () => {
             type="text"
             placeholder="Apellidos"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
-            value={formData.lastName}
-            onChange={(e) => updateForm({ lastName: e.target.value })}
+            value={formData.last_name}
+            onChange={(e) => updateForm({ last_name: e.target.value })}
           ></input>
-           {errors.lastName && <p className="text-red-500">{errors.lastName}</p>}
+           {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>
-        <div className="registerOptions inline-grid">
-          <label>
-            <input
-              type="radio"
-              name="option"
-              value="refugio"
-              className="mb-[15px]"
-              onChange={(e) => updateForm({ registerUser: e.target.value })}
-            />{" "}
-            Refugio
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="option"
-              value="voluntario"
-              className="mb-[15px]"  
-              onChange={(e) => updateForm({ registerUser: e.target.value })}
-            />{" "}
-            Voluntario
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="option"
-              value="adoptante"
-              className="mb-[40px]"
-              onChange={(e) => updateForm({ registerUser: e.target.value })}
-            />{" "}
-            Adoptante
-          </label>
-        </div>
-        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white" type="submit">
+        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]" type="submit">
         Registrar
       </button>
       </form>
