@@ -3,7 +3,8 @@ import { FaPaw, FaBirthdayCake, FaDog } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFavorites } from "../../../../redux/actions/favoriteActions";
-import { RootState } from "../../../../redux/rootReducer";
+import { RootState } from "@/redux/rootReducer";
+
 
 const Favorites: React.FC = () => {
   const dispatch = useDispatch();

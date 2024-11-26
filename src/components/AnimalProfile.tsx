@@ -3,10 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FaDog, FaPaw, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
 import { FaCakeCandles } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAnimal } from "../redux/actions/animalActions";
-import { RootState } from "../redux/rootReducer";
-import { AppDispatch } from "../redux/store";
 import { Link } from "react-router-dom";
+import { AppDispatch } from "@/redux/store";
+import { RootState } from "@/redux/rootReducer";
+import { fetchAnimal } from "@/redux/actions/animalActions";
 
 const AnimalProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
