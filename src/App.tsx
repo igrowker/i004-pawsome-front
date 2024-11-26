@@ -19,6 +19,7 @@ import RegisterForm from "./components/RegisterForm";
 import RegisterRefugeeForm from "./components/RegisterRefugeeForm";
 import RegisterPage from "./views/RegisterPage";
 import About from "./views/About";
+import PrivacyPolicy from "./views/PrivacyPolicy";
 
 
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="userRegister" element={<RegisterForm></RegisterForm>}></Route>
           <Route path="/shelterRegister" element={<RegisterRefugeeForm></RegisterRefugeeForm>}></Route>
           <Route path="about" element={<About />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />
 

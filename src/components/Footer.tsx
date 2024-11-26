@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
               Donaciones
             </a>
             <a
-              href="/*"
+              href="/privacy"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
               Política de privacidad

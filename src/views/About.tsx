@@ -10,7 +10,7 @@ const AboutUs: React.FC = () => {
   <h1 className="text-4xl font-extrabold text-gray-800 sm:text-5xl relative z-10">
     Sobre Nosotros
   </h1>
-  <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-3 bg-teal-500 opacity-20 rounded-lg"></div>
+  <div className="absolute inset-x-0 top-1/1 transform -translate-y-1/2 h-3 bg-teal-500 opacity-20 rounded-lg"></div>
   <p className="mt-8 text-gray-600 text-lg italic sm:text-xl max-w-3xl mx-auto relative z-10">
     Nos apasiona conectar familias amorosas con animales que necesitan un hogar.
     Juntos, podemos marcar la diferencia.
