@@ -1,7 +1,8 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
-import useRegister from "../hooks/useRegister";
+// import useRegister from "../hooks/useRegister";
 import { Spinner } from "./ui/spinner";
+import refugeeRegister from './../hooks/refugeeRegister';
 
 const RegisterRefugeeForm = () => {
     const [isSubmitted, setIsSubmitted] = useState(false); 
@@ -13,10 +14,12 @@ const RegisterRefugeeForm = () => {
         name: "",
         lastName: "",
         refugeeName: "",
-        refugeeAdress:"",
+        description: "",
+        image: "",
+        pets:"",
         registerUser: "refugee",
       },
-  
+
       validations: {
           email: (value) => {
               if(!value) return "Por favor ingresa el email";
@@ -44,13 +47,16 @@ const RegisterRefugeeForm = () => {
           lastName: (value) => {
             if(!value) return "Por favor ingresa apellidos"
           },
-          registerUser: (value) => {
-            if (!value) return "Por favor selecciona una opción.";
+          refugeeName: (value) => {
+            if(!value) return "Por favor ingresa un nombre del refugio"
           },
+          description: (value) => {
+            if(!value) return "Por favor ingresa una descripción"
+          }, 
       }
     });
   
-    const { isLoading, error: apiError, isSuccess, registerUser } = useRegister(); 
+    const { isLoading, error: apiError, isSuccess, refugeeRegister } = refugeeRegister(); 
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -62,11 +68,13 @@ const RegisterRefugeeForm = () => {
       }
   
       try {
-        const result = await registerUser({
+        const result = await refu({
           email: formData.email,
           password: formData.password,
           name: formData.name,
           lastName: formData.lastName,
+          refugeeName: formData.refugeeName,
+          
           registerUser: formData.registerUser,
         });
   
@@ -133,6 +141,26 @@ const RegisterRefugeeForm = () => {
         {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
           </div>
           <div className="lastName">
+            <input
+              type="text"
+              placeholder="Apellidos"
+              className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+              value={formData.lastName}
+              onChange={(e) => updateForm({ lastName: e.target.value })}
+            ></input>
+             {formErrors.lastName && <p className="text-red-500">{formErrors.lastName}</p>}
+          </div>
+          <div className="refugeeName">
+            <input
+              type="text"
+              placeholder="Nombre del Refugio"
+              className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+              value={formData.refugeeName}
+              onChange={(e) => updateForm({ refugeeName: e.target.value })}
+            ></input>
+             {formErrors.refugeeName && <p className="text-red-500">{formErrors.refugeeName}</p>}
+          </div>
+          <div className="refugeeAdress">
             <input
               type="text"
               placeholder="Apellidos"
