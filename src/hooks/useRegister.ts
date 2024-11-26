@@ -9,7 +9,7 @@ interface RegisterData {
     password: string;
     name: string;
     lastName: string;
-    registerUser: string
+    registerUser: string;
 }
 
 interface useRegisterReturn {
