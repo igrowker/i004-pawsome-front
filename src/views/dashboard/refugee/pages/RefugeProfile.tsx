@@ -1,8 +1,9 @@
+import PetCard from "@/components/PetCard";
+import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { IAnimal } from "../../../../interfaces/IAnimal";
-import PetCard from "../../../../components/PetCard";
+
 
 const URL = import.meta.env.VITE_API_URL
 
