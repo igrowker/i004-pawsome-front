@@ -82,7 +82,7 @@ const RegisterForm = () => {
   return (
     <>
       <div className="">
-        <img src="/dog.webp" alt="" className="w-full mt-[25px]" />
+        <img src="/dog.webp" alt="" className="w-full" />
       </div>
       <form
         className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
@@ -139,7 +139,7 @@ const RegisterForm = () => {
           ></input>
            {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>
-        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white" type="submit">
+        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]" type="submit">
         Registrar
       </button>
       </form>

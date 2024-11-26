@@ -1,12 +1,17 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
-import useRefugeeRegister from './../hooks/refugeeRegister';  // Asegúrate de importar correctamente el hook
+import useRefugeeRegister from "./../hooks/refugeeRegister"; // Asegúrate de importar correctamente el hook
 
 const RegisterRefugeeForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  const { formData, updateForm, validateForm, errors: formErrors = {} } = useForm({
+
+  const {
+    formData,
+    updateForm,
+    validateForm,
+    errors: formErrors = {},
+  } = useForm({
     data: {
       email: "",
       password: "",
@@ -15,20 +20,25 @@ const RegisterRefugeeForm = () => {
       last_name: "",
       name_refugee: "",
       description: "",
-      image: "",  
-      pets: "", 
+      image: "",
+      pets: "",
       registerUser: "refugio",
     },
     validations: {
       email: (value) => {
         if (!value) return "Por favor ingresa el email";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Email no válido.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return "Email no válido.";
       },
       password: (value) => {
         if (!value) return "Por favor ingresa una contraseña.";
-        if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
-        if (value.length > 50) return "La contraseña no puede tener más de 50 caracteres.";
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)) {
+        if (value.length < 8)
+          return "La contraseña debe tener al menos 8 caracteres.";
+        if (value.length > 50)
+          return "La contraseña no puede tener más de 50 caracteres.";
+        if (
+          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)
+        ) {
           return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
         }
         return undefined;
@@ -52,8 +62,12 @@ const RegisterRefugeeForm = () => {
     },
   });
 
-
-  const { isLoading, error: apiError, isSuccess, registerRefugee } = useRefugeeRegister();
+  const {
+    isLoading,
+    error: apiError,
+    isSuccess,
+    registerRefugee,
+  } = useRefugeeRegister();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,7 +79,6 @@ const RegisterRefugeeForm = () => {
     }
 
     try {
- 
       const result = await registerRefugee({
         email: formData.email,
         password: formData.password,
@@ -74,8 +87,8 @@ const RegisterRefugeeForm = () => {
         name_refugee: formData.name_refugee,
         description: formData.description,
         registerUser: formData.registerUser,
-        img: formData.image || undefined, 
-        pets: formData.pets ? formData.pets.split(",") : [],  
+        img: formData.image || undefined,
+        pets: formData.pets ? formData.pets.split(",") : [],
       });
 
       if (result) {
@@ -93,7 +106,7 @@ const RegisterRefugeeForm = () => {
   return (
     <>
       <div className="">
-        <img src="/dog.webp" alt="" className="w-full mt-[25px]" />
+        <img src="/dog.webp" alt="" className="w-full" />
       </div>
       <form
         className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
@@ -107,7 +120,9 @@ const RegisterRefugeeForm = () => {
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
           />
-          {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
+          {formErrors.email && (
+            <p className="text-red-500">{formErrors.email}</p>
+          )}
         </div>
 
         <div className="password">
@@ -118,7 +133,9 @@ const RegisterRefugeeForm = () => {
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           />
-          {formErrors.password && <p className="text-red-500">{formErrors.password}</p>}
+          {formErrors.password && (
+            <p className="text-red-500">{formErrors.password}</p>
+          )}
         </div>
 
         <div className="confirmPassword">
@@ -129,7 +146,9 @@ const RegisterRefugeeForm = () => {
             value={formData.confirmPassword}
             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
           />
-          {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
+          {formErrors.confirmPassword && (
+            <p className="text-red-500">{formErrors.confirmPassword}</p>
+          )}
         </div>
 
         <div className="name">
@@ -151,7 +170,9 @@ const RegisterRefugeeForm = () => {
             value={formData.last_name}
             onChange={(e) => updateForm({ last_name: e.target.value })}
           />
-          {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
+          {formErrors.last_name && (
+            <p className="text-red-500">{formErrors.last_name}</p>
+          )}
         </div>
 
         <div className="refugeeName">
@@ -162,20 +183,24 @@ const RegisterRefugeeForm = () => {
             value={formData.name_refugee}
             onChange={(e) => updateForm({ name_refugee: e.target.value })}
           />
-          {formErrors.name_refugee && <p className="text-red-500">{formErrors.name_refugee}</p>}
+          {formErrors.name_refugee && (
+            <p className="text-red-500">{formErrors.name_refugee}</p>
+          )}
         </div>
 
         <div className="description">
-          <textarea
+          <input
             placeholder="Descripción del Refugio"
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.description}
             onChange={(e) => updateForm({ description: e.target.value })}
           />
-          {formErrors.description && <p className="text-red-500">{formErrors.description}</p>}
+          {formErrors.description && (
+            <p className="text-red-500">{formErrors.description}</p>
+          )}
         </div>
 
-        <div className="image">
+        {/* <div className="image">
           <input
             type="file"
             placeholder="Sube un imagen (opcional)"
@@ -183,8 +208,32 @@ const RegisterRefugeeForm = () => {
             value={formData.image}
             onChange={(e) => updateForm({ image: e.target.value })}
           />
+        </div> */}
+        <div className="image mb-[25px]">
+          <label
+            htmlFor="file"
+            className="border-2 rounded-3xl h-14 w-[85%] flex items-center justify-between px-4 bg-white cursor-pointer"
+          >
+            {formData.image ? (
+              <span className="text-black truncate">{formData.image}</span>
+            ) : (
+              <span className="placeholder-black">
+                Imagen (opcional)
+              </span>
+            )}
+            <span className="text-primaryLight font-semibold">Examinar</span>
+          </label>
+          <input
+            id="file"
+            type="file"
+            className="hidden"
+            onChange={(e) =>
+              updateForm({
+                image: e.target.files ? e.target.files[0].name : "",
+              })
+            }
+          />
         </div>
-
         <div className="pets">
           <input
             type="text"
@@ -194,15 +243,20 @@ const RegisterRefugeeForm = () => {
             onChange={(e) => updateForm({ pets: e.target.value })}
           />
         </div>
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+        <button
+          type="submit"
+          className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]"
+        >
           {isLoading ? <Spinner /> : "Registrar refugio"}
         </button>
       </form>
-      {isSubmitted  && isSuccess && (
+      {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
-            <p className="text-lg mb-6">Tus datos han sido registrados correctamente.</p>
+            <p className="text-lg mb-6">
+              Tus datos han sido registrados correctamente.
+            </p>
             <button
               className="bg-primaryLight text-white px-4 py-2 rounded-md"
               onClick={closePopup}
