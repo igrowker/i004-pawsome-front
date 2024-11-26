@@ -12,7 +12,7 @@ const RegisterForm = () => {
       confirmPassword: "",
       name: "",
       lastName: "",
-      registerUser: "" as "user" | "refugee",
+      registerUser: "" as "user" 
     },
 
     validations: {
@@ -139,28 +139,6 @@ const RegisterForm = () => {
             onChange={(e) => updateForm({ lastName: e.target.value })}
           ></input>
            {formErrors.lastName && <p className="text-red-500">{formErrors.lastName}</p>}
-        </div>
-        <div className="registerOptions inline-grid">
-          <label>
-            <input
-              type="radio"
-              name="option"
-              value="refugio"
-              className="mb-[15px]"
-              onChange={(e) => updateForm({ registerUser: e.target.value as "user" | "refugee" })}
-            />{" "}
-            Refugio
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="option"
-              value="adoptante"
-              className="mb-[40px]"
-              onChange={(e) => updateForm({ registerUser: e.target.value as "user" | "refugee"})}
-            />{" "}
-            Adoptante
-          </label>
         </div>
         <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white" type="submit">
         Registrar
