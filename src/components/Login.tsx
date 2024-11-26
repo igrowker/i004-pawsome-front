@@ -1,8 +1,8 @@
+import { login } from "@/redux/actions/authActions";
+import { RootState } from "@/redux/rootReducer";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../redux/rootReducer";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");

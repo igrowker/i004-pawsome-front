@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "./ui/modal";
 import Input from "./ui/input";
-import { IAnimal } from "../interfaces/IAnimal";
+import { IAnimal } from "@/interfaces/IAnimal";
 
 const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
