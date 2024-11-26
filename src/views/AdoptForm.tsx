@@ -1,99 +1,70 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { submitAdoptionRequest } from "../redux/actions/adoptRequestActions";
+import { RootState } from "../redux/rootReducer";
 import { useForm } from "react-form-ease";
-import axios from "axios"; //Hook de React para los formularios
+import { Spinner } from "../components/ui/spinner";
 
-
-// creamos const para la URL del back
-const apiUrl = import.meta.env.VITE_API_URL;
-
-const AdoptForm = () => {
-
-    // Hook de formulario 
+const AdoptForm: React.FC = () => {
     const { formData, updateForm } = useForm({
         data: {
             fullName: "",
             phone: "",
-            // city: "",
-            country: "",
+            location: "",
             compatibility: "",
             housingSituation: "",
             experienceWithPets: false,
             termsAccepted: false,
         },
-    })
+    });
 
-    // Estado para manejar errores, éxito y carga
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [isSuccess, setIsSuccess] = useState<boolean>(false);
-    const [isLogged, setIsLogged] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    // Creamos un state para los errores si los terminos no son aceptados
-    const [termsIsClicked, setTermsIsClicked] = useState<{ termsAccepted?: string }>({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const { error, loading } = useSelector((state: RootState) => state.adopt);
+    const [errorTerms, setErrorTerms] = useState<{ termsAccepted?: string }>({});
 
-
-    // Función para crear la solicitud de adopción.
-    const createAdoptionRequest = async () => {
-        if (!isLogged) {
-            setError("Debes estar logueado para enviar una solicitud de adopción.");
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!formData.termsAccepted) {
+            setErrorTerms({ termsAccepted: "Debes aceptar los términos y condiciones." });
             return;
         }
-        setIsLoading(true);
-        setError(null);
+        setErrorTerms({});
 
         try {
-            const response = await axios.post(`${apiUrl}/adoption-request`, {
-                animal_id: "673f85866a27d6c31587ac02",
-                adopter_id: "673f695ab50b8e95dc88e085", //Deberia ser codigo desde redux 
-                name: formData.fullName,
-                details: formData.phone,
-                compatibility: formData.compatibility,
-                location: formData.country,
-                housingSituation: formData.housingSituation,
-                experience: formData.experienceWithPets,
-                request_date: new Date(),
-                status: "en revisión"
-            });
-            if (response.status === 200) {
-                setIsSuccess(true);
-                return response.data;
-            } else {
-                throw new Error("Hubo un problema con la solicitud de adopción. Inténtalo de nuevo");
-            }
-        } catch (error: any) {
-            if (error.response) {
-                setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
-            } else if (error.request) {
-                setError(`Error: ${error.message}`);
-            }
-        } finally {
-            setIsLoading(false);
+            await dispatch<any>(submitAdoptionRequest(
+                {
+                    animal_id: "673f85866a27d6c31587ac02", //Coger del store el animal.id
+                    adopter_id: "673f695ab50b8e95dc88e085", //coger del store el user.id
+                    name: formData.fullName,
+                    details: formData.phone,
+                    compatibility: formData.compatibility,
+                    location: formData.location,
+                    housingSituation: formData.housingSituation,
+                    experience: formData.experienceWithPets,
+                    request_date: new Date().toISOString(),
+                    status: "en revisión",
+                })
+            );
+            setIsSubmitted(true)
+            setIsSuccess(true)
+            console.log(formData)
+        } catch (error) {
+            console.error("Error al procesar la solicitud", error);
+            setIsSuccess(false);
         }
     };
 
-
-    // Función para manejar el submit de evento de Formulario
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Datos del formulario:", FormData);
-
-        // Si no se aceptan los terminos y condiciones aparecerá un escrito diciendo que debemos aceptarlos"
-        // if (!FormData.termsAccepted) {
-        //     setTermsIsClicked({ termsAccepted: "Debes aceptar los términos y condiciones." })
-        //     return;
-        // }
-        createAdoptionRequest();
-        // setIsSubmitted(true);
+    const handleCloseUp = () => {
+        navigate("/home")
     };
 
-    // useEffect(() => {
-    //     if (isSubmitted) {
-    //         console.log("El formulario ha sido enviado:", isSubmitted);
-    //     }
-    // }, [isSubmitted]);
-
     return (
-        <div className="flex flex-col justify-center items-center bg-gray-100 p-4 mt-10">
+        <div className="flex flex-col justify-center items-center bg-gray-100 p-4 mt-0">
             <h1 className="text-2xl font-bold text-center mb-6 text-gray-700 pt-5">Formulario De Adopción</h1>
             <div className="bg-white rounded-3xl shadow-lg p-5 max-h-full w-full max-w-lg">
                 <form noValidate className="space-y-4 mb-5" onSubmit={handleSubmit}>
@@ -107,13 +78,9 @@ const AdoptForm = () => {
                         <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.phone} placeholder="+34666666666" onChange={(e) => updateForm({ phone: e.target.value })} />
                     </div>
                     <div className="flex flex-row gap-3">
-                        {/* <div> */}
-                        {/* <label htmlFor="city" className="block text-sm font-medium text-gray-600">Ciudad:</label>
-                            <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.city} placeholder="Tu ciudad" onChange={(e) => updateForm({ city: e.target.value })} />
-                        </div> */}
                         <div>
                             <label htmlFor="cityAndCountry" className="block text-sm font-medium text-gray-600">País:</label>
-                            <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.country} placeholder="Tu País" onChange={(e) => updateForm({ country: e.target.value })} />
+                            <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={formData.location} placeholder="Ciudad, País" onChange={(e) => updateForm({ location: e.target.value })} />
                         </div>
                     </div>
                     <div>
@@ -174,8 +141,8 @@ const AdoptForm = () => {
                                 />
                                 <span className="ml-2 text-sm font-medium text-gray-700">Acepto los términos y condiciones</span>
                             </label>
-                            {termsIsClicked.termsAccepted && (
-                                <p className="text-red-500 text-sm mt-1">{termsIsClicked.termsAccepted}</p>
+                            {errorTerms.termsAccepted && (
+                                <p className="text-red-500 text-sm mt-1">{errorTerms.termsAccepted}</p>
                             )}
                         </div>
                     </div>
@@ -187,6 +154,22 @@ const AdoptForm = () => {
                         </button>
                     </div>
                 </form>
+                {loading && (<Spinner />)}
+                {isSubmitted && isSuccess && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                            <h2 className="text-2xl font-semibold mb-4">¡Hemos procesado tu solicitud de adopción!</h2>
+                            <h3 className="text-lg mb-6">Te hemos enviado un mail confirmando que hemos recibido tu solicitud</h3>
+                            <p className="text-lg mb-6">En breve nos pondremos en contacto contigo.</p>
+                            <button
+                                className="bg-primaryLight text-white px-4 py-2 rounded-md"
+                                onClick={handleCloseUp}
+                            >
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div >
         </div >
     );
