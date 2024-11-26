@@ -73,9 +73,15 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
             }
         } catch (error: any) {
             if (error.response) {
-                setError(
-                    `Error: ${error.response.data.message || "Hubo un problema al registrar el refugio"}`
-                );
+                // Capturamos el mensaje del backend
+                if (error.response.data.message === "Error al registrar el usuario") {
+                    setError("El correo electrónico ya está registrado");
+                } else {
+                    setError(
+                        error.response.data.message ||
+                        "Hubo un problema al registrar el refugio"
+                    );
+                }
             } else if (error.request) {
                 setError(`Error: ${error.message}`);
             } else {

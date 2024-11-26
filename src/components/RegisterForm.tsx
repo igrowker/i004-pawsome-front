@@ -2,9 +2,11 @@ import { useForm } from "react-form-ease";
 import { useState } from "react";
 import useRegister from "../hooks/useRegister";
 import { Spinner } from "./ui/spinner";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
+  const navigate = useNavigate();
   const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
     data: {
       email: "",
@@ -76,6 +78,7 @@ const RegisterForm = () => {
   };
 
   const closePopup = () => {
+    navigate("/login")
     setIsSubmitted(false);
   };
 
@@ -98,6 +101,7 @@ const RegisterForm = () => {
             
           ></input>
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
+          {apiError && <p className="text-red-500">{apiError}</p>}
         </div>
         <div className="password">
           <input

@@ -2,8 +2,10 @@ import { useForm } from "react-form-ease";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import useRefugeeRegister from "./../hooks/refugeeRegister"; // Asegúrate de importar correctamente el hook
+import { useNavigate } from "react-router-dom";
 
 const RegisterRefugeeForm = () => {
+  const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const {
@@ -101,6 +103,8 @@ const RegisterRefugeeForm = () => {
 
   const closePopup = () => {
     setIsSubmitted(false);
+    navigate("/login")
+
   };
 
   return (
@@ -123,6 +127,7 @@ const RegisterRefugeeForm = () => {
           {formErrors.email && (
             <p className="text-red-500">{formErrors.email}</p>
           )}
+          {apiError && <p className="text-red-500">{apiError}</p>}
         </div>
 
         <div className="password">
@@ -200,15 +205,6 @@ const RegisterRefugeeForm = () => {
           )}
         </div>
 
-        {/* <div className="image">
-          <input
-            type="file"
-            placeholder="Sube un imagen (opcional)"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
-            value={formData.image}
-            onChange={(e) => updateForm({ image: e.target.value })}
-          />
-        </div> */}
         <div className="image mb-[25px]">
           <label
             htmlFor="file"
@@ -246,7 +242,7 @@ const RegisterRefugeeForm = () => {
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]"
-        >
+        > Registrar
         </button>
       </form>
       {isLoading && (<Spinner/>)}

@@ -52,15 +52,34 @@ const useRegister = () : useRegisterReturn => {
                 throw new Error ("Hubo un problema con el registro");
             } 
         } catch (error: any) {
+            console.log(error.response.data.message === "")
             if (error.response) {
-                setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
+              if (error.response.data.message === "Error al registrar el usuario") {
+                setError("El correo electrónico ya está registrado");
+              } else {
+                setError(
+                  error.response.data.message || "Hubo un problema al registrar"
+                );
+              }
             } else if (error.request) {
-                setError(`Error: ${error.message}`);
+              setError(`Error: ${error.message}`);
+            } else {
+              setError("Ocurrió un error desconocido");
             }
-        } finally {
+          } finally {
             setIsLoading(false);
-        }
-    }
+          }
+        };
+    //     } catch (error: any) {
+    //         if (error.response) {
+    //             setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
+    //         } else if (error.request) {
+    //             setError(`Error: ${error.message}`);
+    //         }
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }
 
     return { isLoading, error, isSuccess, registerUser};
 
