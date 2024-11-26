@@ -1,82 +1,139 @@
-import React from 'react';
-import { FaDog } from "react-icons/fa"; 
-import { FaPaw } from 'react-icons/fa';
-import { FaCakeCandles } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
-
-// Interfaces para los datos del perfil de animal
-interface AnimalProfileProps {
-  name: string;
-  pet: string;
-  sex: string;
-  age: number;
-  size: string;
-  photo: string;
-  history: string;
-  characteristics: string[];
-  availability: string;
-}
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { FaDog, FaPaw, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
+import { FaCakeCandles } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAnimal } from "../redux/actions/animalActions";
+import { RootState } from "../redux/rootReducer";
+import { AppDispatch } from "../redux/store";
+import { Link } from "react-router-dom";
 
 const AnimalProfile: React.FC = () => {
-  // Datos simulados para el diseño provisional
-  const animalData: AnimalProfileProps = {
-    name: "Buddy",
-    pet: "PERRO",
-    sex: "Macho",
-    age: 2,
-    size: "Grande",
-    photo: "/animalprofile.png",
-    history: "Buddy is a friendly and energetic Golden retriever. He loves playing fetch and is great with kids. He's looking for a loving home where he can be part of the family.",
-    characteristics: ["Bueno con niños y gatos"],
-    availability: "Disponible"
-  };
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch(); // Usa el tipo AppDispatch
+
+  // Obtener el estado desde Redux
+  const { data: animal, loading, error } = useSelector(
+    (state: RootState) => state.animal
+  );
+
+  const defaultImage = "/animalprofile.png";
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchAnimal(id)); // Despacha la acción para obtener el animal
+    }
+  }, [id, dispatch]);
+
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!animal) return <div>No se encontró el animal</div>;
 
   return (
-    <div className="animal-profile p-4 max-w-md mx-auto my-auto bg-white rounded-xl mt-20">
-      {/* Foto */}
-      <div className="w-full h-full overflow-hidden ">
-        <img src={animalData.photo} alt={`Foto de ${animalData.name}`} className="object-cover w-full h-full" />
+    <div className="animal-profile p-4 max-w-7xl mx-auto bg-white rounded-3xl shadow-lg sm:p-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center lg:mb-40 lg:mt-10">
+      {/* Imagen */}
+      <div className="w-full h-full flex justify-center lg:justify-start">
+        {animal.photos && animal.photos.length > 2 ? (
+          <img
+            src={animal.photos[0]}
+            alt={`Foto de ${animal.name}`}
+            className="rounded-2xl object-cover lg:w-full lg:h-auto"
+          />
+        ) : (
+          <img
+            src={defaultImage}
+            alt="Imagen por defecto"
+            className="rounded-2xl object-cover lg:w-full lg:h-auto"
+          />
+        )}
       </div>
 
-      <div className="ficha p-4 max-w-md mx-auto bg-white rounded-xl shadow-xl mt-4 space-y-2">
-        {/* Información Básica */}
-        <div>
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">{animalData.name}</h1>
-            <p className="bg-secondaryLight rounded text-xs p-1 px-4">{animalData.pet}</p>
-          </div>
-          
-          <div className="flex justify-between items-center text-sm mt-2">
-            <p className="flex items-center"><FaPaw className='text-secondaryDark text-sm mr-1'/>{animalData.sex}</p>
-            <p className="flex items-center"><FaCakeCandles className='text-secondaryDark text-sm mr-1'/>{animalData.age} años</p>
-            <p className="flex items-center"><FaDog className='text-secondaryDark text-sm mr-1'/>{animalData.size}</p>
-          </div>
+      {/* Información */}
+      <div className="ficha p-4 bg-white rounded-xl shadow-md lg:p-6">
+        {/* Título */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800 text-center sm:text-left sm:text-3xl">
+            {animal.name}
+          </h1>
+          <p className="bg-secondaryLight text-gray-800 rounded-full text-xs font-medium px-4 py-1 mt-2 sm:mt-0">
+            {animal.species}
+          </p>
         </div>
 
-        {/* Características */}
-        <section className="characteristics">
-          <p className="text-gray-700 text-sm">
-            <strong>Características:</strong> {animalData.characteristics.join(", ")}
+        {/* Detalles */}
+        <div className="grid grid-cols-3 gap-4 mt-4 text-sm">
+          <p className="flex items-center text-gray-600">
+            <FaPaw className="text-secondaryDark text-lg mr-2" />
+            <span className="font-medium">{animal.sex}</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <FaCakeCandles className="text-secondaryDark text-lg mr-2" />
+            <span className="font-medium">{animal.age} años</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <FaDog className="text-secondaryDark text-lg mr-2" />
+            <span className="font-medium">{animal.breed}</span>
+          </p>
+        </div>
+
+        {/* Descripción */}
+        <section className="mt-4">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2 sm:text-xl">Historia</h2>
+          <p className="text-gray-700 text-justify text-sm sm:text-base">
+            {animal.description}
           </p>
         </section>
 
-        {/* Historia */}
-        <section className="history mt-2">
-          <p className="text-gray-700 text-sm">{animalData.history}</p>
+        {/* Estado de salud */}
+        <section className="flex items-center justify-between mt-4 bg-red-50 p-4 rounded-lg shadow-md">
+          <div className="flex items-center">
+            <FaBriefcaseMedical className="text-red-600 text-3xl mr-4" />
+            <p className="text-gray-800 font-medium text-sm sm:text-base">
+              {animal.health_status}
+            </p>
+          </div>
         </section>
-      </div>
 
-      {/* Disponibilidad */}  
-      <div className="availability flex justify-between items-center mt-4 bg-secondaryLight rounded-2xl px-4 py-3 text-sm">
-        <p><strong>Estado de adopción:</strong></p>
-        <p><strong>{animalData.availability}</strong></p>
-      </div>
+        {/* Disponibilidad */}
+        <div className="availability flex items-center justify-between mt-4 bg-secondaryLight rounded-xl px-6 py-4 shadow-md">
+          <p className="text-gray-800 font-semibold text-sm sm:text-base">
+            Estado de adopción:
+          </p>
+          <p
+            className={`font-semibold text-sm sm:text-base px-4 py-2 rounded-full shadow-md ${
+              animal.adoption_status === "adoptado"
+                ? "bg-white text-teal-500 border-2 border-teal-500"
+                : animal.adoption_status === "disponible"
+                ? "bg-teal-500 text-white border-none"
+                : "bg-yellow-400 text-white border-none"
+            }`}
+          >
+            {animal.adoption_status}
+          </p>
+        </div>
 
-      {/* Botón formulario */}  
-      <div className="flex justify-center mt-3">
-        <button className="button-form inline-flex text-center bg-primaryLight text-white rounded-2xl py-3 px-4 text-sm">
-          <Link to={"/adoptform"}>Rellena el formulario</Link>
-        </button>
+        {/* Botones */}
+        <div className="flex flex-col sm:flex-row mt-8 justify-between items-center gap-4">
+          {/* Botón formulario */}
+          <button className="bg-teal-500 text-white py-3 px-6 rounded-lg shadow-md border-2 border-teal-500 text-lg tracking-widest cursor-pointer hover:bg-white hover:text-teal-500 hover:border-teal-500 hover:shadow-lg active:bg-[#87dbd0] transition duration-400 w-full sm:w-auto">
+            <Link to={"/adoptform"} className="flex items-center justify-center">
+              <span>Rellena el formulario</span>
+            </Link>
+          </button>
+          {/* Botón para volver */}
+          <button
+            onClick={() => navigate("/home")}
+            className="bg-white text-center w-full sm:w-48 rounded-2xl h-14 relative text-black text-lg font-semibold group flex items-center justify-center overflow-hidden border-2 border-dark shadow-md hover:bg-dark hover:text-white hover:shadow-lg transition duration-300"
+          >
+            <div
+              className="bg-dark rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 group-hover:w-full z-10 duration-500"
+            >
+              <FaArrowLeft className="text-white z-20" />
+            </div>
+            <span className="z-0 group-hover:text-transparent">Volver</span>
+          </button>
+        </div>
       </div>
     </div>
   );
