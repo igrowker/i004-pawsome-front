@@ -1,14 +1,24 @@
 import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
-import { FaPaw } from "react-icons/fa";
 import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../redux/rootReducer";
+import { logout } from "../redux/actions/authActions";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setIsOpen(false); // falta manejar bien el logout
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -22,11 +32,12 @@ export default function Navbar() {
   }, [isOpen]);
 
   const menuItems = [
-    { icon: FiHome, text: "Home", href: "/" },
+    { icon: FiHome, text: "Home", href: "/home" },
     { icon: CiUser, text: "Profile", href: "/user" },
-    { icon: FaPaw, text: "Adopt", href: "/adopt" },
     { icon: FiInfo, text: "About us", href: "/" },
-    { icon: CiLogout, text: "Log out", href: "/" },
+    ...(isAuthenticated
+      ? [{ icon: CiLogout, text: "Log out", href: "/" }]
+      : []),
   ];
 
   return (
@@ -64,31 +75,46 @@ export default function Navbar() {
                 </button>
               </div>
 
-              <div className="flex justify-between items-center px-5">
+              <div className="flex justify-between items-center px-5 mb-2">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-50 text-gray-300 px-3">
                   <FaRegUser className="w-10 h-10 " />
                 </div>
                 <div className="flex flex-col ml-4">
-                  <span className="font-bold">Welcome</span>
-                  <p className="text-xs">
-                    Log in to your account to adopt, view your favorites, etc.
-                  </p>
+                  {isAuthenticated && user ? (
+                    <>
+                      <span className="font-bold">Welcome, {user.name}!</span>
+                      <p className="text-xs">Enjoy your session.</p>
+                    </>
+                  ) : (
+                    <>
+                      <span className="font-bold">Welcome</span>
+                      <p className="text-xs">
+                        Log in to your account to adopt, view your favorites,
+                        etc.
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
+              {!isAuthenticated && (
+                <div className="flex justify-center items-center px-4 py-2 gap-2 text-sm w-full">
+                  <Link
+                    to="/login"
+                    className="flex-1 py-2 bg-primaryDark text-white rounded-md text-center"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Login
+                  </Link>
 
-              <div className="flex justify-center items-center px-4 py-2 gap-2 text-sm w-full">
-                  <button className="flex-1 py-2 bg-primaryDark text-white rounded-md">
-                    <Link to="/login">
-                      Login
-                    </Link>
-                  </button>
-                
-                <button className="flex-1 py-2 bg-light border border-primaryDark text-primaryDark rounded-md ml-2">
-                  <Link to="/signin">
+                  <Link
+                    to="/signin"
+                    className="flex-1 py-2 bg-light border border-primaryDark text-primaryDark rounded-md ml-2 text-center"
+                    onClick={() => setIsOpen(false)}
+                  >
                     Subscribe
                   </Link>
-                </button>
-              </div>
+                </div>
+              )}
 
               <nav className="flex-grow overflow-y-auto bg-gray-50 text-primaryDark">
                 <ul className="space-y-2 p-6">
