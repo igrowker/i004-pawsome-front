@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserProfile, updateUserProfile } from "../../../../redux/actions/userActions";
-import { RootState } from "../../../../redux/rootReducer";
-import UploadPhoto from "../../../../components/UploadPhoto";
 import { Link } from "react-router-dom";
+import { RootState } from "@/redux/rootReducer";
+import UploadPhoto from "@/components/UploadPhoto";
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();

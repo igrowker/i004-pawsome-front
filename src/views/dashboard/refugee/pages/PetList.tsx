@@ -1,8 +1,8 @@
+import PetCard from "@/components/PetCard";
+import { animals } from "@/data/Animals";
+import { IAnimal } from "@/interfaces/IAnimal";
 import React, { useState } from "react";
-import PetCard from "../../../../components/PetCard";
 import { FaFilter } from "react-icons/fa6";
-import { IAnimal } from "../../../../interfaces/IAnimal";
-import { animals } from "../../../../data/Animals";
 
 const PetList: React.FC = () => {
   const [filter, setFilter] = useState("");
