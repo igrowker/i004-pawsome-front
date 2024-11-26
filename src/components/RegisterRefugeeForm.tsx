@@ -247,9 +247,9 @@ const RegisterRefugeeForm = () => {
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]"
         >
-          {isLoading ? <Spinner /> : "Registrar refugio"}
         </button>
       </form>
+      {isLoading && (<Spinner/>)}
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
