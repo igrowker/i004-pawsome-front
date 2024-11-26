@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
               Registrarse
             </a>
             <a
-              href="/donations"
+              href="/donationlist"
               className="block bg-gray-800 p-3 rounded-lg text-center hover:bg-gray-700 transition-all"
             >
               Donaciones
