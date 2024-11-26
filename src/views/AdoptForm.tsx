@@ -78,10 +78,10 @@ const AdoptForm = () => {
         console.log("Datos del formulario:", FormData);
 
         // Si no se aceptan los terminos y condiciones aparecerá un escrito diciendo que debemos aceptarlos"
-        if (!FormData.termsAccepted) {
-            setTermsIsClicked({ termsAccepted: "Debes aceptar los términos y condiciones." })
-            return;
-        }
+        // if (!FormData.termsAccepted) {
+        //     setTermsIsClicked({ termsAccepted: "Debes aceptar los términos y condiciones." })
+        //     return;
+        // }
         createAdoptionRequest();
         // setIsSubmitted(true);
     };

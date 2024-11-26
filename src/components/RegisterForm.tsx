@@ -1,65 +1,63 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
-// import useRegister from './../hooks/useRegister';
-
+import useRegister from "../hooks/useRegister";
+import { Spinner } from "./ui/spinner";
 
 const RegisterForm = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false); 
-  const [isLoading, setIsLoading] = useState(false);
-  const { formData, updateForm, validateForm, errors = {}} = useForm({
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { formData, updateForm, validateForm, errors: formErrors = {} } = useForm({
     data: {
       email: "",
       password: "",
       confirmPassword: "",
       name: "",
       last_name: "",
-      registerUser: "user", 
+      registerUser: "user",
     },
 
     validations: {
-        email: (value) => {
-            if(!value) return "Por favor ingresa el email";
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Email no válido.";
-        },
+      email: (value) => {
+        if (!value) return "Por favor ingresa el email";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Email no válido.";
+      },
 
-        password: (value) => {
-          if (!value) return "Por favor ingresa una contraseña.";
-          if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
-          if (value.length > 50) return "La contraseña no puede tener más de 50 caracteres.";
-          if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)) {
-            return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
-          }
-          return undefined; 
-        },
-        confirmPassword: (value, data) => {
-          if (!value) return "Por favor confirma tu contraseña.";
-          if (value !== data.password) return "Las contraseñas no coinciden.";
-        },
-      
-        name: (value) => {
-          if(!value) return "Por favor ingresa un nombre"
-        },
-        
-        last_name: (value) => {
-          if(!value) return "Por favor ingresa apellidos"
-        },
+      password: (value) => {
+        if (!value) return "Por favor ingresa una contraseña.";
+        if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
+        if (value.length > 50) return "La contraseña no puede tener más de 50 caracteres.";
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)) {
+          return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
+        }
+        return undefined;
+      },
+      confirmPassword: (value, data) => {
+        if (!value) return "Por favor confirma tu contraseña.";
+        if (value !== data.password) return "Las contraseñas no coinciden.";
+      },
+
+      name: (value) => {
+        if (!value) return "Por favor ingresa un nombre"
+      },
+
+      last_name: (value) => {
+        if (!value) return "Por favor ingresa apellidos"
+      },
 
     }
   });
 
-  // const { isLoading, error, isSuccess, registerUser } = useRegister(); 
-  
+  const { isLoading, error: apiError, isSuccess, registerUser } = useRegister();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
 
     const isValid = validateForm();
-    if(!isValid){
-      console.log("Errores en el formulario" , errors)
-      return
+    if (!isValid) {
+      console.log("Errores en el formulario:", formErrors);
+      return;
     }
-    
-   
+
+
     try {
       const result = await registerUser({
         name: formData.name,
@@ -69,22 +67,16 @@ const RegisterForm = () => {
         role: 'user'
       });
 
-    // if(result){
-    //   setIsSubmitted(true)
-    // }
-
-    setTimeout(() => {
-      setIsLoading(true)
-      setIsSubmitted(true); 
-      console.log("Usuario registrado con éxito");
-    }, 1000);
-    
+      if (result)
+        setIsSubmitted(true);
+      isSuccess === true
+    } catch (err) {
+      console.error("Error al registrar:", err);
+    }
   };
-  
-  
+
   const closePopup = () => {
     setIsSubmitted(false);
-    setIsLoading(false)
   };
 
   return (
@@ -103,9 +95,9 @@ const RegisterForm = () => {
             className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
-            
+
           ></input>
-          {errors.email && <p className="text-red-500">{errors.email}</p>}
+          {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
         </div>
         <div className="password">
           <input
@@ -115,7 +107,7 @@ const RegisterForm = () => {
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           ></input>
-          {errors.password && <p className="text-red-500">{errors.password}</p>}
+          {formErrors.password && <p className="text-red-500">{formErrors.password}</p>}
         </div>
         <div className="confirmPassword">
           <input
@@ -125,7 +117,7 @@ const RegisterForm = () => {
             value={formData.confirmPassword}
             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
           ></input>
-          {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
+          {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
         <div className="name">
           <input
@@ -135,7 +127,7 @@ const RegisterForm = () => {
             value={formData.name}
             onChange={(e) => updateForm({ name: e.target.value })}
           ></input>
-      {errors.name && <p className="text-red-500">{errors.name}</p>}
+          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
         </div>
         <div className="lastName">
           <input
@@ -145,13 +137,14 @@ const RegisterForm = () => {
             value={formData.last_name}
             onChange={(e) => updateForm({ last_name: e.target.value })}
           ></input>
-           {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
+          {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>
         <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]" type="submit">
-        Registrar
-      </button>
+          Registrar
+        </button>
       </form>
-      {isSubmitted  && (
+      {isLoading && (<Spinner />)}
+      {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
@@ -166,11 +159,9 @@ const RegisterForm = () => {
         </div>
       )}
 
-  {/* {errors && <p className="text-red-500">{errors}</p>} */}
-  {isLoading && <p>Cargando...</p>}
+      {formErrors && <p className="text-red-500">{apiError}</p>}
     </>
   );
 };
 
 export default RegisterForm;
-

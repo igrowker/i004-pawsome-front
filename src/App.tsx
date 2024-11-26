@@ -30,13 +30,13 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/signin" element={< RegisterPage/>} />
+          <Route path="/signin" element={< RegisterPage />} />
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adoptform" element={<AdoptForm />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
-          <Route path="userRegister" element={<RegisterForm></RegisterForm>}></Route>
+          <Route path="/userRegister" element={<RegisterForm></RegisterForm>}></Route>
           <Route path="/shelterRegister" element={<RegisterRefugeeForm></RegisterRefugeeForm>}></Route>
 
           {/* Ruta del usuario refugio y sus subrutas */}
@@ -49,8 +49,8 @@ function App() {
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/adopt" element={<Adopt />} />
-          
-          
+
+
         </Routes>
         <Footer />
       </div>

@@ -5,9 +5,15 @@ import {
   LOGOUT,
 } from "../actions/authActions";
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export interface AuthState {
   loading: boolean;
-  user: { name: string; email: string } | null;
+  user: User | null;
   error: string | null;
   isAuthenticated: boolean;
 }
