@@ -12,7 +12,7 @@ interface RefugeeRegisterData {
     description: string;
     registerUser: string; 
     img?: string; 
-    pets: string[];
+    pets?: string[];
 }
 
 interface RefugeeRegisterReturn {
@@ -61,7 +61,7 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
                 refugeeName: data.refugeeName,
                 description: data.description,
                 img: data.img || undefined, 
-                pets: data.pets || undefined,
+                ...(data.pets ? { pets: data.pets } : {}),
             });
 
             if (refugeeResponse.status === 201) {
