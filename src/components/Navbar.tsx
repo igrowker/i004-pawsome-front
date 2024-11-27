@@ -2,22 +2,24 @@ import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
 import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
-import { logout } from "../redux/actions/authActions";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
 
   const handleLogout = () => {
-    dispatch(logout());
-    setIsOpen(false); // falta manejar bien el logout
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsOpen(false);
+    navigate("/home");
+    dispatch({ type: "LOGOUT" });
   };
 
   useEffect(() => {
@@ -32,19 +34,18 @@ export default function Navbar() {
   }, [isOpen]);
 
   const menuItems = [
-    { icon: FiHome, text: "Home", href: "/home" },
-    { icon: CiUser, text: "Profile", href: "/user" },
-    { icon: FiInfo, text: "About us", href: "/" },
-    ...(isAuthenticated
-      ? [{ icon: CiLogout, text: "Log out", href: "/" }]
-      : []),
+    { icon: FiHome, text: "Home", to: "/home" },
+    { icon: CiUser, text: "Profile", to: "/user" },
+    { icon: FiInfo, text: "About us", to: "/" },
   ];
 
   return (
     <>
       <nav className="sticky top-0 z-50 bg-primaryLight p-4 shadow-md">
         <div className="flex justify-between items-center">
-          <div className="text-white font-bold text-xl">Logo</div>
+          <Link to="/">
+            <div className="text-white font-bold text-xl">Logo</div>
+          </Link>
           <button
             className="text-white focus:outline-none"
             onClick={() => setIsOpen(true)}
@@ -77,7 +78,7 @@ export default function Navbar() {
 
               <div className="flex justify-between items-center px-5 mb-2">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-50 text-gray-300 px-3">
-                  <FaRegUser className="w-10 h-10 " />
+                  <FaRegUser className="w-10 h-10" />
                 </div>
                 <div className="flex flex-col ml-4">
                   {isAuthenticated && user ? (
@@ -96,6 +97,7 @@ export default function Navbar() {
                   )}
                 </div>
               </div>
+
               {!isAuthenticated && (
                 <div className="flex justify-center items-center px-4 py-2 gap-2 text-sm w-full">
                   <Link
@@ -105,7 +107,6 @@ export default function Navbar() {
                   >
                     Login
                   </Link>
-
                   <Link
                     to="/signin"
                     className="flex-1 py-2 bg-light border border-primaryDark text-primaryDark rounded-md ml-2 text-center"
@@ -124,16 +125,27 @@ export default function Navbar() {
                       className="opacity-0 animate-fadeIn"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <a
-                        href={item.href}
+                      <Link
+                        to={item.to}
                         className="flex items-center space-x-4 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
                         <item.icon className="h-6 w-6" />
                         <span className="font-medium">{item.text}</span>
-                      </a>
+                      </Link>
                     </li>
                   ))}
+                  {isAuthenticated && (
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center space-x-4 px-4 py-3 w-full text-left rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <CiLogout className="h-6 w-6" />
+                        <span className="font-medium">Log out</span>
+                      </button>
+                    </li>
+                  )}
                 </ul>
               </nav>
               <div className="p-6 border-t border-white/20">
@@ -155,4 +167,7 @@ export default function Navbar() {
       `}</style>
     </>
   );
+}
+function dispatch(_arg0: { type: string }) {
+  throw new Error("Function not implemented.");
 }

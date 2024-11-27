@@ -18,8 +18,9 @@ import ForgotPassword from './components/ForgotPassword';
 import RegisterForm from "./components/RegisterForm";
 import RegisterRefugeeForm from "./components/RegisterRefugeeForm";
 import RegisterPage from "./views/RegisterPage";
-import VolunteeringList from './views/VolunteeringList';
-import VolunteeringForm from "./components/VolunteeringForm";
+import About from "./views/About";
+import PrivacyPolicy from "./views/PrivacyPolicy";
+
 
 
 function App() {
@@ -38,11 +39,10 @@ function App() {
           <Route path="/adoptform" element={<AdoptForm />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
-          <Route path="userRegister" element={<RegisterForm></RegisterForm>} />
-          <Route path="/shelterRegister" element={<RegisterRefugeeForm/>} />
-          <Route path="volunteeringList" element={<VolunteeringList/>} />
-          <Route path="volunteeringform" element={<VolunteeringForm/>} />
-
+          <Route path="userRegister" element={<RegisterForm></RegisterForm>}></Route>
+          <Route path="/shelterRegister" element={<RegisterRefugeeForm></RegisterRefugeeForm>}></Route>
+          <Route path="about" element={<About />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />
 

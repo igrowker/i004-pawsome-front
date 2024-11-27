@@ -3,6 +3,7 @@ import { useState } from "react";
 import useRegister from "../hooks/useRegister";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
+import Input from "./ui/input";
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
@@ -88,62 +89,67 @@ const RegisterForm = () => {
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
       <form
-        className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
+        className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
         <div className="email text-">
-          <input
+          <Input
+            name="email"
             type="email"
             placeholder="Email"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
             
-          ></input>
+          />
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
           {apiError && <p className="text-red-500">{apiError}</p>}
         </div>
         <div className="password">
-          <input
+          <Input
+          name="password"
             type="password"
             placeholder="Contraseña"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
-          ></input>
+          ></Input>
           {formErrors.password && <p className="text-red-500">{formErrors.password}</p>}
         </div>
         <div className="confirmPassword">
-          <input
+          <Input
+          name="confirm_password"
             type="password"
             placeholder="Confirmar Contraseña"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.confirmPassword}
             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-          ></input>
+          ></Input>
           {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
         <div className="name">
-          <input
+          <Input 
+          name="name"
             type="text"
             placeholder="Nombre"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.name}
             onChange={(e) => updateForm({ name: e.target.value })}
-          ></input>
+          ></Input>
       {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
         </div>
         <div className="lastName">
-          <input
+          <Input
+          name="last_name"
             type="text"
             placeholder="Apellidos"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.last_name}
             onChange={(e) => updateForm({ last_name: e.target.value })}
-          ></input>
+          ></Input>
            {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>
-        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]" type="submit">
+        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto mt-4" type="submit">
         Registrar
       </button>
       </form>
@@ -169,4 +175,3 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
-
