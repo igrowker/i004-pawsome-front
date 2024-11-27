@@ -12,14 +12,13 @@ import { Spinner } from "@/components/ui/spinner";
 const AdoptForm: React.FC = () => {
 
     // const { id } = useParams<{ id: string }>();
-    const { id } = useParams();
-    console.log(id)
+    const { animal_id } = useParams()
+    // console.log(animal_id)
     // const animalIdString = id || "";
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    console.log(useParams())
-    // console.log("animalID", id)
+    // console.log(useParams().animal_id)
 
     const { formData, updateForm } = useForm({
         data: {
@@ -43,7 +42,7 @@ const AdoptForm: React.FC = () => {
         if (!formData.termsAccepted) {
             setErrorTerms({ termsAccepted: "Debes aceptar los términos y condiciones." });
 
-            if (!id) {
+            if (!animal_id) {
                 console.error("Animal ID no está disponible.");
                 return;
             }
@@ -54,7 +53,7 @@ const AdoptForm: React.FC = () => {
         try {
             await dispatch<any>(submitAdoptionRequest(
                 {
-                    animal_id: id!, //Coger del store el animal.id
+                    animal_id: animal_id!, //Coger del store el animal.id
                     adopter_id: "673f695ab50b8e95dc88e085", //coger del store el user.id
                     name: formData.fullName,
                     details: formData.phone,
@@ -68,7 +67,7 @@ const AdoptForm: React.FC = () => {
             );
             setIsSubmitted(true)
             setIsSuccess(true)
-            console.log(formData)
+            // console.log(formData)
         } catch (error) {
             console.error("Error al procesar la solicitud", error);
             setIsSuccess(false);
