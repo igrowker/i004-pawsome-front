@@ -4,17 +4,17 @@ import Legend from "@/components/ui/legend";
 
 const VolunteerForm = () => {
   return (
-    <>
-      <header className="bg-primaryLight p-10">
+    <div className="bg-[#F3F4F6]">
+      <header className="text-[#374151] p-5">
         <h2 className="text-2xl font-bold font-roboto text-center">
           Formulario de Inscripción para el voluntariado
         </h2>
       </header>
-      <form className="w-[500px] md:max-w-2xl lg:max-w-3xl m-auto mt-10 mb-10 bg-slate-100 p-6 rounded-md shadow">
+      <form className="w-[500px] md:max-w-2xl lg:max-w-3xl m-auto mt-5 mb-5 bg-[#fff] p-6 rounded-md shadow">
         <fieldset className="space-y-2 mt-10 first-of-type:mt-0">
           <Legend
             text="Datos Personales"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
           <div>
             <Input
@@ -37,38 +37,14 @@ const VolunteerForm = () => {
               name="email"
               required={true}
             />
-            <Input
-              type="number"
-              placeholder="Documento de Identidad"
-              name="dni"
-              required={true}
-            />
+
           </div>
         </fieldset>
-        <fieldset className="space-y-2 mt-10">
-          <Legend
-            text="Información de Emergencia"
-            className="text-2xl font-bold font-roboto"
-          />
-          <div>
-            <label htmlFor="emergencyContact" className="block"></label>
-            <Input
-              placeholder="Contacto de emergencia"
-              name="emergencyContact"
-              required={true}
-            />
-            <Input
-              type="tel"
-              placeholder="Teléfono de emergencia"
-              name="emergencyTel"
-              required={true}
-            />
-          </div>
-        </fieldset>
+
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Disponibilidad"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
 
           <div className="pt-2">
@@ -95,7 +71,7 @@ const VolunteerForm = () => {
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Experiencia y Habilidades"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
 
           <div>
@@ -124,7 +100,7 @@ const VolunteerForm = () => {
 
           <Legend
             text="Motivación"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
 
           <div>
@@ -147,7 +123,7 @@ const VolunteerForm = () => {
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Preferencias de Rol"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
           <Input
             placeholder="Rol o actividad específica de interés"
@@ -170,7 +146,7 @@ const VolunteerForm = () => {
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Condiciones de Salud y Requisitos Especiales"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold text-[#374151] font-roboto"
           />
           <div>
             <Input
@@ -188,7 +164,7 @@ const VolunteerForm = () => {
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Compromiso y Confirmación"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
           <div>
             <Input
@@ -216,7 +192,7 @@ const VolunteerForm = () => {
         <fieldset className="space-y-2 mt-10">
           <Legend
             text="Observaciones Adicionales"
-            className="text-2xl font-bold font-roboto"
+            className="text-2xl font-bold font-roboto text-[#374151]"
           />
           <label htmlFor="adicionalInfo" className="block">
             
@@ -228,11 +204,10 @@ const VolunteerForm = () => {
         </fieldset>
         <button
           type="submit"
-          className="bg-primaryLight w-full rounded-full
-          py-3 mt-4 hover:contrast-125 transition-all"
+          className="bg-primaryLight w-full py-3 mt-4 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all"
         >Enviar</button>
       </form>
-    </>
+    </div>
   );
 };
 
