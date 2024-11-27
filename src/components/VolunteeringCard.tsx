@@ -67,40 +67,44 @@ const VolunteeringCard: React.FC = () => {
 
   return (
     
-    <div className="mt-20 mb-20">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        {volunteering.map((item: Volunteering, index: number) => (
-          <div
-            key={index}
-            className="flex flex-col justify-between gap-4 bg-white rounded-2xl shadow-lg p-4 hover:shadow-xl transition-shadow"
-          >
-            <div className="flex gap-4">
-              <img
-                className="w-24 h-24 rounded-full object-cover"
-                src={item.imageUrl}
-                alt={`Imagen de ${item.refugee_name}`}
-              />
-              <div className="flex flex-col">
-                <span className="mb-[10px]">
-                    {item.refugee_name}
-                </span>
-                <p className="text-sm text-neutral-600 mb-[10px]">
-                  {item.description}
-                </p>
-                <p className="text-sm text-neutral-600 mb-[10px]">
-                  {item.requirements}
-                </p><p className="text-sm text-neutral-600">
-                  {item.availability}
-                </p>
-                <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white hover:bg-primaryLight transition-colors mt-[15px]">
-                  Ser voluntario
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div className="mt-20 mb-20 flex flex-col items-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    {volunteering.map((item: Volunteering, index: number) => (
+      <div
+        key={index}
+        className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow space-y-4 max-w-sm"
+      >
+        {/* Imagen circular */}
+        <img
+          className="w-28 h-28 rounded-full object-cover"
+          src={item.imageUrl}
+          alt={`Imagen de ${item.refugee_name}`}
+        />
+
+        {/* Contenido de texto */}
+        <div className="text-center space-y-2">
+          <h3 className="text-lg font-semibold text-neutral-800">
+            {item.refugee_name}
+          </h3>
+          <p className="text-sm text-neutral-600 text-justify">
+            {item.description}
+          </p>
+          <p className="text-sm text-neutral-600 text-justify">
+            {item.requirements}
+          </p>
+          <p className="text-sm text-neutral-600 text-justify">
+            {item.availability}
+          </p>
+        </div>
+
+        {/* Botón de acción */}
+        <button className="w-full bg-teal-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors">
+          Ser voluntario
+        </button>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
   );
 };
 

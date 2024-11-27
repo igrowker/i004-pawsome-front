@@ -18,7 +18,7 @@ import ForgotPassword from './components/ForgotPassword';
 import RegisterForm from "./components/RegisterForm";
 import RegisterRefugeeForm from "./components/RegisterRefugeeForm";
 import RegisterPage from "./views/RegisterPage";
-import VolunteeringList from './views/volunteeringList';
+import VolunteeringList from './views/VolunteeringList';
 
 
 function App() {
