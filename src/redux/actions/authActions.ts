@@ -35,9 +35,31 @@ export const login =
     }
   };
 
-export const logout = () => (dispatch: any) => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
+  export const logout = () => async (dispatch: any) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.post(
+          `${process.env.VITE_BACKEND_URL}/auth/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } else {
+        console.warn("No se encontró un token para cerrar sesión.");
+      }
+    } catch (error) {
+      console.error("Error al cerrar sesión en el backend:", error);
+    }
+  
 
-  dispatch({ type: LOGOUT });
-};
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  
+    
+    dispatch({ type: LOGOUT });
+  };
+  
