@@ -19,7 +19,7 @@ export default function Navbar() {
     localStorage.removeItem("user");
     setIsOpen(false);
     navigate("/home");
-    dispatch ({type:"LOGOUT"})
+    dispatch({ type: "LOGOUT" });
   };
 
   useEffect(() => {
@@ -166,7 +166,6 @@ export default function Navbar() {
     </>
   );
 }
-function dispatch(_arg0: { type: string; }) {
+function dispatch(_arg0: { type: string }) {
   throw new Error("Function not implemented.");
 }
-
