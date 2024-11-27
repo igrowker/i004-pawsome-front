@@ -23,22 +23,20 @@ const Footer: React.FC = () => {
       }`}
     >
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-        {/* Logo and name */}
+        {/* Logo y nombre */}
         <div className="flex flex-col items-center md:items-start space-y-4">
-        <div className="flex items-center space-x-4">
-  <img src="/login.png" alt="Logo" className="w-16 h-16" />
-  <img
-    src={isDarkMode ? "/paw2.png" : "/paw.png"} // Cambia la imagen según el modo
-    alt="pawsome"
-    className="h-auto w-auto max-w-[200px] md:max-w-[250px] lg:max-w-[280px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-contain"
-  />
-</div>
-          <p className="text-sm text-center">
-            "Un lugar, todos los refugios"
-          </p>
+          <div className="flex items-center space-x-4">
+            <img src="/login.png" alt="Logo" className="w-16 h-16" />
+            <img
+              src={isDarkMode ? "/paw2.png" : "/paw.png"} // Cambia la imagen según el modo
+              alt="pawsome"
+              className="h-auto w-auto max-w-[200px] md:max-w-[250px] lg:max-w-[280px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-contain"
+            />
+          </div>
+          <p className="text-sm text-center">"Un lugar, todos los refugios"</p>
         </div>
 
-        {/* Social Media */}
+        {/* Redes sociales */}
         <div className="text-center">
           <p className="text-md font-bold mb-4">Síguenos en</p>
           <div
@@ -86,7 +84,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Quick Links */}
+        {/* Enlaces rápidos */}
         <div>
           <h2 className="text-lg font-bold mb-4 text-center">Enlaces rápidos</h2>
           <div
@@ -116,7 +114,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Contact Us */}
+        {/* Contáctanos */}
         <div className="mt-8 text-center space-y-4 md:col-span-3 mx-auto">
           <h2 className="text-lg font-bold">Contáctanos</h2>
           <div
@@ -141,7 +139,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Toggle Button for Dark/Light Mode */}
+      {/* Botón para cambiar entre modos */}
       <div className="mt-8 text-center">
         <button
           onClick={toggleDarkMode}
@@ -152,7 +150,7 @@ const Footer: React.FC = () => {
         </button>
       </div>
 
-      {/* Rights Reserved */}
+      {/* Derechos reservados */}
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-sm">
         © {new Date().getFullYear()} <b>Pawsome.</b> Todos los derechos reservados.
       </div>
