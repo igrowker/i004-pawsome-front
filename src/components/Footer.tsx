@@ -33,7 +33,9 @@ const Footer: React.FC = () => {
               className="h-auto w-auto max-w-[200px] md:max-w-[250px] lg:max-w-[280px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-contain"
             />
           </div>
-          <p className="text-sm text-center">"Un lugar, todos los refugios"</p>
+          <div className="w-full flex justify-center">
+            <p className="text-sm text-center">"Un lugar, todos los refugios"</p>
+          </div>
         </div>
 
         {/* Redes sociales */}
@@ -95,8 +97,8 @@ const Footer: React.FC = () => {
           <div className="grid grid-cols-2 gap-4 p-2">
             {[
               { href: "/about", label: "Sobre nosotros" },
-              { href: "/signin", label: "Registrarse" },
-              { href: "/donations", label: "Donaciones" },
+              { href: "/signin", label: "Registro" },
+              { href: "/donationlist", label: "Haz una donación" },
               { href: "/privacy", label: "Política de privacidad" },
             ].map((link) => (
               <a
