@@ -70,17 +70,7 @@ const useRegister = () : useRegisterReturn => {
             setIsLoading(false);
           }
         };
-    //     } catch (error: any) {
-    //         if (error.response) {
-    //             setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
-    //         } else if (error.request) {
-    //             setError(`Error: ${error.message}`);
-    //         }
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }
-
+  
     return { isLoading, error, isSuccess, registerUser};
 
 }

@@ -1,12 +1,135 @@
-import { useForm } from "react-form-ease";
-import { useState } from "react";
-import { Spinner } from "./ui/spinner";
-import useRefugeeRegister from "./../hooks/refugeeRegister"; // Asegúrate de importar correctamente el hook
-import { useNavigate } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { useForm } from "react-form-ease";
+// import { useState } from "react";
+// import { Spinner } from "./ui/spinner";
+// import { registerUserAndRefugee } from "../redux/actions/registerActions";// Asegúrate de importar correctamente el hook
+// import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+
+// const RegisterRefugeeForm = () => {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const [isSubmitted, setIsSubmitted] = useState(false);
+//   const {
+//     isLoading, error, user
+//   } = useSelector((state: any) => state.user); 
+//   const {
+//     formData,
+//     updateForm,
+//     validateForm,
+//     errors: formErrors = {},
+//   } = useForm({
+//     data: {
+//       email: "",
+//       password: "",
+//       confirmPassword: "",
+//       name: "",
+//       last_name: "",
+//       name_refugee: "",
+//       description: "",
+//       image: "",
+//       pets: "",
+//       registerUser: "refugio",
+//     },
+//     validations: {
+//       email: (value) => {
+//         if (!value) return "Por favor ingresa el email";
+//         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+//           return "Email no válido.";
+//       },
+//       password: (value) => {
+//         if (!value) return "Por favor ingresa una contraseña.";
+//         if (value.length < 8)
+//           return "La contraseña debe tener al menos 8 caracteres.";
+//         if (value.length > 50)
+//           return "La contraseña no puede tener más de 50 caracteres.";
+//         if (
+//           !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)
+//         ) {
+//           return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
+//         }
+//         return undefined;
+//       },
+//       confirmPassword: (value, data) => {
+//         if (!value) return "Por favor confirma tu contraseña.";
+//         if (value !== data.password) return "Las contraseñas no coinciden.";
+//       },
+//       name: (value) => {
+//         if (!value) return "Por favor ingresa un nombre";
+//       },
+//       last_name: (value) => {
+//         if (!value) return "Por favor ingresa apellidos";
+//       },
+//       name_refugee: (value) => {
+//         if (!value) return "Por favor ingresa un nombre del refugio";
+//       },
+//       description: (value) => {
+//         if (!value) return "Por favor ingresa una descripción";
+//       },
+//     },
+//   });
+
+
+
+//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+
+//     const isValid = validateForm();
+//     if (!isValid) {
+//       console.log("Errores en el formulario:", formErrors);
+//       return;
+//     }
+
+//     const userData = {
+//       email: formData.email,
+//       password: formData.password,
+//       name: formData.name,
+//       last_name: formData.last_name,
+//       role: 'refugee',
+//     };
+
+//     const refugeeData = {
+//       name_refugee: formData.name_refugee,
+//       description: formData.description,
+//       img: formData.image || undefined,
+//       pets: formData.pets ? formData.pets.split(',') : [],
+//     };
+
+//     dispatch(registerUserAndRefugee(userData, refugeeData));
+//   } catch (err) {
+//     console.error('Error al registrar:', err);
+//   }
+// };
+
+// if (isLoading) return <Spinner />;
+// if (isSubmitted && user) {
+//   return (
+//     <div className="popup">
+//       <h2>¡Registro Exitoso!</h2>
+//       <p>Tu refugio ha sido registrado correctamente.</p>
+//       <button onClick={() => navigate('/login')}>Ir al Login</button>
+//     </div>
+//   );
+// }
+
+//   const closePopup = () => {
+//     setIsSubmitted(false);
+//     navigate("/login")
+
+//   };
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-form-ease';
+import { useState } from 'react';
+import { registerUserAndRefugee } from '../redux/actions/registerActions'; // Importa la acción
+import { Spinner } from './ui/spinner';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterRefugeeForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted] = useState(false);
+
+  const { isLoading, error: apiError, user } = useSelector((state: any) => state.user);
 
   const {
     formData,
@@ -15,97 +138,85 @@ const RegisterRefugeeForm = () => {
     errors: formErrors = {},
   } = useForm({
     data: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      name: "",
-      last_name: "",
-      name_refugee: "",
-      description: "",
-      image: "",
-      pets: "",
-      registerUser: "refugio",
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      last_name: '',
+      name_refugee: '',
+      description: '',
+      image: '',
+      pets: '',
+      registerUser: 'refugio',
     },
     validations: {
       email: (value) => {
-        if (!value) return "Por favor ingresa el email";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-          return "Email no válido.";
+        if (!value) return 'Por favor ingresa el email';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Email no válido.';
       },
       password: (value) => {
-        if (!value) return "Por favor ingresa una contraseña.";
-        if (value.length < 8)
-          return "La contraseña debe tener al menos 8 caracteres.";
-        if (value.length > 50)
-          return "La contraseña no puede tener más de 50 caracteres.";
-        if (
-          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)
-        ) {
-          return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
-        }
-        return undefined;
+        if (!value) return 'Por favor ingresa una contraseña.';
+        if (value.length < 8) return 'La contraseña debe tener al menos 8 caracteres.';
       },
       confirmPassword: (value, data) => {
-        if (!value) return "Por favor confirma tu contraseña.";
-        if (value !== data.password) return "Las contraseñas no coinciden.";
+        if (!value) return 'Por favor confirma tu contraseña.';
+        if (value !== data.password) return 'Las contraseñas no coinciden.';
       },
       name: (value) => {
-        if (!value) return "Por favor ingresa un nombre";
+        if (!value) return 'Por favor ingresa un nombre';
       },
       last_name: (value) => {
-        if (!value) return "Por favor ingresa apellidos";
+        if (!value) return 'Por favor ingresa apellidos';
       },
       name_refugee: (value) => {
-        if (!value) return "Por favor ingresa un nombre del refugio";
+        if (!value) return 'Por favor ingresa un nombre del refugio';
       },
       description: (value) => {
-        if (!value) return "Por favor ingresa una descripción";
+        if (!value) return 'Por favor ingresa una descripción';
       },
     },
   });
-
-  const {
-    isLoading,
-    error: apiError,
-    isSuccess,
-    registerRefugee,
-  } = useRefugeeRegister();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const isValid = validateForm();
-    if (!isValid) {
-      console.log("Errores en el formulario:", formErrors);
-      return;
-    }
+    if (!isValid) return;
 
     try {
-      const result = await registerRefugee({
+      const userData = {
         email: formData.email,
         password: formData.password,
         name: formData.name,
         last_name: formData.last_name,
+        role: 'refugee',
+      };
+
+      const refugeeData = {
         name_refugee: formData.name_refugee,
         description: formData.description,
-        registerUser: formData.registerUser,
         img: formData.image || undefined,
-        pets: formData.pets ? formData.pets.split(",") : [],
-      });
+        pets: formData.pets ? formData.pets.split(',') : [],
+      };
 
-      if (result) {
-        setIsSubmitted(true);
-      }
+      dispatch(registerUserAndRefugee(userData, refugeeData));
     } catch (err) {
-      console.error("Error al registrar:", err);
+      console.error('Error al registrar:', err);
     }
   };
 
-  const closePopup = () => {
-    setIsSubmitted(false);
-    navigate("/login")
+  if (isLoading) return <Spinner />;
+  if (isSubmitted && user) {
+    return (
+      <div className="popup">
+        <h2>¡Registro Exitoso!</h2>
+        <p>Tu refugio ha sido registrado correctamente.</p>
+        <button onClick={() => navigate('/login')}>Ir al Login</button>
+      </div>
+    );
+  }
 
-  };
+  
 
   return (
     <>
@@ -245,7 +356,7 @@ const RegisterRefugeeForm = () => {
         > Registrar
         </button>
       </form>
-      {isLoading && (<Spinner/>)}
+      {/* {isLoading && (<Spinner/>)}
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -261,7 +372,7 @@ const RegisterRefugeeForm = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       {formErrors && <p className="text-red-500">{apiError}</p>}
     </>
   );
