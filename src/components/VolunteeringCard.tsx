@@ -1,19 +1,10 @@
 import {  Key,  useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+import {   NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getVolunteering } from "../redux/actions/volunteeringActions";
 // import { getVolunteeringData } from "../redux/services/volunteeringService";
 import { RootState } from "../redux/rootReducer";
 import { useDispatch } from "react-redux";
-// interface Volunteering {
-//   id: number;
-//   refugee_name: string,
-//   imageUrl: string,
-//   description: string,
-//   requirements: string,
-//   availability: string
-// }
-
 
 const VolunteeringCard: React.FC = () => {
     const dispatch = useDispatch();
@@ -73,14 +64,11 @@ const VolunteeringCard: React.FC = () => {
         key={item.index}
         className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow space-y-4 max-w-sm"
       >
-        {/* Imagen circular */}
         <img
           className="w-28 h-28 rounded-full object-cover"
           src={item.imageUrl}
           alt={`Imagen de ${item.refugee_name}`}
         />
-
-        {/* Contenido de texto */}
         <div className="text-center space-y-2">
           <h3 className="text-lg font-semibold text-neutral-800">
             {item.refugee_name}
@@ -95,13 +83,14 @@ const VolunteeringCard: React.FC = () => {
             {item.availability}
           </p>
         </div>
-
-        {/* Botón de acción */}
         <button className="w-full bg-teal-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors" onClick={handleCLick}>
           Ser voluntario
         </button>
       </div>
     ))}
+  </div>
+  <div className="volunteeringExtraForm">
+    <NavLink to="/volunteerForm">No has encontrado ningún voluntariado de tu interés, dejanos tus datos y el tipo de voluntariado en el que quisieras participar</NavLink>
   </div>
 </div>
   );
