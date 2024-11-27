@@ -1,4 +1,5 @@
 import PetCard from "@/components/PetCard";
+import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
@@ -42,8 +43,9 @@ export default function RefugeProfile() {
               <h2 className="font-roboto text-2xl">Refugio Patitas</h2>
               <img src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
-            <Link to={"/volunteerform"}><h3 className="text-lg font-roboto mt-[15px] mb-[13px]">Ser Voluntario</h3></Link>
-            <h4 className="text-lg font-roboto mb-[42px]">Perfil</h4>
+            <RefugeDescription />
+            <Link to={"/volunteerform"}><span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">Ser Voluntario</span></Link>
+
             <h5 className="text-lg font-roboto">Filtros</h5>
             <div className="flex justify-around mt-2">
               {
