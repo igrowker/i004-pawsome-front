@@ -117,7 +117,7 @@ const AnimalProfile: React.FC = () => {
         <div className="flex flex-col sm:flex-row mt-8 justify-between items-center gap-4">
           {/* Botón formulario */}
           <button className="bg-teal-500 text-white py-3 px-6 rounded-lg shadow-md border-2 border-teal-500 text-lg tracking-widest cursor-pointer hover:bg-white hover:text-teal-500 hover:border-teal-500 hover:shadow-lg active:bg-[#87dbd0] transition duration-400 w-full sm:w-auto">
-            <Link to={"/adoptform"} className="flex items-center justify-center">
+            <Link to={`/adoptform/${id}`} className="flex items-center justify-center">
               <span>Rellena el formulario</span>
             </Link>
           </button>

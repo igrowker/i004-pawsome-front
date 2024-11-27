@@ -4,9 +4,23 @@ import { useNavigate } from "react-router-dom";
 import { submitAdoptionRequest } from "../redux/actions/adoptRequestActions";
 import { RootState } from "../redux/rootReducer";
 import { useForm } from "react-form-ease";
-import { Spinner } from "../components/ui/spinner";
+// import { Spinner } from "../components/ui/spinner";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Spinner } from "@/components/ui/spinner";
 
 const AdoptForm: React.FC = () => {
+
+    // const { id } = useParams<{ id: string }>();
+    const { id } = useParams();
+    console.log(id)
+    // const animalIdString = id || "";
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    console.log(useParams())
+    // console.log("animalID", id)
+
     const { formData, updateForm } = useForm({
         data: {
             fullName: "",
@@ -19,9 +33,6 @@ const AdoptForm: React.FC = () => {
         },
     });
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const { error, loading } = useSelector((state: RootState) => state.adopt);
@@ -31,6 +42,11 @@ const AdoptForm: React.FC = () => {
         e.preventDefault();
         if (!formData.termsAccepted) {
             setErrorTerms({ termsAccepted: "Debes aceptar los términos y condiciones." });
+
+            if (!id) {
+                console.error("Animal ID no está disponible.");
+                return;
+            }
             return;
         }
         setErrorTerms({});
@@ -38,7 +54,7 @@ const AdoptForm: React.FC = () => {
         try {
             await dispatch<any>(submitAdoptionRequest(
                 {
-                    animal_id: "673f85866a27d6c31587ac02", //Coger del store el animal.id
+                    animal_id: id!, //Coger del store el animal.id
                     adopter_id: "673f695ab50b8e95dc88e085", //coger del store el user.id
                     name: formData.fullName,
                     details: formData.phone,

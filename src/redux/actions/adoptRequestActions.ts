@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiUrls } from "../../config";
+import apiClient from "@/apiClient";
 
 
 // Definimos las acciones para ver en que proceso está
@@ -19,35 +20,12 @@ export const submitAdoptionRequest = (adoptionRequestData: {
     experience: boolean,
     request_date: string,
     status: string,
-}) => async (dispatch: any, getState: any) => {
+}) => async (dispatch: any) => {
     // Activamos la action
     dispatch({ type: ADOPTION_REQUEST_START });
 
     try {
-        // const token = localStorage.getItem('token');
-        // const userRole = localStorage.getItem('user.role');
-
-        // if (userRole !== 'user') {
-        //     throw new Error("No tienes permisos suficientes para realizar esta solicitud");
-        // }
-
-        const token = getState().auth.token;
-        const userRole = getState().auth.user.role;
-
-        if (!token || userRole !== "user") {
-            throw new Error("No tienes permisos para realizar esta solicitud");
-        }
-
-        console.log("token:", token)
-
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,  // Aquí añadimos el Bearer token
-            },
-        };
-
-        const response = await axios.post(apiUrls.postAdoption(), adoptionRequestData, config);
+        const response = await apiClient.post(`/adoption-request`, adoptionRequestData);
         console.log("Respuesta de la API:", response);
         // Si la solicitud es correcta, nos aparecerá la actions de success
         dispatch({
@@ -57,11 +35,23 @@ export const submitAdoptionRequest = (adoptionRequestData: {
         return Promise.resolve();
 
     } catch (error: any) {
-        // Si ocurre un error, disparamos la acción de fallo
+        let errorMessage = "Error al procesar la solicitud";
+
+        // Verificar si el error es por falta de autenticación
+        if (error.response && error.response.status === 401) {
+            errorMessage = "No estás autenticado. Por favor inicia sesión.";
+        } else if (error.response && error.response.status === 403) {
+            errorMessage = "No tienes permisos para realizar esta acción.";
+        } else if (error.response && error.response.data) {
+            errorMessage = error.response.data.message || errorMessage;
+        } else {
+            errorMessage = error.message || errorMessage;
+        }
+
         dispatch({
             type: ADOPTION_REQUEST_FAILURE,
-            payload: error.response?.data?.message || "Error al procesar la solicitud",
+            payload: errorMessage,
         });
-        return Promise.reject();
+        return Promise.reject(errorMessage);
     }
 }
