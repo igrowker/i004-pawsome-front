@@ -4,6 +4,9 @@ import useRegister from "../hooks/useRegister";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
+import { Link } from "react-router-dom";
+import { PiArrowLineLeftLight } from "react-icons/pi";
+
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); 
@@ -85,6 +88,9 @@ const RegisterForm = () => {
 
   return (
     <>
+      <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
+                    <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
+                </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>

@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import useRefugeeRegister from "./../hooks/refugeeRegister"; 
 import { useNavigate } from "react-router-dom";
+import Input from "./ui/input";
+import { Link } from "react-router-dom";
+import { PiArrowLineLeftLight } from "react-icons/pi";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();
@@ -109,18 +112,22 @@ const RegisterRefugeeForm = () => {
 
   return (
     <>
+    <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
+                    <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
+                </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
       <form
-        className="max-w-md md:max-w-2xl lg:max-w-3xl mt-10 ml-[52px] flex flex-col justify-center"
+        className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
         <div className="email text-">
-          <input
+          <Input
+          name="email"
             type="email"
             placeholder="Email"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.email}
             onChange={(e) => updateForm({ email: e.target.value })}
           />
@@ -131,10 +138,11 @@ const RegisterRefugeeForm = () => {
         </div>
 
         <div className="password">
-          <input
+          <Input
+          name="password"
             type="password"
             placeholder="Contraseña"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           />
@@ -144,10 +152,11 @@ const RegisterRefugeeForm = () => {
         </div>
 
         <div className="confirmPassword">
-          <input
+          <Input
+          name="confirm_password"
             type="password"
             placeholder="Confirmar Contraseña"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.confirmPassword}
             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
           />
@@ -157,10 +166,11 @@ const RegisterRefugeeForm = () => {
         </div>
 
         <div className="name">
-          <input
+          <Input
+          name="name"
             type="text"
             placeholder="Nombre"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.name}
             onChange={(e) => updateForm({ name: e.target.value })}
           />
@@ -168,10 +178,11 @@ const RegisterRefugeeForm = () => {
         </div>
 
         <div className="lastName">
-          <input
+          <Input
+          name="last_name"
             type="text"
             placeholder="Apellidos"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.last_name}
             onChange={(e) => updateForm({ last_name: e.target.value })}
           />
@@ -181,10 +192,11 @@ const RegisterRefugeeForm = () => {
         </div>
 
         <div className="refugeeName">
-          <input
+          <Input
+          name="refugee_name"
             type="text"
             placeholder="Nombre del Refugio"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.name_refugee}
             onChange={(e) => updateForm({ name_refugee: e.target.value })}
           />
@@ -194,9 +206,10 @@ const RegisterRefugeeForm = () => {
         </div>
 
         <div className="description">
-          <input
+          <Input
+          name="refugee_description"
             placeholder="Descripción del Refugio"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.description}
             onChange={(e) => updateForm({ description: e.target.value })}
           />
@@ -205,24 +218,24 @@ const RegisterRefugeeForm = () => {
           )}
         </div>
 
-        <div className="image mb-[25px]">
+        <div className="image mb-4">
           <label
             htmlFor="file"
-            className="border-2 rounded-3xl h-14 w-[85%] flex items-center justify-between px-4 bg-white cursor-pointer"
+            className="border-2 rounded h-12 w-full flex items-center justify-between px-4 bg-white cursor-pointer"
           >
             {formData.image ? (
-              <span className="text-black truncate">{formData.image}</span>
+              <span className="text-grey truncate">{formData.image}</span>
             ) : (
-              <span className="placeholder-black">
+              <span className="placeholder-text-base text-gray-700">
                 Imagen (opcional)
               </span>
             )}
             <span className="text-primaryLight font-semibold">Examinar</span>
           </label>
           <input
-            id="file"
             type="file"
             className="hidden"
+            placeholder=""
             onChange={(e) =>
               updateForm({
                 image: e.target.files ? e.target.files[0].name : "",
@@ -231,17 +244,18 @@ const RegisterRefugeeForm = () => {
           />
         </div>
         <div className="pets">
-          <input
+          <Input
+          name="animals_list"
             type="text"
             placeholder="Animales en el refugio (opcional)"
-            className="border-2 rounded-3xl h-14 w-[85%] mb-[25px] placeholder-black pl-2"
+            className=""
             value={formData.pets}
             onChange={(e) => updateForm({ pets: e.target.value })}
           />
         </div>
         <button
           type="submit"
-          className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px]"
+          className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"
         > Registrar
         </button>
       </form>
