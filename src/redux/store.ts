@@ -3,7 +3,7 @@ import {
   applyMiddleware,
   compose,
 } from "redux";
-import { thunk } from "redux-thunk";
+import thunk from "redux-thunk";
 import rootReducer from "./rootReducer";
 
 declare global {
@@ -13,6 +13,7 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 // Configuración del store con thunk como middleware
 const store = createStore(
   rootReducer,
