@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FaPaw, FaBirthdayCake, FaDog } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchFavorites } from "../../../../redux/actions/favoriteActions";
+import { fetchFavorites } from "@/redux/actions/favoriteActions";
 import { RootState } from "@/redux/rootReducer";
 
 
@@ -19,21 +19,23 @@ const Favorites: React.FC = () => {
     if (user && user.id) {
       dispatch(fetchFavorites(user.id));
     }
-  }, [dispatch, user]);
-
+  }, [dispatch, user]);  
+  
   const getImageForPet = (pet: any) => {
     return pet.image ? pet.image : "https://via.placeholder.com/150";
   };
 
-  const categorizedPets = favorites.reduce(
-    (acc, pet) => {
-      if (pet.species === "dog") acc.dogs.push(pet);
-      else if (pet.species === "cat") acc.cats.push(pet);
-      else acc.others.push(pet);
-      return acc;
-    },
-    { dogs: [], cats: [], others: [] } as { dogs: any[]; cats: any[]; others: any[] }
-  );
+  const categorizedPets = Array.isArray(favorites)
+  ? favorites.reduce(
+      (acc, pet) => {
+        if (pet.species === "dog") acc.dogs.push(pet);
+        else if (pet.species === "cat") acc.cats.push(pet);
+        else acc.others.push(pet);
+        return acc;
+      },
+      { dogs: [], cats: [], others: [] } as { dogs: any[]; cats: any[]; others: any[] }
+    )
+  : { dogs: [], cats: [], others: [] };
 
   return (
     <div className="max-w-7xl mx-auto bg-white p-6 sm:p-8 mt-20">
