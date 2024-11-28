@@ -12,7 +12,7 @@ RUN npm install
 FROM base AS build
 COPY --from=deps-dev /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN npm run dev
 
 FROM nginx:alpine AS prod
 COPY --from=build /app/dist /usr/share/nginx/html
