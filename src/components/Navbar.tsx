@@ -43,7 +43,9 @@ export default function Navbar() {
     <>
       <nav className="sticky top-0 z-50 bg-primaryLight p-4 shadow-md">
         <div className="flex justify-between items-center">
-          <div className="text-white font-bold text-xl">Logo</div>
+          <Link to="/">
+            <div className="text-white font-bold text-xl">Logo</div>
+          </Link>
           <button
             className="text-white focus:outline-none"
             onClick={() => setIsOpen(true)}
@@ -168,4 +170,5 @@ export default function Navbar() {
 }
 function dispatch(_arg0: { type: string }) {
   throw new Error("Function not implemented.");
+}
 }
