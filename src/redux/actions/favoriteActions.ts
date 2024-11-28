@@ -6,10 +6,10 @@ export const fetchFavorites = (userId: string) => {
   return async (dispatch: ThunkDispatch<RootState, void, any>) => {
     dispatch({ type: "FETCH_FAVORITES_REQUEST" });
     try {
-      const favorites = await fetchFavoritesService(userId);
+      const favorites = await fetchFavoritesService(userId); 
       dispatch({ type: "FETCH_FAVORITES_SUCCESS", payload: favorites });
     } catch (error: any) {
-      dispatch({ type: "FETCH_FAVORITES_ERROR", error: error.message || "Error fetching favorites" });
+      dispatch({ type: "FETCH_FAVORITES_ERROR", error: error.message });
     }
   };
 };

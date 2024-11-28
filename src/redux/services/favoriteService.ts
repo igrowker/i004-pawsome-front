@@ -6,7 +6,10 @@ export const fetchFavoritesService = async (userId: string) => {
     }
     const data = await response.json();
     return data;
-  } catch (error) {
-    throw new Error(error.message || 'Error fetching favorites');
+  } catch (error: any) {
+    if (error instanceof Error) {
+      throw new Error(error.message || 'Error fetching favorites');
+    }
+    throw new Error('Error fetching favorites');
   }
 };

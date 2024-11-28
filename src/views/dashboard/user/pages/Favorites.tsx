@@ -13,14 +13,15 @@ const Favorites: React.FC = () => {
 
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
-
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
+  console.log("API URL:", apiUrl);
+ 
   useEffect(() => {
-    if (user && user.id) {
+    if (user?.id) {
       dispatch(fetchFavorites(user.id));
     }
   }, [dispatch, user]);  
-  
+    
   const getImageForPet = (pet: any) => {
     return pet.image ? pet.image : "https://via.placeholder.com/150";
   };
