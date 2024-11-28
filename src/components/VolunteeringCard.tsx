@@ -1,5 +1,5 @@
 import {  Key,  useEffect } from "react";
-import {   NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getVolunteering } from "../redux/actions/volunteeringActions";
 // import { getVolunteeringData } from "../redux/services/volunteeringService";
@@ -10,10 +10,8 @@ const VolunteeringCard: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const volunteeringData = useSelector((state : RootState) => state.volunteering.volunteering)
-  
-
       const handleCLick = () => {
-        navigate("/volunteeringform")
+        navigate("/volunteerform")
       }
       
       const fetchVolunteeringData = async () => {
@@ -88,9 +86,6 @@ const VolunteeringCard: React.FC = () => {
         </button>
       </div>
     ))}
-  </div>
-  <div className="volunteeringExtraForm">
-    <NavLink to="/volunteerForm">No has encontrado ningún voluntariado de tu interés, dejanos tus datos y el tipo de voluntariado en el que quisieras participar</NavLink>
   </div>
 </div>
   );

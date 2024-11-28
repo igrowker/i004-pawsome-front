@@ -1,7 +1,7 @@
 import VolunteeringCard from '../components/VolunteeringCard';
 
 
-const volunteeringList = () => {
+const VolunteeringList: React.FC = () => {
 
 
 
@@ -12,4 +12,4 @@ const volunteeringList = () => {
     )
 }
 
-export default volunteeringList;
+export default VolunteeringList;

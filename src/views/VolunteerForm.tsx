@@ -1,16 +1,60 @@
 import Input from "@/components/ui/input";
 import Legend from "@/components/ui/legend";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { getVolunteering } from "../redux/actions/volunteeringActions";
+// import volunteeringList from "./VolunteeringList";
+import { RootState } from "../redux/rootReducer";
 
 
 const VolunteerForm = () => {
+const volunteeringData = useSelector((state : RootState) => state.volunteering.volunteering)
+const dispatch = useDispatch()
+  
+  useEffect( () => {
+    const mockData = [
+      {
+               id: 1,
+               refugee_name: "Refugio Esperanza",
+               imageUrl: "https://via.placeholder.com/150",
+               description:
+                "Un refugio dedicado a rescatar y cuidar animales callejeros. Necesitamos voluntarios para pasear perros y limpiar áreas comunes.",
+              requirements: "Mayor de 18 años, responsable y amante de los animales.",
+            availability: "Lunes a viernes de 9:00 AM a 12:00 PM.",
+            },
+             {
+               id: 2,
+              refugee_name: "Casa Gatuna",
+              imageUrl: "https://via.placeholder.com/150",
+           description:
+                 "Centro especializado en la protección de gatos abandonados. Ayúdanos con la socialización de los felinos y actividades de adopción.",
+               requirements: "Paciencia, amor por los gatos y experiencia previa (opcional).",
+              availability: "Fines de semana de 10:00 AM a 2:00 PM.",
+             },
+             {
+             id: 3,
+              refugee_name: "Huellitas Felices",
+             imageUrl: "https://via.placeholder.com/150",
+            description:
+               "Refugio mixto para perros y gatos. Buscamos voluntarios para eventos de recaudación de fondos y transporte de animales.",
+            requirements: "Vehículo propio (para transporte) y disponibilidad flexible.",
+              availability: "Horario flexible según eventos programados.",
+           }
+    ]
+    dispatch(getVolunteering(mockData))
+  },[])
+  
+  // const data = await getVolunteeringData();
+  const selectedRefugee = volunteeringData?.[0]?.refugee_name || "Ningún refugio seleccionado";
+
   return (
     <div className="bg-[#F3F4F6]">
       <header className="text-[#374151] p-5">
         <h2 className="text-2xl font-bold font-roboto text-center">
-          Formulario de Inscripción para el voluntariado
+          Formulario de Inscripción para {selectedRefugee}
         </h2>
       </header>
-      <form className="w-[500px] md:max-w-2xl lg:max-w-3xl m-auto mt-5 mb-5 bg-[#fff] p-6 rounded-md shadow">
+      <form className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center">
         <fieldset className="space-y-2 mt-10 first-of-type:mt-0">
           <Legend
             text="Datos Personales"
@@ -162,24 +206,8 @@ const VolunteerForm = () => {
           </div>
         </fieldset>
         <fieldset className="space-y-2 mt-10">
-          <Legend
-            text="Compromiso y Confirmación"
-            className="text-2xl font-bold font-roboto text-[#374151]"
-          />
           <div>
-            <Input
-              placeholder="Disponibilidad para cumplir con el compromiso requerido"
-              name="commitment"
-              required={true}
-            />
-            <Input
-              type="number"
-              placeholder="Firma"
-              name="sign"
-              required={true}
-            />
             <label htmlFor="permission" className="block">
-              
             </label>
             <Input
               type="number"

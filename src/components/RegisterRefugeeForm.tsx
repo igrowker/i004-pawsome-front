@@ -122,50 +122,7 @@ const RegisterRefugeeForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
-        <div className="email text-">
-          <Input
-          name="email"
-            type="email"
-            placeholder="Email"
-            className=""
-            value={formData.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
-          />
-          {formErrors.email && (
-            <p className="text-red-500">{formErrors.email}</p>
-          )}
-          {apiError && <p className="text-red-500">{apiError}</p>}
-        </div>
-
-        <div className="password">
-          <Input
-          name="password"
-            type="password"
-            placeholder="Contraseña"
-            className=""
-            value={formData.password}
-            onChange={(e) => updateForm({ password: e.target.value })}
-          />
-          {formErrors.password && (
-            <p className="text-red-500">{formErrors.password}</p>
-          )}
-        </div>
-
-        <div className="confirmPassword">
-          <Input
-          name="confirm_password"
-            type="password"
-            placeholder="Confirmar Contraseña"
-            className=""
-            value={formData.confirmPassword}
-            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-          />
-          {formErrors.confirmPassword && (
-            <p className="text-red-500">{formErrors.confirmPassword}</p>
-          )}
-        </div>
-
-        <div className="name">
+         <div className="name">
           <Input
           name="name"
             type="text"
@@ -218,6 +175,50 @@ const RegisterRefugeeForm = () => {
           )}
         </div>
 
+        <div className="email text-">
+          <Input
+          name="email"
+            type="email"
+            placeholder="Email"
+            className=""
+            value={formData.email}
+            onChange={(e) => updateForm({ email: e.target.value })}
+          />
+          {formErrors.email && (
+            <p className="text-red-500">{formErrors.email}</p>
+          )}
+          {apiError && <p className="text-red-500">{apiError}</p>}
+        </div>
+
+        <div className="password">
+          <Input
+          name="password"
+            type="password"
+            placeholder="Contraseña"
+            className=""
+            value={formData.password}
+            onChange={(e) => updateForm({ password: e.target.value })}
+          />
+          {formErrors.password && (
+            <p className="text-red-500">{formErrors.password}</p>
+          )}
+        </div>
+
+        <div className="confirmPassword">
+          <Input
+          name="confirm_password"
+            type="password"
+            placeholder="Confirmar Contraseña"
+            className=""
+            value={formData.confirmPassword}
+            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+          />
+          {formErrors.confirmPassword && (
+            <p className="text-red-500">{formErrors.confirmPassword}</p>
+          )}
+        </div>
+
+       
         <div className="image mb-4">
           <label
             htmlFor="file"
