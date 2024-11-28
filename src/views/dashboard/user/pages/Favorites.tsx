@@ -4,39 +4,41 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFavorites } from "@/redux/actions/favoriteActions";
 import { RootState } from "@/redux/rootReducer";
-
+import { ThunkDispatch } from "redux-thunk";
+import { FavoriteActionTypes } from "@/redux/actions/favoriteActions";
 
 const Favorites: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<RootState, void, FavoriteActionTypes>>();
+
   const { favorites, loading, error } = useSelector((state: RootState) => state.favorites);
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
-  console.log("API URL:", apiUrl);
- 
+  console.log(apiUrl);
+
   useEffect(() => {
     if (user?.id) {
       dispatch(fetchFavorites(user.id));
     }
   }, [dispatch, user]);  
-    
+
   const getImageForPet = (pet: any) => {
     return pet.image ? pet.image : "https://via.placeholder.com/150";
   };
 
   const categorizedPets = Array.isArray(favorites)
-  ? favorites.reduce(
-      (acc, pet) => {
-        if (pet.species === "dog") acc.dogs.push(pet);
-        else if (pet.species === "cat") acc.cats.push(pet);
-        else acc.others.push(pet);
-        return acc;
-      },
-      { dogs: [], cats: [], others: [] } as { dogs: any[]; cats: any[]; others: any[] }
-    )
-  : { dogs: [], cats: [], others: [] };
+    ? favorites.reduce(
+        (acc, pet) => {
+          if (pet.species === "dog") acc.dogs.push(pet);
+          else if (pet.species === "cat") acc.cats.push(pet);
+          else acc.others.push(pet);
+          return acc;
+        },
+        { dogs: [], cats: [], others: [] } as { dogs: any[]; cats: any[]; others: any[] }
+      )
+    : { dogs: [], cats: [], others: [] };
 
   return (
     <div className="max-w-7xl mx-auto bg-white p-6 sm:p-8 mt-20">

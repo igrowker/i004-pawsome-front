@@ -1,3 +1,10 @@
+import {
+  FETCH_FAVORITES_REQUEST,
+  FETCH_FAVORITES_SUCCESS,
+  FETCH_FAVORITES_ERROR,
+  FavoriteActionTypes,
+} from "../actions/favoriteActions";
+
 interface FavoritePet {
   id: string;
   name: string;
@@ -25,16 +32,16 @@ const initialState: FavoritesState = {
 
 const favoritesReducer = (
   state = initialState,
-  action: any
+  action: FavoriteActionTypes 
 ): FavoritesState => {
   switch (action.type) {
-    case "FETCH_FAVORITES_REQUEST":
+    case FETCH_FAVORITES_REQUEST:
       return { ...state, loading: true };
 
-    case "FETCH_FAVORITES_SUCCESS":
+    case FETCH_FAVORITES_SUCCESS:
       return { ...state, loading: false, favorites: action.payload };
 
-    case "FETCH_FAVORITES_ERROR":
+    case FETCH_FAVORITES_ERROR:
       return { ...state, loading: false, error: action.error };
 
     default:
