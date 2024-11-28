@@ -1,4 +1,4 @@
-import {  Key,  useEffect } from "react";
+import {   useEffect } from "react";
 import {  useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getVolunteering } from "../redux/actions/volunteeringActions";
@@ -57,9 +57,9 @@ const VolunteeringCard: React.FC = () => {
     
     <div className="mt-20 mb-20 flex flex-col items-center">
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-    {volunteeringData.map((item: { index: Key ; imageUrl: string ; refugee_name: string ; description: string; requirements: string ; availability: string; }) => (
+    {volunteeringData.map((item, index) => (
       <div
-        key={item.index}
+        key={index}
         className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow space-y-4 max-w-sm"
       >
         <img

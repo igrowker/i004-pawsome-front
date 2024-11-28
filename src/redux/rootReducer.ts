@@ -5,6 +5,8 @@ import userReducer from "./reducers/userReducer";
 import { favoritesReducer } from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
 
+
+
 const rootReducer = combineReducers({
   animal: animalReducer,
   auth: authReducer,
