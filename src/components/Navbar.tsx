@@ -3,23 +3,24 @@ import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
 import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
+import { logout } from "@/redux/actions/authActions";
+import { AppDispatch } from "@/redux/store";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setIsOpen(false);
     navigate("/home");
-    dispatch({ type: "LOGOUT" });
+    dispatch(logout());
   };
 
   useEffect(() => {
@@ -36,15 +37,17 @@ export default function Navbar() {
   const menuItems = [
     { icon: FiHome, text: "Home", to: "/home" },
     { icon: CiUser, text: "Profile", to: "/user" },
-    { icon: FiInfo, text: "About us", to: "/" },
+    { icon: FiInfo, text: "About us", to: "/about" },
   ];
 
   return (
     <>
       <nav className="sticky top-0 z-50 bg-primaryLight p-4 shadow-md">
         <div className="flex justify-between items-center">
-          <Link to="/">
-            <div className="text-white font-bold text-xl">Logo</div>
+          <Link to="/home">
+            <div className="text-white font-bold text-xl ">
+              <img src="/paw2.png" alt="logo" className="w-40 h-30" />
+            </div>
           </Link>
           <button
             className="text-white focus:outline-none"
@@ -167,7 +170,4 @@ export default function Navbar() {
       `}</style>
     </>
   );
-}
-function dispatch(_arg0: { type: string }) {
-  throw new Error("Function not implemented.");
 }
