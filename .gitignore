@@ -24,3 +24,7 @@ dist-ssr
 *.sln
 *.sw?
 i004-pawsome-back/
+
+
+package-lock.json
+package.json
