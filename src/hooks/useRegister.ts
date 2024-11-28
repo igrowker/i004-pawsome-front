@@ -8,8 +8,8 @@ interface RegisterData {
     email: string;
     password: string;
     name: string;
-    lastName: string;
-    registerUser: string
+    last_name: string;
+    role: string;
 }
 
 interface useRegisterReturn {
@@ -28,19 +28,20 @@ const useRegister = () : useRegisterReturn => {
         setIsLoading(true);
         setError(null);
 
-        if (data.registerUser !== 'refugio' && data.registerUser !== 'adoptante') {
+        if (data.role !== 'user') {
             setError("Valor de 'registerUser' inválido");
             setIsLoading(false);
             return;
         }
         
-        const role = data.registerUser === 'refugio' ? 'refugee' : 'user';
+        const role =  'user';
 
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, {
                 name: data.name,
-                password: data.password,
+                last_name: data.last_name,
                 email: data.email,
+                password: data.password,
                 role: role
             });
 
@@ -51,16 +52,25 @@ const useRegister = () : useRegisterReturn => {
                 throw new Error ("Hubo un problema con el registro");
             } 
         } catch (error: any) {
+            console.log(error.response.data.message === "")
             if (error.response) {
-                setError(`Error: ${error.response.data.message || "Hubo un problema al registrar"}`)
+              if (error.response.data.message === "Error al registrar el usuario") {
+                setError("El correo electrónico ya está registrado");
+              } else {
+                setError(
+                  error.response.data.message || "Hubo un problema al registrar"
+                );
+              }
             } else if (error.request) {
-                setError(`Error: ${error.message}`);
+              setError(`Error: ${error.message}`);
+            } else {
+              setError("Ocurrió un error desconocido");
             }
-        } finally {
+          } finally {
             setIsLoading(false);
-        }
-    }
-
+          }
+        };
+  
     return { isLoading, error, isSuccess, registerUser};
 
 }

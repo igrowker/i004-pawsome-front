@@ -1,4 +1,5 @@
-import { IAnimal } from "../interfaces/IAnimal";
+import { IAnimal } from "@/interfaces/IAnimal";
+
 
 export const animals: IAnimal[] = [
   {

@@ -1,24 +1,37 @@
-import RegisterForm from "../components/RegisterForm";
-import { Link } from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
 
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
 
-    return (
-
-       <>
-       <RegisterForm />
-       <div className="flex flex-col justify-items-center ml-[52px]">
-       <span className="ml-[37px] mt-[20px] text-primaryLight mb-[30px] hover:underline">
-       <Link to="/login">Ya tienes cuenta ? Inicia sesión</Link> 
-       </span>
-       </div>
-       
-       
-       </>
-)}
-
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <h1 className="text-4xl font-bold text-center mb-4">Pawsome</h1>
+      <p className="text-lg text-gray-600 text-center mb-8">Un lugar, todos los refugios</p>
+      <div className="bg-white p-8 rounded-xl shadow-lg w-[90%] max-w-md">
+        <p className="text-center text-lg font-medium mb-6">
+          ¿Qué estás buscando?
+        </p>
+        <div className="flex flex-col space-y-4">
+          <button
+            className="bg-primaryLight text-white py-3 rounded-xl font-medium text-lg"
+            onClick={() => handleNavigate('/userRegister')}
+          >
+            Quiero adoptar
+          </button>
+          <button
+            className="bg-secondaryLight text-white py-3 rounded-xl font-medium text-lg"
+            onClick={() => handleNavigate('/shelterRegister')}
+          >
+            Soy refugio
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default RegisterPage;
