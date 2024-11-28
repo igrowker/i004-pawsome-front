@@ -1,9 +1,8 @@
-import { Dispatch } from "redux";
-import { RootState } from "../rootReducer";
+import { AppDispatch } from "../store";
 import { fetchFavoritesService } from "../services/favoriteService";
 
 export const fetchFavorites = (userId: string) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: "FETCH_FAVORITES_REQUEST" });
     try {
       const favorites = await fetchFavoritesService(userId);

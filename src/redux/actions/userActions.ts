@@ -1,4 +1,5 @@
 import apiClient from "../../apiClient";
+import { AppDispatch } from "../store";
 
 export const FETCH_USER_PROFILE_START = "FETCH_USER_PROFILE_START";
 export const FETCH_USER_PROFILE_SUCCESS = "FETCH_USER_PROFILE_SUCCESS";
@@ -8,7 +9,7 @@ export const UPDATE_USER_PROFILE_START = "UPDATE_USER_PROFILE_START";
 export const UPDATE_USER_PROFILE_SUCCESS = "UPDATE_USER_PROFILE_SUCCESS";
 export const UPDATE_USER_PROFILE_FAILURE = "UPDATE_USER_PROFILE_FAILURE";
 
-export const fetchUserProfile = (userId: string) => async (dispatch: any) => {
+export const fetchUserProfile = (userId: string) => async (dispatch: AppDispatch) => {
   dispatch({ type: FETCH_USER_PROFILE_START });
 
   try {
@@ -22,7 +23,7 @@ export const fetchUserProfile = (userId: string) => async (dispatch: any) => {
   }
 };
 
-export const updateUserProfile = (userId: string, userData: any) => async (dispatch: any) => {
+export const updateUserProfile = (userId: string, userData: any) => async (dispatch: AppDispatch) => {
   dispatch({ type: UPDATE_USER_PROFILE_START });
 
   try {

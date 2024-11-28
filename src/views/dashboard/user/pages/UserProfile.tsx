@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchUserProfile, updateUserProfile } from "../../../../redux/actions/userActions";
 import { RootState } from "@/redux/rootReducer";
 import UploadPhoto from "@/components/UploadPhoto";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const UserProfile: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
   const { data: userData, loading, error } = useSelector(
     (state: RootState) => state.user
   );
