@@ -1,8 +1,5 @@
 
-import React, { useState } from 'react';
-import MessageShelterModal from './MessageShelterModal';
-import { Link } from 'react-router-dom';
-
+import React from 'react';
 
 interface Shelter {
   id: number;
@@ -16,7 +13,7 @@ interface Shelter {
 
 
 const ShelterCard: React.FC<{ shelter: Shelter }> = ({ shelter }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
+
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4">
@@ -54,22 +51,6 @@ const ShelterCard: React.FC<{ shelter: Shelter }> = ({ shelter }) => {
         alt={`Animal at ${shelter.name}`}
         className="w-full h-64 object-cover"
       />
-      <div className="p-4">
-        <button
-          className="w-full bg-teal-500 text-white py-2 rounded-lg font-medium"
-          onClick={() => setModalOpen(true)}
-        >
-          Escribir al refugio
-        </button>
-      </div>
-
-      {isModalOpen && (
-        <MessageShelterModal
-          isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
-          shelter={shelter}
-        />
-      )}
     </div>
   );
 };
