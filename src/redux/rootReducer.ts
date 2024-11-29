@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
   favorites: favoritesReducer,
   volunteering: volunteeringReducer,
   notifications: notificationReducer,
+  adopt: adoptionRequestReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

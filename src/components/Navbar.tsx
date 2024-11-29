@@ -21,6 +21,7 @@ export default function Navbar() {
     setIsOpen(false);
     navigate("/home");
     dispatch(logout());
+    // location.reload()
   };
 
   useEffect(() => {
@@ -65,9 +66,8 @@ export default function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${
-              isOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
+              }`}
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-end">
