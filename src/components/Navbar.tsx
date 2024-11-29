@@ -171,3 +171,7 @@ export default function Navbar() {
     </>
   );
 }
+function dispatch(_arg0: { type: string }) {
+  throw new Error("Function not implemented.");
+}
+

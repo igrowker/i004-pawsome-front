@@ -1,6 +1,6 @@
 import { useForm } from "react-form-ease";
-import { useState } from "react";
 import useRegister from "../hooks/useRegister";
+import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
