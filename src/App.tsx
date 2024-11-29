@@ -39,12 +39,12 @@ function App() {
           <Route path="/adoptform" element={<AdoptForm />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword apiEndpoint={""} />} />
-          <Route path="userRegister" element={<RegisterForm></RegisterForm>}></Route>
+          <Route path="/userRegister" element={<RegisterForm></RegisterForm>}></Route>
           <Route path="/shelterRegister" element={<RegisterRefugeeForm></RegisterRefugeeForm>}></Route>
           <Route path="/volunteeringlist" element={<VolunteeringList></VolunteeringList>}></Route>
 
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="about" element={<About />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />
 

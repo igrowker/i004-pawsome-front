@@ -1,6 +1,6 @@
 import { useForm } from "react-form-ease";
 import useRegister from "../hooks/useRegister";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
@@ -17,15 +17,22 @@ const RegisterForm = () => {
     errors: formErrors = {},
   } = useForm({
     data: {
+      name: "",
+      last_name: "",
       email: "",
       password: "",
       confirmPassword: "",
-      name: "",
-      last_name: "",
       registerUser: "user",
     },
 
     validations: {
+      name: (value) => {
+        if (!value) return "Por favor ingresa un nombre";
+      },
+
+      last_name: (value) => {
+        if (!value) return "Por favor ingresa apellidos";
+      },
       email: (value) => {
         if (!value) return "Por favor ingresa el email";
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
@@ -49,20 +56,13 @@ const RegisterForm = () => {
         if (!value) return "Por favor confirma tu contraseña.";
         if (value !== data.password) return "Las contraseñas no coinciden.";
       },
-
-      name: (value) => {
-        if (!value) return "Por favor ingresa un nombre";
-      },
-
-      last_name: (value) => {
-        if (!value) return "Por favor ingresa apellidos";
-      },
     },
   });
 
   const { isLoading, error: apiError, isSuccess, registerUser } = useRegister();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(formData.name)
     e.preventDefault();
 
     const isValid = validateForm();
@@ -92,6 +92,9 @@ const RegisterForm = () => {
     setIsSubmitted(false);
   };
 
+  useEffect(() => {
+    console.log("formData", formData);  // Verifica si los datos están llegando al estado
+  }, [formData]);
   return (
     <>
       <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
@@ -113,7 +116,10 @@ const RegisterForm = () => {
             placeholder="Nombre"
             className=""
             value={formData.name}
-            onChange={(e) => updateForm({ name: e.target.value })}
+            onChange={(e) => {
+              console.log('Value in name input:', e.target.value); // Verifica el valor
+              updateForm({ name: e.target.value });
+            }}
           ></Input>
           {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
         </div>
@@ -159,7 +165,7 @@ const RegisterForm = () => {
         </div>
         <div className="confirmPassword">
           <Input
-            name="confirm_password"
+            name="confirmPassword"
             type="password"
             placeholder="Confirmar Contraseña"
             className=""

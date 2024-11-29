@@ -4,6 +4,7 @@ import authReducer from "./reducers/authReducer";
 import userReducer from "./reducers/userReducer";
 import { favoritesReducer } from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
+// import formReducer from "./reducers/volunteeringFormReducer";
 
 
 
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   favorites: favoritesReducer, 
-  volunteering: volunteeringReducer
+  volunteering: volunteeringReducer,
+  // form: formReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

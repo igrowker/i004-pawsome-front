@@ -5,11 +5,11 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface RegisterData {
-    email: string;
-    password: string;
-    name: string;
-    last_name: string;
-    role: string;
+  name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
 interface useRegisterReturn {
