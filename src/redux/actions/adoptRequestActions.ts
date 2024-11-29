@@ -11,21 +11,18 @@ export const ADOPTION_REQUEST_FAILURE = "ADOPTION_REQUEST_FAILURE";
 // El action para procesar la solicitud 
 export const submitAdoptionRequest = (adoptionRequestData: {
     animal_id: string,
-    adopter_id: string,
     name: string,
     details: string,
     compatibility: string,
     location: string,
     housingSituation: string,
     experience: boolean,
-    request_date: string,
-    status: string,
 }) => async (dispatch: any) => {
     // Activamos la action
     dispatch({ type: ADOPTION_REQUEST_START });
-
+    const animal_id = adoptionRequestData.animal_id
     try {
-        const response = await apiClient.post(`/adoption-request`, adoptionRequestData);
+        const response = await apiClient.post(`/adoption-request/${animal_id}`, adoptionRequestData);
         console.log("Respuesta de la API:", response);
         // Si la solicitud es correcta, nos aparecerá la actions de success
         dispatch({

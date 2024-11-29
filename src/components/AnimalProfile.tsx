@@ -102,10 +102,10 @@ const AnimalProfile: React.FC = () => {
           </p>
           <p
             className={`font-semibold text-sm sm:text-base px-4 py-2 rounded-full shadow-md ${animal.adoption_status === "adoptado"
-                ? "bg-white text-teal-500 border-2 border-teal-500"
-                : animal.adoption_status === "disponible"
-                  ? "bg-teal-500 text-white border-none"
-                  : "bg-yellow-400 text-white border-none"
+              ? "bg-white text-teal-500 border-2 border-teal-500"
+              : animal.adoption_status === "disponible"
+                ? "bg-teal-500 text-white border-none"
+                : "bg-yellow-400 text-white border-none"
               }`}
           >
             {animal.adoption_status}

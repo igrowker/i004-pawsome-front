@@ -17,11 +17,17 @@ export default function Navbar() {
     (state: RootState) => state.auth
   );
 
-  const handleLogout = () => {
-    setIsOpen(false);
-    navigate("/home");
-    dispatch(logout());
-    // location.reload()
+  // Actualización del handleLogout para que espere la resolución de la promesa
+  const handleLogout = async () => {
+    try {
+      // Espera a que el logout se complete
+      await dispatch(logout()); 
+      setIsOpen(false);
+      navigate("/home");
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Error en logout:", error);
+    }
   };
 
   useEffect(() => {

@@ -54,15 +54,12 @@ const AdoptForm: React.FC = () => {
             await dispatch<any>(submitAdoptionRequest(
                 {
                     animal_id: animal_id!, //Coger del store el animal.id
-                    adopter_id: "673f695ab50b8e95dc88e085", //coger del store el user.id
                     name: formData.fullName,
                     details: formData.phone,
                     compatibility: formData.compatibility,
                     location: formData.location,
                     housingSituation: formData.housingSituation,
                     experience: formData.experienceWithPets,
-                    request_date: new Date().toISOString(),
-                    status: "en revisión",
                 })
             );
             setIsSubmitted(true)
