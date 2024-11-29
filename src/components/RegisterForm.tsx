@@ -1,7 +1,5 @@
 import { useForm } from "react-form-ease";
-import { useEffect, useState } from "react";
-import useRegister from "../hooks/useRegister";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
@@ -11,17 +9,10 @@ import useRegister from "@/hooks/useRegister";
 
 
 const RegisterForm = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false); 
   const navigate = useNavigate();
-  const {
-    formData,
-    updateForm,
-    validateForm,
-    errors: formErrors = {},
-  } = useForm({
+  const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
     data: {
-      name: "",
-      last_name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -64,7 +55,6 @@ const RegisterForm = () => {
   const { isLoading, error: apiError, isSuccess, registerUser } = useRegister();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(formData.name)
     e.preventDefault();
     console.log(formData)
     const isValid = validateForm();
@@ -80,7 +70,7 @@ const RegisterForm = () => {
         last_name: formData.last_name,
         email: formData.email,
         password: formData.password,
-        role: "user",
+        role: 'user'
       });
 
       if (result)
@@ -92,7 +82,7 @@ const RegisterForm = () => {
   };
 
   const closePopup = () => {
-    navigate("/login");
+    navigate("/login")
     setIsSubmitted(false);
   };
 
@@ -101,10 +91,8 @@ const RegisterForm = () => {
   return (
     <>
       <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
-        <Link to={"/signin"}>
-          <PiArrowLineLeftLight />
-        </Link>
-      </button>
+                    <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
+                </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
@@ -112,33 +100,6 @@ const RegisterForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
-        <div className="name">
-          <Input
-            name="name"
-            type="text"
-            placeholder="Nombre"
-            className=""
-            value={formData.name}
-            onChange={(e) => {
-              console.log('Value in name input:', e.target.value); // Verifica el valor
-              updateForm({ name: e.target.value });
-            }}
-          ></Input>
-          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
-        </div>
-        <div className="lastName">
-          <Input
-            name="last_name"
-            type="text"
-            placeholder="Apellidos"
-            className=""
-            value={formData.last_name}
-            onChange={(e) => updateForm({ last_name: e.target.value })}
-          ></Input>
-          {formErrors.last_name && (
-            <p className="text-red-500">{formErrors.last_name}</p>
-          )}
-        </div>
         <div className="email text-">
           <Input
             name="email"
@@ -149,53 +110,63 @@ const RegisterForm = () => {
             onChange={(e) => updateForm({email: e.target.value})
             }
           />
-          {formErrors.email && (
-            <p className="text-red-500">{formErrors.email}</p>
-          )}
+          {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
           {apiError && <p className="text-red-500">{apiError}</p>}
         </div>
         <div className="password">
           <Input
-            name="password"
+          name="password"
             type="password"
             placeholder="Contraseña"
             className=""
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           ></Input>
-          {formErrors.password && (
-            <p className="text-red-500">{formErrors.password}</p>
-          )}
+          {formErrors.password && <p className="text-red-500">{formErrors.password}</p>}
         </div>
         <div className="confirmPassword">
           <Input
-            name="confirmPassword"
+          name="confirm_password"
             type="password"
             placeholder="Confirmar Contraseña"
             className=""
             value={formData.confirmPassword}
             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
           ></Input>
-          {formErrors.confirmPassword && (
-            <p className="text-red-500">{formErrors.confirmPassword}</p>
-          )}
+          {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
-        
-        <button
-          className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto mt-4"
-          type="submit"
-        >
-          Registrar
-        </button>
+        <div className="name">
+          <Input 
+          name="name"
+            type="text"
+            placeholder="Nombre"
+            className=""
+            value={formData.name}
+            onChange={(e) => updateForm({ name: e.target.value })}
+          ></Input>
+      {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
+        </div>
+        <div className="lastName">
+          <Input
+          name="last_name"
+            type="text"
+            placeholder="Apellidos"
+            className=""
+            value={formData.last_name}
+            onChange={(e) => updateForm({ last_name: e.target.value })}
+          ></Input>
+           {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
+        </div>
+        <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto mt-4" type="submit">
+        Registrar
+      </button>
       </form>
       {isLoading && (<Spinner />)}
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
-            <p className="text-lg mb-6">
-              Tus datos han sido registrados correctamente.
-            </p>
+            <p className="text-lg mb-6">Tus datos han sido registrados correctamente.</p>
             <button
               className="bg-primaryLight text-white px-4 py-2 rounded-md"
               onClick={closePopup}
