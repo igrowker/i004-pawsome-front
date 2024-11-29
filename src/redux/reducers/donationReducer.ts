@@ -1,4 +1,4 @@
-import { SET_DONATIONS, DonationActionTypes} from '../actions/donationActions';
+import { SET_DONATIONS, DonationActionTypes} from '../actions/DonationActionTypes';
 import { DonationInterface } from '@/interfaces/DonationInterface';
 
 interface DonationState {
@@ -9,7 +9,7 @@ const initialState: DonationState = {
   donations: [],
 };
 
-const donationReducer = (state = initialState, action: DonationActionTypes): DonationState => {
+const donationReducer = (state = initialState, action: DonationActionTypes) => {
   switch (action.type) {
     case SET_DONATIONS:
       return {
