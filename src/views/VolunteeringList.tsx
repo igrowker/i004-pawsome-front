@@ -1,4 +1,4 @@
-import VolunteeringCard from '../components/VolunteeringCard';
+import VolunteeringCard from "@/components/VolunteeringCard";
 
 
 const VolunteeringList: React.FC = () => {
@@ -7,7 +7,7 @@ const VolunteeringList: React.FC = () => {
 
     return (
         <>
-       <VolunteeringCard></VolunteeringCard>
+            <VolunteeringCard />
         </>
     )
 }

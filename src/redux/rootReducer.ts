@@ -2,19 +2,19 @@ import { combineReducers } from "redux";
 import animalReducer from "./reducers/animalReducer";
 import authReducer from "./reducers/authReducer";
 import userReducer from "./reducers/userReducer";
-import { favoritesReducer } from "./reducers/favoritesReducer";
+import favoritesReducer from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
-// import formReducer from "./reducers/volunteeringFormReducer";
-
-
+import notificationReducer from "./notificationSlice";
+import adoptionRequestReducer from "./reducers/adoptRequestReducer";
 
 const rootReducer = combineReducers({
   animal: animalReducer,
   auth: authReducer,
   user: userReducer,
-  favorites: favoritesReducer, 
+  favorites: favoritesReducer,
   volunteering: volunteeringReducer,
-  // form: formReducer,
+  notifications: notificationReducer,
+  adopt: adoptionRequestReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

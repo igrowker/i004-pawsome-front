@@ -1,4 +1,5 @@
 import { useForm } from "react-form-ease";
+import { useEffect, useState } from "react";
 import useRegister from "../hooks/useRegister";
 import { useState, useEffect } from "react";
 import { Spinner } from "./ui/spinner";
@@ -6,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
+import useRegister from "@/hooks/useRegister";
+
 
 const RegisterForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -22,32 +25,22 @@ const RegisterForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      name: "",
+      last_name: "",
       registerUser: "user",
     },
 
     validations: {
-      name: (value) => {
-        if (!value) return "Por favor ingresa un nombre";
-      },
-
-      last_name: (value) => {
-        if (!value) return "Por favor ingresa apellidos";
-      },
       email: (value) => {
         if (!value) return "Por favor ingresa el email";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-          return "Email no válido.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Email no válido.";
       },
 
       password: (value) => {
         if (!value) return "Por favor ingresa una contraseña.";
-        if (value.length < 8)
-          return "La contraseña debe tener al menos 8 caracteres.";
-        if (value.length > 50)
-          return "La contraseña no puede tener más de 50 caracteres.";
-        if (
-          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)
-        ) {
+        if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
+        if (value.length > 50) return "La contraseña no puede tener más de 50 caracteres.";
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&.*]).+$/.test(value)) {
           return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
         }
         return undefined;
@@ -56,7 +49,16 @@ const RegisterForm = () => {
         if (!value) return "Por favor confirma tu contraseña.";
         if (value !== data.password) return "Las contraseñas no coinciden.";
       },
-    },
+
+      name: (value) => {
+        if (!value) return "Por favor ingresa un nombre"
+      },
+
+      last_name: (value) => {
+        if (!value) return "Por favor ingresa apellidos"
+      },
+
+    }
   });
 
   const { isLoading, error: apiError, isSuccess, registerUser } = useRegister();
@@ -64,12 +66,13 @@ const RegisterForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log(formData.name)
     e.preventDefault();
-
+    console.log(formData)
     const isValid = validateForm();
     if (!isValid) {
       console.log("Errores en el formulario:", formErrors);
       return;
     }
+
 
     try {
       const result = await registerUser({
@@ -80,8 +83,9 @@ const RegisterForm = () => {
         role: "user",
       });
 
-      if (result) setIsSubmitted(true);
-      isSuccess === true;
+      if (result)
+        setIsSubmitted(true);
+      isSuccess === true
     } catch (err) {
       console.error("Error al registrar:", err);
     }
@@ -92,9 +96,8 @@ const RegisterForm = () => {
     setIsSubmitted(false);
   };
 
-  useEffect(() => {
-    console.log("formData", formData);  // Verifica si los datos están llegando al estado
-  }, [formData]);
+
+
   return (
     <>
       <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
@@ -143,7 +146,8 @@ const RegisterForm = () => {
             placeholder="Email"
             className=""
             value={formData.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
+            onChange={(e) => updateForm({email: e.target.value})
+            }
           />
           {formErrors.email && (
             <p className="text-red-500">{formErrors.email}</p>
@@ -184,7 +188,7 @@ const RegisterForm = () => {
           Registrar
         </button>
       </form>
-      {isLoading && <Spinner />}
+      {isLoading && (<Spinner />)}
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">

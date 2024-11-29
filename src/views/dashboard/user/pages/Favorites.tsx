@@ -2,38 +2,43 @@ import React, { useEffect } from "react";
 import { FaPaw, FaBirthdayCake, FaDog } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchFavorites } from "../../../../redux/actions/favoriteActions";
+import { fetchFavorites } from "@/redux/actions/favoriteActions";
 import { RootState } from "@/redux/rootReducer";
-
+import { ThunkDispatch } from "redux-thunk";
+import { FavoriteActionTypes } from "@/redux/actions/favoriteActions";
 
 const Favorites: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<RootState, void, FavoriteActionTypes>>();
+
   const { favorites, loading, error } = useSelector((state: RootState) => state.favorites);
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
+  console.log(apiUrl);
 
   useEffect(() => {
-    if (user && user.id) {
+    if (user?.id) {
       dispatch(fetchFavorites(user.id));
     }
-  }, [dispatch, user]);
+  }, [dispatch, user]);  
 
   const getImageForPet = (pet: any) => {
     return pet.image ? pet.image : "https://via.placeholder.com/150";
   };
 
-  const categorizedPets = favorites.reduce(
-    (acc, pet) => {
-      if (pet.species === "dog") acc.dogs.push(pet);
-      else if (pet.species === "cat") acc.cats.push(pet);
-      else acc.others.push(pet);
-      return acc;
-    },
-    { dogs: [], cats: [], others: [] } as { dogs: any[]; cats: any[]; others: any[] }
-  );
+  const categorizedPets = Array.isArray(favorites)
+    ? favorites.reduce(
+        (acc, pet) => {
+          if (pet.species === "dog") acc.dogs.push(pet);
+          else if (pet.species === "cat") acc.cats.push(pet);
+          else acc.others.push(pet);
+          return acc;
+        },
+        { dogs: [], cats: [], others: [] } as { dogs: any[]; cats: any[]; others: any[] }
+      )
+    : { dogs: [], cats: [], others: [] };
 
   return (
     <div className="max-w-7xl mx-auto bg-white p-6 sm:p-8 mt-20">
@@ -41,7 +46,7 @@ const Favorites: React.FC = () => {
 
       <button
         onClick={() => setIsEditing(!isEditing)}
-        className="bg-primaryLight text-white px-4 py-2 rounded-full mb-4"
+        className="bg-primaryLight text-white px-4 py-2 rounded-md mb-4"
       >
         {isEditing ? "Cancelar Edición" : "Editar Favoritos"}
       </button>

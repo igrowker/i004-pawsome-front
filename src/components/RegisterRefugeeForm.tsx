@@ -1,22 +1,17 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
-import useRefugeeRegister from "./../hooks/refugeeRegister"; 
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
+import useRefugeeRegister from "@/hooks/refugeeRegister";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const {
-    formData,
-    updateForm,
-    validateForm,
-    errors: formErrors = {},
-  } = useForm({
+  const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
     data: {
       email: "",
       password: "",
@@ -26,7 +21,6 @@ const RegisterRefugeeForm = () => {
       name_refugee: "",
       description: "",
       image: "",
-      pets: "",
       registerUser: "refugio",
     },
     validations: {
@@ -46,7 +40,6 @@ const RegisterRefugeeForm = () => {
         ) {
           return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
         }
-        return undefined;
       },
       confirmPassword: (value, data) => {
         if (!value) return "Por favor confirma tu contraseña.";
@@ -85,15 +78,15 @@ const RegisterRefugeeForm = () => {
 
     try {
       const result = await registerRefugee({
-        email: formData.email,
-        password: formData.password,
         name: formData.name,
         last_name: formData.last_name,
+        password: formData.password,
+        email: formData.email,
+        role: "refugee",
         name_refugee: formData.name_refugee,
         description: formData.description,
-        registerUser: formData.registerUser,
         img: formData.image || undefined,
-        pets: formData.pets ? formData.pets.split(",") : [],
+        
       });
 
       if (result) {
@@ -113,8 +106,10 @@ const RegisterRefugeeForm = () => {
   return (
     <>
     <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
-                    <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
-                </button>
+      <Link to={"/signin"}>
+        <PiArrowLineLeftLight />
+      </Link>
+    </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
@@ -122,7 +117,49 @@ const RegisterRefugeeForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
-         <div className="name">
+        <div className="email text-">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            className=""
+            value={formData.email}
+            onChange={(e) => updateForm({ email: e.target.value })}
+          />
+          {formErrors.email && (
+            <p className="text-red-500">{formErrors.email}</p>
+          )}
+          {apiError && <p className="text-red-500">{apiError}</p>}
+        </div>
+
+        <div className="password">
+          <Input
+          name="password"
+            type="password"
+            placeholder="Contraseña"
+            value={formData.password}
+            onChange={(e) => updateForm({ password: e.target.value })}
+          />
+          {formErrors.password && (
+            <p className="text-red-500">{formErrors.password}</p>
+          )}
+        </div>
+
+        <div className="confirmPassword">
+          <Input
+          name="confirmPassword"
+            type="password"
+            placeholder="Confirmar Contraseña"
+            className=""
+            value={formData.confirmPassword}
+            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+          />
+          {formErrors.confirmPassword && (
+            <p className="text-red-500">{formErrors.confirmPassword}</p>
+          )}
+        </div>
+
+        <div className="name">
           <Input
           name="name"
             type="text"
@@ -150,7 +187,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="refugeeName">
           <Input
-          name="refugee_name"
+          name="name_refugee"
             type="text"
             placeholder="Nombre del Refugio"
             className=""
@@ -164,7 +201,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="description">
           <Input
-          name="refugee_description"
+          name="description"
             placeholder="Descripción del Refugio"
             className=""
             value={formData.description}
@@ -244,7 +281,7 @@ const RegisterRefugeeForm = () => {
             }
           />
         </div>
-        <div className="pets">
+        {/* <div className="pets">
           <Input
           name="animals_list"
             type="text"
@@ -253,7 +290,7 @@ const RegisterRefugeeForm = () => {
             value={formData.pets}
             onChange={(e) => updateForm({ pets: e.target.value })}
           />
-        </div>
+        </div> */}
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"
