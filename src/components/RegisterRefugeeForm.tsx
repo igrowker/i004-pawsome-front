@@ -1,11 +1,11 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
-import useRefugeeRegister from "./../hooks/refugeeRegister"; 
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
+import useRefugeeRegister from "@/hooks/refugeeRegister";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();

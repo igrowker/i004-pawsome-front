@@ -1,4 +1,4 @@
-import apiClient from "../../apiClient";
+import apiClient from "@/apiClient";
 
 export const FETCH_USER_PROFILE_START = "FETCH_USER_PROFILE_START";
 export const FETCH_USER_PROFILE_SUCCESS = "FETCH_USER_PROFILE_SUCCESS";

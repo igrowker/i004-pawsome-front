@@ -1,4 +1,4 @@
-import VolunteeringCard from '../components/VolunteeringCard';
+import VolunteeringCard from "@/components/VolunteeringCard";
 
 
 const volunteeringList = () => {
@@ -7,7 +7,7 @@ const volunteeringList = () => {
 
     return (
         <>
-       <VolunteeringCard></VolunteeringCard>
+            <VolunteeringCard />
         </>
     )
 }

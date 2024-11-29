@@ -1,11 +1,11 @@
 import { useForm } from "react-form-ease";
-import useRegister from "../hooks/useRegister";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
+import useRegister from "@/hooks/useRegister";
 
 
 const RegisterForm = () => {
