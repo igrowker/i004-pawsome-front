@@ -1,6 +1,5 @@
 import { apiUrls } from "@/config";
 import axios from "axios";
-import { apiUrls } from "../../config";
 import { Dispatch } from "redux";
 import { AuthAction, User } from "../reducers/authReducer";
 import { ThunkAction } from "redux-thunk";
