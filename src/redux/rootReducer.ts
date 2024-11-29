@@ -5,6 +5,7 @@ import userReducer from "./reducers/userReducer";
 import favoritesReducer from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
 import notificationReducer from "./notificationSlice";
+import adoptionRequestReducer from "./reducers/adoptRequestReducer";
 
 const rootReducer = combineReducers({
   animal: animalReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   favorites: favoritesReducer,
   volunteering: volunteeringReducer,
   notifications: notificationReducer,
+  adopt: adoptionRequestReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
