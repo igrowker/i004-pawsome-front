@@ -3,6 +3,7 @@ import { RootState } from "@/redux/rootReducer";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addNotification } from "@/redux/notificationSlice";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -15,12 +16,24 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
-      alert("Por favor completa todos los campos.");
+      dispatch(
+        addNotification({
+          type: "error",
+          message: "Por favor completa todos los campos.",
+        })
+      );
       return;
     }
 
     try {
       await dispatch<any>(login(email, password));
+      dispatch(
+        addNotification({
+          type: "success",
+          message: "¡Inicio de sesión exitoso!",
+        })
+      );
+
       setTimeout(() => {
         navigate("/home");
       }, 100);

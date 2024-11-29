@@ -22,7 +22,7 @@ const AdoptionCard: React.FC<AdoptionCardProps> = ({ id, name, breed, age, image
 
       {/* Imagen de perfil */}
       <img
-        src={defaultImage} // Usar imagen por defecto si no hay imageUrl
+        src={imageUrl ? imageUrl : defaultImage} // Usar imagen por defecto si no hay imageUrl
         alt={name}
         className="w-24 h-24 rounded-full object-cover mt-2"
       />
