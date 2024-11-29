@@ -30,6 +30,7 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
     const registerRefugee = async (data: RefugeeRegisterData) => {
         setIsLoading(true);
         setError(null);
+        setIsSuccess(false)
 
         if (data.registerUser !== "refugio") {
             setError("El valor de 'registerUser' debe ser 'refugio'");
