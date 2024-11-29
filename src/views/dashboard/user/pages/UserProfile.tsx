@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchUserProfile, updateUserProfile } from "../../../../redux/actions/userActions";
-import { RootState } from "@/redux/rootReducer";
+import { RootState } from "@/redux/store";
+import { useDispatch } from "@/redux/hooks";
 import UploadPhoto from "@/components/UploadPhoto";
 
 const UserProfile: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const { data: userData, loading, error } = useSelector(
     (state: RootState) => state.user
   );
@@ -21,7 +22,9 @@ const UserProfile: React.FC = () => {
     "profile"
   );
 
-  const [profilePhoto, setProfilePhoto] = useState<string>("https://via.placeholder.com/150");
+  const [profilePhoto, setProfilePhoto] = useState<string>(
+    "https://via.placeholder.com/150"
+  );
   const [donations, setDonations] = useState<any[]>([]);
   const [adoptionRequests, setAdoptionRequests] = useState<any[]>([]);
 
@@ -134,7 +137,7 @@ const UserProfile: React.FC = () => {
 
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-full mb-4"
+            className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md mb-4"
           >
             {isEditing ? "Cancelar" : "Editar perfil"}
           </button>
@@ -173,7 +176,7 @@ const UserProfile: React.FC = () => {
               </div>
               <button
                 type="submit"
-                className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md"
               >
                 Guardar cambios
               </button>
