@@ -9,6 +9,9 @@ interface InputProps {
   type?: string;
   required?: boolean;
   className?: string;
+  value?: string; 
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; 
+  
 }
 
 export default function Input({
@@ -17,6 +20,7 @@ export default function Input({
   type = "text",
   required = false,
   className = "",
+  
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);

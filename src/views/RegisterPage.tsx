@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
   const navigate = useNavigate();
 
-  // Función para navegar según la selección
   const handleNavigate = (path: string) => {
     navigate(path);
   };
