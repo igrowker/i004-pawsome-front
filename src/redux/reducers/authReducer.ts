@@ -20,12 +20,15 @@ export interface AuthState {
 
 const initialState: AuthState = {
   loading: false,
-  user: JSON.parse(localStorage.getItem("user") || "null"),
+  user: (() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  })(),
   error: null,
   isAuthenticated: !!localStorage.getItem("token"),
 };
 
-interface AuthAction {
+export interface AuthAction {
   type: string;
   payload?: any;
 }
@@ -39,6 +42,7 @@ const authReducer = (state = initialState, action: AuthAction): AuthState => {
         error: null,
       };
     case LOGIN_SUCCESS:
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return {
         ...state,
         loading: false,
@@ -54,6 +58,8 @@ const authReducer = (state = initialState, action: AuthAction): AuthState => {
         isAuthenticated: false,
       };
     case LOGOUT:
+      // localStorage.removeItem("user");
+      // localStorage.removeItem("token");
       return {
         ...state,
         user: null,

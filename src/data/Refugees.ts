@@ -10,6 +10,7 @@ export const refuges: IRefuge[] = [
     description:
       "Un refugio dedicado a cuidar gatos y perros en busca de un hogar amoroso.",
     animals: ["6739975cabab1984320cdbed", "8739475dabcd1984320cdefa"],
+    photo: "https://urldefoto.com"
   },
   {
     _id: "64e0a1b4c45302e4a7d3bc22",
@@ -20,6 +21,7 @@ export const refuges: IRefuge[] = [
     description:
       "Rescatamos animales abandonados y les ofrecemos una segunda oportunidad.",
     animals: ["73e9975cabab1984320cdbea"],
+    photo: "https://urldefoto.com"
   },
   {
     _id: "64e1b4c5c45302e4a7d3bf44",
@@ -30,5 +32,6 @@ export const refuges: IRefuge[] = [
     description:
       "Santuario dedicado al cuidado y bienestar de animales rescatados.",
     animals: ["83a9475cabbd1984320cdfab", "93b9875dabce2984320cdabc"],
+    photo: "https://urldefoto.com"
   },
 ];

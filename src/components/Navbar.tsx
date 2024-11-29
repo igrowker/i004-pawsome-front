@@ -3,23 +3,30 @@ import { FiMenu, FiX, FiHome, FiInfo } from "react-icons/fi";
 import { CiLogout, CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
+import { logout } from "@/redux/actions/authActions";
+import { AppDispatch } from "@/redux/store";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsOpen(false);
-    navigate("/home");
-    dispatch({ type: "LOGOUT" });
+  const handleLogout = async () => {
+    try {
+      // Espera a que el logout se complete y recarga la página y redirige a home
+      await dispatch(logout()); 
+      setIsOpen(false);
+      navigate("/home");
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Error en logout:", error);
+    }
   };
 
   useEffect(() => {
@@ -36,15 +43,17 @@ export default function Navbar() {
   const menuItems = [
     { icon: FiHome, text: "Home", to: "/home" },
     { icon: CiUser, text: "Profile", to: "/user" },
-    { icon: FiInfo, text: "About us", to: "/" },
+    { icon: FiInfo, text: "About us", to: "/about" },
   ];
 
   return (
     <>
       <nav className="sticky top-0 z-50 bg-primaryLight p-4 shadow-md">
         <div className="flex justify-between items-center">
-          <Link to="/">
-            <div className="text-white font-bold text-xl">Logo</div>
+          <Link to="/home">
+            <div className="text-white font-bold text-xl ">
+              <img src="/paw2.png" alt="logo" className="w-40 h-30" />
+            </div>
           </Link>
           <button
             className="text-white focus:outline-none"
@@ -62,9 +71,8 @@ export default function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${
-              isOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
+              }`}
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-end">
@@ -167,7 +175,4 @@ export default function Navbar() {
       `}</style>
     </>
   );
-}
-function dispatch(_arg0: { type: string }) {
-  throw new Error("Function not implemented.");
 }

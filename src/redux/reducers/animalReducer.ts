@@ -16,7 +16,7 @@ import {
     error: null,
   };
   
-  const animalReducer = (state = initialState, action: any): AnimalState => {
+  const animalReducer = (state: AnimalState = initialState, action: any): AnimalState => {
     switch (action.type) {
       case FETCH_ANIMAL_START:
         return { ...state, loading: true, error: null };

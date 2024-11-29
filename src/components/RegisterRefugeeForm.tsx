@@ -1,22 +1,17 @@
 import { useForm } from "react-form-ease";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
-import useRefugeeRegister from "./../hooks/refugeeRegister"; 
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
+import useRefugeeRegister from "@/hooks/refugeeRegister";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const {
-    formData,
-    updateForm,
-    validateForm,
-    errors: formErrors = {},
-  } = useForm({
+  const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
     data: {
       email: "",
       password: "",
@@ -45,7 +40,6 @@ const RegisterRefugeeForm = () => {
         ) {
           return "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (!@#$%^&.*).";
         }
-        return undefined;
       },
       confirmPassword: (value, data) => {
         if (!value) return "Por favor confirma tu contraseña.";
@@ -112,8 +106,10 @@ const RegisterRefugeeForm = () => {
   return (
     <>
     <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
-                    <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
-                </button>
+      <Link to={"/signin"}>
+        <PiArrowLineLeftLight />
+      </Link>
+    </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
@@ -123,7 +119,7 @@ const RegisterRefugeeForm = () => {
       >
         <div className="email text-">
           <Input
-          name="email"
+            name="email"
             type="email"
             placeholder="Email"
             className=""
@@ -141,7 +137,6 @@ const RegisterRefugeeForm = () => {
           name="password"
             type="password"
             placeholder="Contraseña"
-            className=""
             value={formData.password}
             onChange={(e) => updateForm({ password: e.target.value })}
           />
