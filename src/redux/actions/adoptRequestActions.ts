@@ -1,5 +1,3 @@
-import axios from "axios";
-import { apiUrls } from "../../config";
 import apiClient from "@/apiClient";
 
 
@@ -23,7 +21,7 @@ export const submitAdoptionRequest = (adoptionRequestData: {
     const animal_id = adoptionRequestData.animal_id
     try {
         const response = await apiClient.post(`/adoption-request/${animal_id}`, adoptionRequestData);
-        console.log("Respuesta de la API:", response);
+
         // Si la solicitud es correcta, nos aparecerá la actions de success
         dispatch({
             type: ADOPTION_REQUEST_SUCCESS,

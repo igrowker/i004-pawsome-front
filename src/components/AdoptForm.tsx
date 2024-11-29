@@ -4,21 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { submitAdoptionRequest } from "../redux/actions/adoptRequestActions";
 import { RootState } from "../redux/rootReducer";
 import { useForm } from "react-form-ease";
-// import { Spinner } from "../components/ui/spinner";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
+import { AppDispatch } from "@/redux/store";
 
 const AdoptForm: React.FC = () => {
 
-    // const { id } = useParams<{ id: string }>();
+    // Traemos el animal id de animal profile a través de la URL y los params
     const { animal_id } = useParams()
-    // console.log(animal_id)
-    // const animalIdString = id || "";
-
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    // console.log(useParams().animal_id)
 
     const { formData, updateForm } = useForm({
         data: {
@@ -34,26 +29,22 @@ const AdoptForm: React.FC = () => {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const { error, loading } = useSelector((state: RootState) => state.adopt);
+    const { loading } = useSelector((state: RootState) => state.adopt);
     const [errorTerms, setErrorTerms] = useState<{ termsAccepted?: string }>({});
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        // Si no acepta los terminos no puede procesarse la solicitud
         if (!formData.termsAccepted) {
             setErrorTerms({ termsAccepted: "Debes aceptar los términos y condiciones." });
-
-            if (!animal_id) {
-                console.error("Animal ID no está disponible.");
-                return;
-            }
             return;
         }
         setErrorTerms({});
-
         try {
             await dispatch<any>(submitAdoptionRequest(
                 {
-                    animal_id: animal_id!, //Coger del store el animal.id
+                    animal_id: animal_id!,
                     name: formData.fullName,
                     details: formData.phone,
                     compatibility: formData.compatibility,
@@ -64,7 +55,6 @@ const AdoptForm: React.FC = () => {
             );
             setIsSubmitted(true)
             setIsSuccess(true)
-            // console.log(formData)
         } catch (error) {
             console.error("Error al procesar la solicitud", error);
             setIsSuccess(false);
@@ -167,12 +157,14 @@ const AdoptForm: React.FC = () => {
                     </div>
                 </form>
                 {loading && (<Spinner />)}
+                {/* Si la solicitud se procesa, aparece un modal */}
                 {isSubmitted && isSuccess && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-                            <h2 className="text-2xl font-semibold mb-4">¡Hemos procesado tu solicitud de adopción!</h2>
-                            <h3 className="text-lg mb-6">Te hemos enviado un mail confirmando que hemos recibido tu solicitud</h3>
-                            <p className="text-lg mb-6">En breve nos pondremos en contacto contigo.</p>
+                            <h2 className="text-2xl font-semibold mb-4">¡Tu solicitud de adopción ha sido recibida!</h2>
+                            <h4 className="text-lg mb-6">Te hemos enviado un mail confirmando que hemos recibido tu solicitud</h4>
+                            <h3 className="text-lg mb-6">Nuestro equipo revisará la información y se pondrá en contacto contigo a la brevedad para brindarte más detalles sobre el proceso.</h3>
+                            <p className="text-lg mb-6">¡Gracias por elegir darle un hogar a un animal necesitado! 🐾❤️</p>
                             <button
                                 className="bg-primaryLight text-white px-4 py-2 rounded-md"
                                 onClick={handleCloseUp}

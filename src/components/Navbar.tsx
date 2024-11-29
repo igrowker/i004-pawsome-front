@@ -17,10 +17,9 @@ export default function Navbar() {
     (state: RootState) => state.auth
   );
 
-  // Actualización del handleLogout para que espere la resolución de la promesa
   const handleLogout = async () => {
     try {
-      // Espera a que el logout se complete
+      // Espera a que el logout se complete y recarga la página y redirige a home
       await dispatch(logout()); 
       setIsOpen(false);
       navigate("/home");

@@ -11,7 +11,6 @@ import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import NotFound from "./components/notFound";
-import Adopt from "./views/Adopt";
 import Logout from "./components/Logout";
 import ForgotPassword from "./components/ForgotPassword";
 import RegisterForm from "./components/RegisterForm";
@@ -60,7 +59,6 @@ function App() {
           {/* Ruta del dashboard y sus subrutas */}
           <Route path="/dashboard/*" element={<DashboardRoutes />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/adopt" element={<Adopt />} />
         </Routes>
         <NotificationContainer />
         <Footer />
