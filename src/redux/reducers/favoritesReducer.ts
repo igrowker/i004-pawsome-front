@@ -5,7 +5,7 @@ import {
   FavoriteActionTypes,
 } from "../actions/favoriteActions";
 
-interface FavoritePet {
+export interface FavoritePet {
   id: string;
   name: string;
   species: string;
@@ -18,7 +18,7 @@ interface FavoritePet {
   availability?: string;
 }
 
-interface FavoritesState {
+export interface FavoritesState {
   favorites: FavoritePet[];
   loading: boolean;
   error: string | null;

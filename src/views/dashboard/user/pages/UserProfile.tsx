@@ -4,7 +4,6 @@ import { fetchUserProfile, updateUserProfile } from "../../../../redux/actions/u
 import { RootState } from "@/redux/store";
 import { useDispatch } from "@/redux/hooks";
 import UploadPhoto from "@/components/UploadPhoto";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch(); 
