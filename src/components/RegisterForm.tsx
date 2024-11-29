@@ -1,5 +1,5 @@
 import { useForm } from "react-form-ease";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useRegister from "../hooks/useRegister";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +56,7 @@ const RegisterForm = () => {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log(formData)
     const isValid = validateForm();
     if (!isValid) {
       console.log("Errores en el formulario:", formErrors);
@@ -86,6 +86,8 @@ const RegisterForm = () => {
     setIsSubmitted(false);
   };
 
+
+
   return (
     <>
       <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
@@ -105,8 +107,8 @@ const RegisterForm = () => {
             placeholder="Email"
             className=""
             value={formData.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
-            
+            onChange={(e) => updateForm({email: e.target.value})
+            }
           />
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
           {apiError && <p className="text-red-500">{apiError}</p>}

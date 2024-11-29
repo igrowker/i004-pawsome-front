@@ -26,7 +26,6 @@ const RegisterRefugeeForm = () => {
       name_refugee: "",
       description: "",
       image: "",
-      pets: "",
       registerUser: "refugio",
     },
     validations: {
@@ -85,15 +84,15 @@ const RegisterRefugeeForm = () => {
 
     try {
       const result = await registerRefugee({
-        email: formData.email,
-        password: formData.password,
         name: formData.name,
         last_name: formData.last_name,
+        password: formData.password,
+        email: formData.email,
+        role: "refugee",
         name_refugee: formData.name_refugee,
         description: formData.description,
-        registerUser: formData.registerUser,
         img: formData.image || undefined,
-        pets: formData.pets ? formData.pets.split(",") : [],
+        
       });
 
       if (result) {
@@ -153,7 +152,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="confirmPassword">
           <Input
-          name="confirm_password"
+          name="confirmPassword"
             type="password"
             placeholder="Confirmar Contraseña"
             className=""
@@ -193,7 +192,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="refugeeName">
           <Input
-          name="refugee_name"
+          name="name_refugee"
             type="text"
             placeholder="Nombre del Refugio"
             className=""
@@ -207,7 +206,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="description">
           <Input
-          name="refugee_description"
+          name="description"
             placeholder="Descripción del Refugio"
             className=""
             value={formData.description}
@@ -243,7 +242,7 @@ const RegisterRefugeeForm = () => {
             }
           />
         </div>
-        <div className="pets">
+        {/* <div className="pets">
           <Input
           name="animals_list"
             type="text"
@@ -252,7 +251,7 @@ const RegisterRefugeeForm = () => {
             value={formData.pets}
             onChange={(e) => updateForm({ pets: e.target.value })}
           />
-        </div>
+        </div> */}
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"
