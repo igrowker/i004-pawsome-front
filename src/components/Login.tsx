@@ -1,15 +1,17 @@
 import { login } from "@/redux/actions/authActions";
 import { RootState } from "@/redux/rootReducer";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addNotification } from "@/redux/notificationSlice";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false)
 
   const { error, loading } = useSelector((state: RootState) => state.auth);
 
@@ -42,6 +44,16 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleSetIsVisible = () => {
+    setIsVisible(!isVisible)
+  }
+
+  const handleSetPassword = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }
+
+  const eyeStyles = "absolute top-3 right-3"
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="text-center mb-10">
@@ -60,13 +72,16 @@ const Login: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <input
-              type="password"
+              type={isVisible ? "text" : "password"}
               placeholder="Contraseña"
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-300"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleSetPassword}
             />
+            <button onClick={handleSetIsVisible}>
+              {isVisible ? <FaEye className={eyeStyles} /> : <FaEyeSlash className={eyeStyles} />}
+            </button>
           </div>
           <button
             type="submit"
