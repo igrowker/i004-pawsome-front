@@ -1,9 +1,11 @@
 import apiClient from "@/apiClient";
 
-
 export const FETCH_ANIMAL_START = "FETCH_ANIMAL_START";
 export const FETCH_ANIMAL_SUCCESS = "FETCH_ANIMAL_SUCCESS";
 export const FETCH_ANIMAL_ERROR = "FETCH_ANIMAL_ERROR";
+export const FETCH_ALL_ANIMALS_START = "FETCH_ALL_ANIMALS_START";
+export const FETCH_ALL_ANIMALS_SUCCESS = "FETCH_ALL_ANIMALS_SUCCESS";
+export const FETCH_ALL_ANIMALS_ERROR = "FETCH_ALL_ANIMALS_ERROR";
 
 export const fetchAnimalStart = () => ({
   type: FETCH_ANIMAL_START,
@@ -19,6 +21,20 @@ export const fetchAnimalError = (error: string) => ({
   payload: error,
 });
 
+export const fetchAllAnimalsStart = () => ({
+  type: FETCH_ALL_ANIMALS_START,
+});
+
+export const fetchAllAnimalsSuccess = (animals: any[]) => ({
+  type: FETCH_ALL_ANIMALS_SUCCESS,
+  payload: animals,
+});
+
+export const fetchAllAnimalsError = (error: string) => ({
+  type: FETCH_ALL_ANIMALS_ERROR,
+  payload: error,
+});
+
 // Acción asincrónica para obtener un animal
 export const fetchAnimal = (id: string) => {
   return async (dispatch: any) => {
@@ -31,6 +47,21 @@ export const fetchAnimal = (id: string) => {
       const errorMessage =
         error?.response?.data?.message || "Error al obtener el animal.";
       dispatch(fetchAnimalError(errorMessage));
+    }
+  };
+};
+
+export const fetchAllAnimals = () => {
+  return async (dispatch: any) => {
+    dispatch(fetchAllAnimalsStart());
+
+    try {
+      const response = await apiClient.get("/animals");
+      dispatch(fetchAllAnimalsSuccess(response.data));
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido.";
+      dispatch(fetchAllAnimalsError(errorMessage));
     }
   };
 };
