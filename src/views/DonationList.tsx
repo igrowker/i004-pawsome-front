@@ -1,34 +1,35 @@
 import { useEffect, useState } from "react";
-import { RootState } from "@reduxjs/toolkit/query";
+/* import { RootState } from "@reduxjs/toolkit/query"; */
 import { getDonationsData } from "./helpers/getDonations";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+/* import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux"; */
 
 interface DonationInterface {
-  id: number;
-  refugeId: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  monetaryDonation: boolean;
-  inKindDonation: boolean;
-  cuantityDonatio: number;
-  donationNumber: number;
-  deadlineDonation: Date;
+  id: number,
+  refugee_id: string,
+  title: string,
+  description: string,
+  imageUrl: string,
+  monetaryDonation: boolean,
+  targetAmountMoney: number,
+  targetItemsCount: number,
 }
 
 const DonationList: React.FC = () => {
-  const dispatch = useDispatch();
-  const donation = useSelector((state: RootState) => state.donations);
+/*   const dispatch = useDispatch();
+  const donation = useSelector<RootState>((state) => state.donations); */
   const [donations, setDonations] = useState<DonationInterface[]>([]);
+  console.log(donations)
 
   useEffect(() => {
     const data = async () => {
       try {
         const response = await getDonationsData();
-        if (response && Array.isArray(response.donations)) {
-          const shelterFilter = response.donations.filter(
-            (element: DonationInterface) => element.refugeId === 102);
+        console.log(response.donationRequests)
+        if (response && Array.isArray(response.donationRequests)) {
+          const shelterFilter = response.donationRequests.filter(
+            (element: DonationInterface) => element.refugee_id === "674afd90d93aca13ac428584");
+            console.log(shelterFilter)
           setDonations(shelterFilter);
         } else {
           console.error(
@@ -43,7 +44,7 @@ const DonationList: React.FC = () => {
     };
     data();
   }, []);
-  console.log(donations);
+  console.log(donations)
 
   return (
     <div className="mt-20 mb-20">
@@ -70,12 +71,12 @@ const DonationList: React.FC = () => {
                   item.monetaryDonation? 
                 <p className="text-sm text-neutral-600 mt-2">
                   Monto necesitado:{" "}
-                  <span className="font-bold">{item.cuantityDonatio}€</span>
+                  <span className="font-bold">{item.targetAmountMoney}€</span>
                 </p>
                 :
                 <p className="text-sm text-neutral-600 mt-2">
                 Cantidad necesitada:{" "}
-                <span className="font-bold">{item.donationNumber}</span>
+                <span className="font-bold">{item.targetItemsCount}</span>
               </p>
 
                 }
