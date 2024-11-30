@@ -20,6 +20,7 @@ import About from "./views/About";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import NotificationContainer from "./components/NotificationContainer";
 import AdoptPage from "./views/adopt";
+import VolunteeringList from './views/VolunteeringList';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
+          <Route path="/volunteeringlist" element={<VolunteeringList/>} /> 
           <Route
             path="/forgotpassword"
             element={<ForgotPassword apiEndpoint={""} />}
