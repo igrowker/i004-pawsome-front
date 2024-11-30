@@ -6,6 +6,7 @@ import favoritesReducer from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
 import notificationReducer from "./notificationSlice";
 import adoptionRequestReducer from "./reducers/adoptRequestReducer";
+import donationReducer from "./reducers/donationReducer";
 
 const rootReducer = combineReducers({
   animal: animalReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   volunteering: volunteeringReducer,
   notifications: notificationReducer,
   adopt: adoptionRequestReducer,
+  donations : donationReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
