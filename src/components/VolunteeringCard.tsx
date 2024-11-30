@@ -1,13 +1,15 @@
 import {  Key,  useEffect } from "react";
 import {   NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getVolunteering } from "../redux/actions/volunteeringActions";
-import { getVolunteeringData } from "../redux/services/volunteeringService";
+// import { getVolunteering } from "../redux/actions/volunteeringActions";
+// import { getVolunteeringData } from "../redux/services/volunteeringService";
+import { fetchVolunteeringOportunities } from "@/redux/actions/volunteeringActions";
 import { RootState } from "../redux/rootReducer";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
 
 const VolunteeringCard: React.FC = () => {
-    const dispatch = useDispatch();
+     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate()
     const volunteeringData = useSelector((state : RootState) => state.volunteering.volunteering)
   
@@ -16,7 +18,7 @@ const VolunteeringCard: React.FC = () => {
         navigate("/volunteeringform")
       }
       
-      const fetchVolunteeringData = async () => {
+      // const fetchVolunteeringData = async () => {
         // const mockData = [
         //   {
         //            id: 1,
@@ -46,13 +48,15 @@ const VolunteeringCard: React.FC = () => {
         //           availability: "Horario flexible según eventos programados.",
         //        }
         // ]
-        const data = await getVolunteeringData();
-        dispatch(getVolunteering(data))
-      }
-      useEffect( () => {
-        console.log(fetchVolunteeringData)
-        fetchVolunteeringData();
-      },[dispatch])
+      //   const data = await getVolunteeringData();
+      //   dispatch(getVolunteering(data))
+      //   console.log(data)
+      //   return data;
+      // }
+      useEffect(() => {
+        dispatch(fetchVolunteeringOportunities)
+        console.log(volunteeringData)
+      }, [dispatch]);
 
       if (!volunteeringData) return <div>Loading...</div>; 
   return (
