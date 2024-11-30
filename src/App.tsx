@@ -19,7 +19,7 @@ import RegisterPage from "./views/RegisterPage";
 import About from "./views/About";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import NotificationContainer from "./components/NotificationContainer";
-import AdoptPage from "./views/Adopt";
+import AdoptPage from "./views/adopt";
 
 function App() {
   return (
