@@ -56,6 +56,10 @@ const RegisterRefugeeForm = () => {
       },
       description: (value) => {
         if (!value) return "Por favor ingresa una descripción";
+        if(value.length < 10)
+          return "La descripción debe tener entre 10 y 200 caracteres.";
+        if (value.length > 200)
+          return "La descripción debe tener entre 10 y 200 caracteres.";
       },
     },
   });
