@@ -5,6 +5,7 @@ export const createStripeSession = async (data: {
     description: string;
     moneyAmount: number;
     refugee_id: string;
+    donation_id: string;
   }) => {
     try {
       const token = localStorage.getItem("token"); // Recuperar el token

@@ -11,7 +11,7 @@ const DonationAmount: React.FC = () => {
   const navigate = useNavigate();
 
   const handlePayment = async () => {
-    if (!refugeeId) {
+    if (!refugeeId || !donationId) {
       alert("No se encontró el ID del refugio.");
       return;
     }
@@ -22,6 +22,7 @@ const DonationAmount: React.FC = () => {
         description: "Gracias por tu generosidad.",
         moneyAmount: (customAmount || amount) * 100, // Convertir a centavos
         refugee_id: refugeeId,
+        donation_id: donationId,
       });
 
       console.log("Respuesta del backend:", response); // Debugging
