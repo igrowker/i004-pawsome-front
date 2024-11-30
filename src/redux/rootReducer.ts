@@ -5,6 +5,7 @@ import userReducer from "./reducers/userReducer";
 import favoritesReducer from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
 import notificationReducer from "./notificationSlice";
+import refugeeReducer from "./reducers/refugeeReducer";
 import adoptionRequestReducer from "./reducers/adoptRequestReducer";
 import donationReducer from "./reducers/donationReducer";
 
@@ -15,8 +16,9 @@ const rootReducer = combineReducers({
   favorites: favoritesReducer,
   volunteering: volunteeringReducer,
   notifications: notificationReducer,
+  refugee: refugeeReducer,
   adopt: adoptionRequestReducer,
-  donations : donationReducer
+  donations: donationReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
