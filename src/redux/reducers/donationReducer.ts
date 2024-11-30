@@ -1,7 +1,7 @@
 import { SET_DONATIONS, DonationActionTypes} from '../actions/DonationActionTypes';
 import { DonationInterface } from '@/interfaces/DonationInterface';
 
-interface DonationState {
+export interface DonationState {
   donations: DonationInterface[];
 }
 

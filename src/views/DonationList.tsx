@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { RootState } from "@reduxjs/toolkit/query";
 import { getDonationsData } from "./helpers/getDonations";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 interface DonationInterface {
   id: number;
@@ -15,6 +18,8 @@ interface DonationInterface {
 }
 
 const DonationList: React.FC = () => {
+  const dispatch = useDispatch();
+  const donation = useSelector((state: RootState) => state.donations);
   const [donations, setDonations] = useState<DonationInterface[]>([]);
 
   useEffect(() => {
