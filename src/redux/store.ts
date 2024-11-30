@@ -26,6 +26,7 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 // Configuración del store con thunk como middleware
 const store = createStore(
   persistedReducer,

@@ -2,10 +2,12 @@ import { combineReducers } from "redux";
 import animalReducer from "./reducers/animalReducer";
 import authReducer from "./reducers/authReducer";
 import userReducer from "./reducers/userReducer";
-import { favoritesReducer } from "./reducers/favoritesReducer";
+import favoritesReducer from "./reducers/favoritesReducer";
 import volunteeringReducer from "./reducers/volunteeringReducer";
 import notificationReducer from "./notificationSlice";
 import refugeeReducer from "./reducers/refugeeReducer";
+import adoptionRequestReducer from "./reducers/adoptRequestReducer";
+import donationReducer from "./reducers/donationReducer";
 
 const rootReducer = combineReducers({
   animal: animalReducer,
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
   volunteering: volunteeringReducer,
   notifications: notificationReducer,
   refugee: refugeeReducer,
+  adopt: adoptionRequestReducer,
+  donations: donationReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

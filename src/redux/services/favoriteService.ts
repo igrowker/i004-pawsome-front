@@ -1,9 +1,14 @@
+import apiClient from '../../apiClient';
+
 export const fetchFavoritesService = async (userId: string) => {
-    const response = await fetch(`API_URL/favorites/${userId}`);
-    if (!response.ok) {
-      throw new Error("Error al obtener los favoritos");
-    }
-    const data = await response.json();
-    return data;
-  };
-  
+  try {
+    const response = await apiClient.get(`/favorites/${userId}`);
+    return response.data; 
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      'Error fetching favorites';
+    throw new Error(errorMessage);
+  }
+};

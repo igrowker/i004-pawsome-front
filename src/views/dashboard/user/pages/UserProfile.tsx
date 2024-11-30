@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchUserProfile, updateUserProfile } from "../../../../redux/actions/userActions";
-import { RootState } from "@/redux/rootReducer";
+import { RootState } from "@/redux/store";
+import { useDispatch } from "@/redux/hooks";
 import UploadPhoto from "@/components/UploadPhoto";
+
+interface Donation {
+  charity: string;
+  date: string;
+  amount: string;
+}
+
+interface AdoptionRequest {
+  petName: string;
+  status: string;
+  date: string;
+}
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,17 +34,21 @@ const UserProfile: React.FC = () => {
     "profile"
   );
 
-  const [profilePhoto, setProfilePhoto] = useState<string>("https://via.placeholder.com/150");
-  const [donations, setDonations] = useState<any[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<any[]>([]);
+  const [profilePhoto, setProfilePhoto] = useState<string>(
+    "https://via.placeholder.com/150"
+  );
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    if (user && user.id) {
+    if (user?.id) {
       dispatch(fetchUserProfile(user.id));
+    } else {
+      console.error("El usuario no tiene un ID válido.");
     }
   }, [dispatch, user]);
 
@@ -47,9 +64,13 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/donations`);
+        const response = await fetch(`${apiUrl}/donations/donation-requests`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         const data = await response.json();
-        setDonations(data);
+        setDonations(data.donationRequests || []);
       } catch (error) {
         console.error("Error fetching donations:", error);
       }
@@ -61,9 +82,18 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/adoption-requests`);
+        const response = await fetch(`${apiUrl}/api/adoption-requests`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         const data = await response.json();
-        setAdoptionRequests(data);
+        const formattedRequests: AdoptionRequest[] = data.map((req: any) => ({
+          petName: req.petName,
+          status: req.status,
+          date: req.date,
+        }));
+        setAdoptionRequests(formattedRequests);
       } catch (error) {
         console.error("Error fetching adoption requests:", error);
       }
@@ -78,9 +108,11 @@ const UserProfile: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (user && user.id) {
+    if (user?.id) {
       dispatch(updateUserProfile(user.id, formData));
       setIsEditing(false);
+    } else {
+      console.error("El usuario no tiene un ID válido para actualizar.");
     }
   };
 
@@ -134,7 +166,7 @@ const UserProfile: React.FC = () => {
 
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-full mb-4"
+            className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md mb-4"
           >
             {isEditing ? "Cancelar" : "Editar perfil"}
           </button>
@@ -173,7 +205,7 @@ const UserProfile: React.FC = () => {
               </div>
               <button
                 type="submit"
-                className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md"
               >
                 Guardar cambios
               </button>
@@ -221,18 +253,18 @@ const UserProfile: React.FC = () => {
                   className="bg-gray-50 border border-gray-200 p-4 rounded-2xl shadow-sm"
                 >
                   <p className="text-gray-700">
-                    <strong>Pet:</strong> {request.petName}
+                    <strong className="font-medium">Mascota:</strong> {request.petName}
                   </p>
                   <p className="text-gray-500 text-sm">
-                    <strong>Status:</strong> {request.status}
+                    <strong>Estatus:</strong> {request.status}
                   </p>
                   <p className="text-gray-500 text-sm">
-                    <strong>Date:</strong> {request.date}
+                    <strong>Fecha:</strong> {request.date}
                   </p>
                 </div>
               ))
             ) : (
-              <p>No tienes solicitudes de adopción pendientes.</p>
+              <p>No tienes solicitudes de adopción aún.</p>
             )}
           </div>
         </div>

@@ -1,4 +1,5 @@
 import apiClient from "@/apiClient";
+import { AppDispatch } from "../store";
 
 export const FETCH_ANIMAL_START = "FETCH_ANIMAL_START";
 export const FETCH_ANIMAL_SUCCESS = "FETCH_ANIMAL_SUCCESS";
@@ -37,7 +38,7 @@ export const fetchAllAnimalsError = (error: string) => ({
 
 // Acción asincrónica para obtener un animal
 export const fetchAnimal = (id: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(fetchAnimalStart());
 
     try {

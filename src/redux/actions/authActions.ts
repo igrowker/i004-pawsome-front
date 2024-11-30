@@ -1,5 +1,5 @@
+import { apiUrls } from "@/config";
 import axios from "axios";
-import { apiUrls } from "../../config";
 import { Dispatch } from "redux";
 import { AuthAction, User } from "../reducers/authReducer";
 import { ThunkAction } from "redux-thunk";
@@ -20,40 +20,40 @@ export const login =
     email: string,
     password: string
   ): ThunkAction<void, RootState, undefined, AuthAction> =>
-  async (dispatch: AppDispatch) => {
-    dispatch({ type: LOGIN_REQUEST });
+    async (dispatch: AppDispatch) => {
+      dispatch({ type: LOGIN_REQUEST });
 
-    try {
-      const response = await axios.post(apiUrls.authLogin(), {
-        email,
-        password,
-      });
+      try {
+        const response = await axios.post(apiUrls.authLogin(), {
+          email,
+          password,
+        });
 
-      const user = response.data;
-      const userData = user.user;
-      const token = user.token;
+        const user = response.data;
+        const userData = user.user;
+        const token = user.token;
 
-      if (userData && token) {
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("token", token);
+        if (userData && token) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("token", token);
 
-        dispatch({ type: LOGIN_SUCCESS, payload: userData, token: token });
-      } else {
-        throw new Error("Invalid login response data");
+          dispatch({ type: LOGIN_SUCCESS, payload: userData, token: token });
+        } else {
+          throw new Error("Invalid login response data");
+        }
+        return Promise.resolve();
+      } catch (error: unknown) {
+        const errorMessage =
+          axios.isAxiosError(error) && error.response?.data?.message
+            ? error.response.data.message
+            : "Error al iniciar sesión";
+        dispatch({
+          type: LOGIN_FAILURE,
+          payload: errorMessage,
+        });
+        return Promise.reject();
       }
-      return Promise.resolve();
-    } catch (error: unknown) {
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data?.message
-          ? error.response.data.message
-          : "Error al iniciar sesión";
-      dispatch({
-        type: LOGIN_FAILURE,
-        payload: errorMessage,
-      });
-      return Promise.reject();
-    }
-  };
+    };
 
 export const logout = () => async (dispatch: Dispatch) => {
   try {
@@ -79,4 +79,5 @@ export const logout = () => async (dispatch: Dispatch) => {
   localStorage.removeItem("token");
 
   dispatch({ type: LOGOUT });
+  return Promise.resolve();
 };
