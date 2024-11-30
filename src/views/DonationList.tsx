@@ -45,6 +45,7 @@ const DonationList: React.FC = () => {
         title: donation.title,
         description: donation.description,
         refugee_id: donation.refugee_id._id,
+        refugeeName: donation.refugee_id.name,
       },
     });
   };
@@ -69,6 +70,10 @@ const DonationList: React.FC = () => {
                 </span>
                 <p className="text-sm text-neutral-600 line-clamp-3">
                   {donation.description}
+                </p>
+                <p className="text-sm text-neutral-600 mt-2">
+                  Refugio:{" "}
+                  <span className="font-bold">{donation.refugee_id.name}</span>
                 </p>
                 <p className="text-sm text-neutral-600 mt-2">
                   Monto objetivo:{" "}

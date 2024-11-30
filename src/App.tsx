@@ -22,6 +22,7 @@ import NotificationContainer from "./components/NotificationContainer";
 import AdoptPage from "./views/adopt";
 import DonationSuccess from "./components/DonationSuccess";
 import DonationAmount from "./components/DonationAmount";
+import DonationCancel from "./components/DonationCancel";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/donationlist" element={<DonationList />} />
           <Route path="/donation-amount" element={<DonationAmount />} />
           <Route path="/donation-success" element={<DonationSuccess />} />
+          <Route path="/donation-cancel" element={<DonationCancel />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
