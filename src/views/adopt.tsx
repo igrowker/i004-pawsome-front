@@ -1,3 +1,8 @@
-export default function Adopt() {
-  return <div>adopt</div>;
+import AdoptForm from "../components/AdoptForm"
+
+export default function AdoptPage() {
+    return (
+        <AdoptForm />
+    )
+
 }
