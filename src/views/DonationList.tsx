@@ -37,7 +37,7 @@ const DonationList: React.FC = () => {
     
         if (response && Array.isArray(response.donationRequests)) {
           const shelterFilter = response.donationRequests.filter(
-            (element: DonationInterface) => element.refugee_id === '674afd90d93aca13ac428584' // Corregido
+            (element: DonationInterface) => element.refugee_id === '674afd90d93aca13ac428584' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
           );
           console.log(shelterFilter)
           setDonations(shelterFilter);
