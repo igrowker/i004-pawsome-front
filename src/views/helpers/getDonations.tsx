@@ -3,30 +3,42 @@ import axios from "axios"
 
 interface DonationInterface {
     id: number,
-    refugeId: number,
+    refugee_id: string,
     title: string,
     description: string,
     imageUrl: string,
     monetaryDonation: boolean,
-    inKindDonation: boolean, 
-    cuantityDonatio: number,
-    donationNumber: number,
-    deadlineDonation: Date
+    targetAmountMoney: number,
+    targetItemsCount: number,
   }
-
+  
   interface DonationsResponse {
-    donations: DonationInterface[];
+    donationRequests: DonationInterface[];
   }
 
-  const donationsUrl = './db.json'
+  const donationsUrl = 'http://localhost:3000/donations/donation-requests'
   
   export const getDonationsData = async (): Promise<DonationsResponse> => {
+    
     try {
-      const response = await axios.get(donationsUrl);
+      const token = localStorage.getItem('token');
+  
+      // Configura los headers con el token
+      const config = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      : { headers: { 'Content-Type': 'application/json' } };
+   
+      const response = await axios.get(donationsUrl, config);
+      console.log(response)
       // Asegurarse de que siempre devuelves un objeto que contiene 'donations'
-      return { donations: response.data.donations || [] }; // Si no existe 'donations', retornamos un array vacío
+      return { donationRequests: response.data.donationRequests || [] }; // Si no existe 'donations', retornamos un array vacío
     } catch (error) {
       console.error("Error al obtener los datos de donaciones:", error);
-      return { donations: [] }; // Si ocurre un error, devolvemos un objeto con 'donations' vacío
+      return { donationRequests: [] }; // Si ocurre un error, devolvemos un objeto con 'donations' vacío
     }
   };
