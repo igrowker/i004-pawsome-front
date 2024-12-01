@@ -22,7 +22,7 @@ const DonationForm = () =>{
         description: '',
         monetaryDonation: monetary,
         cuantityDonation: 0,
-        imageUrl: 'https://example.com/imagen-donacion.png',
+        imageUrl: '',
         refugee_id: "674afd90d93aca13ac428584",
         status: 'active',
         donationNumber: 0
@@ -39,7 +39,7 @@ const DonationForm = () =>{
         setMonetary(true)
     }
     const handleInKindChange =() =>{
-        setMonetary (prevState => !prevState)
+        setMonetary (false)
     }
     
     console.log(donation)

@@ -9,6 +9,7 @@ import refugeeReducer from "./reducers/refugeeReducer";
 import adoptionRequestReducer from "./reducers/adoptRequestReducer";
 import donationReducer from "./reducers/donationReducer";
 
+
 const rootReducer = combineReducers({
   animal: animalReducer,
   auth: authReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   notifications: notificationReducer,
   refugee: refugeeReducer,
   adopt: adoptionRequestReducer,
-  donations: donationReducer,
+  donation: donationReducer
+
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
