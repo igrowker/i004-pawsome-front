@@ -1,34 +1,46 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getDonationsData } from "./helpers/getDonations";
+import { useDispatch } from "react-redux";
+import { setDonationInfo } from "@/redux/actions/DonationIndexType";
+
 
 interface DonationInterface {
-  _id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  monetaryDonation: boolean;
-  targetAmountMoney: number;
-  refugee_id: {
-    _id: string;
-    name: string;
-    email: string;
-  };
-  status: string;
+  _id: string,
+  refugee_id: string,
+  title: string,
+  description: string,
+  imageUrl: string,
+  monetaryDonation: boolean,
+  targetAmountMoney: number,
+  targetItemsCount: number,
 }
+interface actualDonationInf{
+  refugee_id : string,
+  title :string,
+}
+
 
 const DonationList: React.FC = () => {
   const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
+  const [actualDonation, SetActualDonation] = useState<actualDonationInf>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const response = await fetch("http://localhost:3000/donations/donation-requests");
-        const data = await response.json();
-
-        if (data && Array.isArray(data.donationRequests)) {
-          setDonations(data.donationRequests);
+        const response = await getDonationsData();;
+        console.log(response)
+    
+        if (response && Array.isArray(response.donationRequests)) {
+          const shelterFilter = response.donationRequests.filter(
+            (element: DonationInterface) => element.refugee_id === '674afd90d93aca13ac428584' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
+          );
+          console.log(shelterFilter)
+          setDonations(shelterFilter);
         } else {
           console.error("La estructura de la respuesta es incorrecta");
         }
@@ -36,6 +48,8 @@ const DonationList: React.FC = () => {
         console.error("Error al obtener las donaciones:", error);
       }
     };
+
+   /*  dispatch(setDonationInfo(actualDonation.refugee_id, actualDonation.title)); */
 
     fetchDonations();
   }, []);
@@ -48,15 +62,31 @@ const DonationList: React.FC = () => {
       return;
     }
 
-    navigate(`/donation-amount?refugeeId=${donation.refugee_id._id}&donationId=${donation._id}`, {
+    navigate(`/donation-amount?refugeeId=${donation.refugee_id}&donationId=${donation._id}`, {
       state: {
         title: donation.title,
         description: donation.description,
-        refugee_id: donation.refugee_id._id,
-        refugeeName: donation.refugee_id.name,
+        refugee_id: donation.refugee_id,
+/*         refugeeName: donation.refugee_id.name, */
       },
     });
   };
+
+  const form = () =>{
+    navigate('/in-kind-donation'); 
+  }
+
+  const handleInKindDonation = (elemen1:string, elemen2:string, elemen3:string) =>{
+    const donationInf = {
+      refugee_id : elemen1,
+      title : elemen2,
+      id : elemen3
+    }
+    SetActualDonation(donationInf);
+    if (actualDonation){
+      form();
+    }
+  }
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -69,6 +99,9 @@ const DonationList: React.FC = () => {
     navigate("/register");
     setShowModal(false);
   };
+  
+  console.log(donations)
+  console.log(actualDonation)
 
   return (
     <div className="mt-20 mb-20">
@@ -84,19 +117,19 @@ const DonationList: React.FC = () => {
                 src={donation.imageUrl}
                 alt={`Imagen de ${donation.title}`}
               />
-              <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between">
                 <span className="font-semibold text-lg text-neutral-800 italic">
                   {donation.title}
                 </span>
                 <p className="text-sm text-neutral-600 line-clamp-3">
                   {donation.description}
                 </p>
+                {
+                  donation.monetaryDonation? 
+                  <div>
+
                 <p className="text-sm text-neutral-600 mt-2">
-                  Refugio:{" "}
-                  <span className="font-bold">{donation.refugee_id.name}</span>
-                </p>
-                <p className="text-sm text-neutral-600 mt-2">
-                  Monto objetivo:{" "}
+                  Monto necesitado:{" "}
                   <span className="font-bold">{donation.targetAmountMoney}€</span>
                 </p>
                 <button
@@ -105,6 +138,22 @@ const DonationList: React.FC = () => {
                 >
                   Donar
                 </button>
+                  </div>
+                :
+                <div>
+                <p className="text-sm text-neutral-600 mt-2">
+                Cantidad necesitada:{" "}
+                <span className="font-bold">{donation.targetItemsCount}</span>
+              </p>                <button
+                  className="mt-4 w-full bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
+                  onClick={() => handleInKindDonation( donation.refugee_id, donation.title, donation._id)}
+                >
+                  Donar
+                </button>
+
+                </div>
+
+                }
               </div>
             </div>
           </div>

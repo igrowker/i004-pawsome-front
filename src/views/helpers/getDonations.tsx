@@ -2,7 +2,7 @@
 import axios from "axios"
 
 interface DonationInterface {
-    id: number,
+    _id: string,
     refugee_id: string,
     title: string,
     description: string,
