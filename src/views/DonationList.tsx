@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDonationsData } from "./helpers/getDonations";
-import { useDispatch } from "react-redux";
-import { setDonationInfo } from "@/redux/actions/DonationIndexType";
+// import { useDispatch } from "react-redux";
+// import { setDonationInfo } from "@/redux/actions/DonationIndexType";
 
 
 interface DonationInterface {
@@ -26,7 +26,7 @@ const DonationList: React.FC = () => {
   const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
   const [actualDonation, SetActualDonation] = useState<actualDonationInf>();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
 
   useEffect(() => {
