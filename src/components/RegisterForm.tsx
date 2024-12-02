@@ -1,19 +1,18 @@
 import { useForm } from "react-form-ease";
 import { useEffect, useState } from "react";
 import useRegister from "../hooks/useRegister";
-import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
-import useRegister from "@/hooks/useRegister";
+// import useRegister from "@/hooks/useRegister";
 
 
 const RegisterForm = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
-  const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
+  const { formData, updateForm, validateForm, errors: formErrors = {} } = useForm({
     data: {
       email: "",
       password: "",
@@ -93,8 +92,8 @@ const RegisterForm = () => {
   return (
     <>
       <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
-                    <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
-                </button>
+        <Link to={"/signin"}><PiArrowLineLeftLight /></Link>
+      </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
@@ -109,7 +108,7 @@ const RegisterForm = () => {
             placeholder="Email"
             className=""
             value={formData.email}
-            onChange={(e) => updateForm({email: e.target.value})
+            onChange={(e) => updateForm({ email: e.target.value })
             }
           />
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
@@ -117,7 +116,7 @@ const RegisterForm = () => {
         </div>
         <div className="password">
           <Input
-          name="password"
+            name="password"
             type="password"
             placeholder="Contraseña"
             className=""
@@ -128,7 +127,7 @@ const RegisterForm = () => {
         </div>
         <div className="confirmPassword">
           <Input
-          name="confirm_password"
+            name="confirm_password"
             type="password"
             placeholder="Confirmar Contraseña"
             className=""
@@ -138,30 +137,30 @@ const RegisterForm = () => {
           {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
         <div className="name">
-          <Input 
-          name="name"
+          <Input
+            name="name"
             type="text"
             placeholder="Nombre"
             className=""
             value={formData.name}
             onChange={(e) => updateForm({ name: e.target.value })}
           ></Input>
-      {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
+          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
         </div>
         <div className="lastName">
           <Input
-          name="last_name"
+            name="last_name"
             type="text"
             placeholder="Apellidos"
             className=""
             value={formData.last_name}
             onChange={(e) => updateForm({ last_name: e.target.value })}
           ></Input>
-           {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
+          {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>
         <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto mt-4" type="submit">
-        Registrar
-      </button>
+          Registrar
+        </button>
       </form>
       {isLoading && (<Spinner />)}
       {isSubmitted && isSuccess && (

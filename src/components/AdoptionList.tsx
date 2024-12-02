@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AdoptionCard from './AdoptionCard';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAvailableAnimals } from '@/redux/actions/animalActions';
+import { RootState } from '@/redux/rootReducer';
+import { AppDispatch } from '@/redux/store';
+import { IAnimal } from '@/interfaces/IAnimal';
 
 const AdoptionList: React.FC = () => {
-  const [adoptions, setAdoptions] = useState<any[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { availableAnimals, loading } = useSelector((state: RootState) => state.animal);
 
   useEffect(() => {
-    const fetchAdoptions = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/animals');
-        if (!response.ok) throw new Error('Error al obtener los animales');
-        const data = await response.json();
-        setAdoptions(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    dispatch(fetchAvailableAnimals());
+  }, [dispatch]);
 
-    fetchAdoptions();
-  }, []);
+  if (loading) {
+    return <div>Cargando animales disponibles para su adopción...</div>;
+  }
+  if (!availableAnimals || availableAnimals.length === 0) {
+    return <div>No hay animales disponibles para adopción en este momento.</div>;
+  }
+
 
   return (
     <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {adoptions.map((adoption) => (
+      {availableAnimals.map((animal: IAnimal) => (
         <AdoptionCard
-          key={adoption._id}
-          id={adoption._id} 
-          name={adoption.name}
-          breed={adoption.breed || 'Desconocido'}
-          age={`${adoption.age} años`}
-          imageUrl={adoption.photos[0]} // Usa la primera foto
-          tag={adoption.adoption_status}
+          key={animal._id}
+          id={animal._id}
+          name={animal.name}
+          breed={animal.breed || 'Desconocido'}
+          age={`${animal.age} años`}
+          imageUrl={animal.photos[0]} // Usa la primera foto
+          tag={animal.adoption_status}
         />
       ))}
     </div>
