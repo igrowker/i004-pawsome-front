@@ -5,6 +5,8 @@ import { RootState } from "@/redux/store";
 import { useDispatch } from "@/redux/hooks";
 import UploadPhoto from "@/components/UploadPhoto";
 import { DonationInterface } from "@/interfaces/DonationInterface";
+import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
+
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,10 +26,10 @@ const UserProfile: React.FC = () => {
   const [profilePhoto, setProfilePhoto] = useState<string>(
     "https://via.placeholder.com/150"
   );
-  
+
   const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
@@ -94,8 +96,10 @@ const UserProfile: React.FC = () => {
       }
     };
 
-    fetchAdoptionRequests();
-  }, [apiUrl]);
+    if (activeTab === "requests") {
+      fetchAdoptionRequests();
+    }
+  }, [apiUrl, activeTab]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -221,7 +225,7 @@ const UserProfile: React.FC = () => {
               {donations.map((donation) => (
                 <li key={donation.id} className="p-4 border border-gray-200 rounded-md">
                   <h4 className="text-lg font-semibold">{donation.item}</h4>
-                  <p className="text-gray-600">{donation.targetAmountMoney}</p>
+                  <p className="text-gray-600">Monto objetivo: {donation.targetAmountMoney}</p>
                 </li>
               ))}
             </ul>
@@ -234,15 +238,19 @@ const UserProfile: React.FC = () => {
       {activeTab === "requests" && (
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Solicitudes de Adopción</h3>
-          <ul className="space-y-4">
-            {adoptionRequests.map((request, index) => (
-              <li key={index} className="p-4 border border-gray-200 rounded-md">
-                <h4 className="text-lg font-semibold">{request.petName}</h4>
-                <p className="text-gray-600">Estado: {request.status}</p>
-                <p className="text-gray-600">Fecha: {request.date}</p>
-              </li>
-            ))}
-          </ul>
+          {adoptionRequests.length > 0 ? (
+            <ul className="space-y-4">
+              {adoptionRequests.map((request, index) => (
+                <li key={index} className="p-4 border border-gray-200 rounded-md">
+                  <h4 className="text-lg font-semibold">{request.petName}</h4>
+                  <p className="text-gray-600">Estado: {request.status}</p>
+                  <p className="text-gray-600">Fecha: {new Date(request.date).toLocaleDateString()}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No tienes solicitudes de adopción.</p>
+          )}
         </div>
       )}
     </div>
