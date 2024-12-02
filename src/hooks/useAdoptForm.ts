@@ -2,7 +2,7 @@ import { submitAdoptionRequest } from "@/redux/actions/adoptRequestActions";
 import { AppDispatch } from "@/redux/store";
 import { useState } from "react";
 import { useForm } from "react-form-ease";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const useAdoptForm = () => {
