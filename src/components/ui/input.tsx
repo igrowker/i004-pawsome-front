@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -9,9 +8,8 @@ interface InputProps {
   type?: string;
   required?: boolean;
   className?: string;
-  value?: string; 
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; 
-  
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
@@ -21,7 +19,6 @@ export default function Input({
   required = false,
   className = "",
   onChange,
-  
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
@@ -71,7 +68,7 @@ export default function Input({
       <label
         htmlFor={name}
         className={`
-          absolute left-3 top-2 text-gray-600 transition-all duration-200 ease-in-out pointer-events-none
+          absolute left-3 top-2 text-gray-400 transition-all duration-200 ease-in-out pointer-events-none
           ${
             isFocused || hasValue
               ? "transform -translate-y-5 scale-75 text-primaryDark bg-white px-1"

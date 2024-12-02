@@ -9,6 +9,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  role: "user" | "refugee" | "admin";
 }
 
 export interface AuthState {
@@ -16,6 +17,7 @@ export interface AuthState {
   user: User | null;
   error: string | null;
   isAuthenticated: boolean;
+  refugee_id?: string;
 }
 
 const initialState: AuthState = {
@@ -26,6 +28,7 @@ const initialState: AuthState = {
   })(),
   error: null,
   isAuthenticated: !!localStorage.getItem("token"),
+  refugee_id: undefined,
 };
 
 export interface AuthAction {
@@ -49,6 +52,7 @@ const authReducer = (state = initialState, action: AuthAction): AuthState => {
         user: action.payload,
         isAuthenticated: true,
         error: null,
+        refugee_id: action.payload?.refugee_id || undefined,
       };
     case LOGIN_FAILURE:
       return {
@@ -64,6 +68,7 @@ const authReducer = (state = initialState, action: AuthAction): AuthState => {
         ...state,
         user: null,
         isAuthenticated: false,
+        refugee_id: undefined,
       };
     default:
       return state;
