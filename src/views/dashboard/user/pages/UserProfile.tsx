@@ -4,18 +4,9 @@ import { fetchUserProfile, updateUserProfile } from "../../../../redux/actions/u
 import { RootState } from "@/redux/store";
 import { useDispatch } from "@/redux/hooks";
 import UploadPhoto from "@/components/UploadPhoto";
+import { DonationInterface } from "@/interfaces/DonationInterface";
+import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 
-interface Donation {
-  charity: string;
-  date: string;
-  amount: string;
-}
-
-interface AdoptionRequest {
-  petName: string;
-  status: string;
-  date: string;
-}
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,17 +21,18 @@ const UserProfile: React.FC = () => {
     password: "",
   });
 
-  const [activeTab, setActiveTab] = useState<"profile" | "donations" | "requests">(
-    "profile"
-  );
+  const [activeTab, setActiveTab] = useState<"profile" | "donations" | "requests">("profile");
 
   const [profilePhoto, setProfilePhoto] = useState<string>(
     "https://via.placeholder.com/150"
   );
-  const [donations, setDonations] = useState<Donation[]>([]);
+
+  const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [donationsLoading, setDonationsLoading] = useState(true);
+  const [donationsError, setDonationsError] = useState<string | null>(null);
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -73,11 +65,16 @@ const UserProfile: React.FC = () => {
         setDonations(data.donationRequests || []);
       } catch (error) {
         console.error("Error fetching donations:", error);
+        setDonationsError("Error al cargar las donaciones.");
+      } finally {
+        setDonationsLoading(false);
       }
     };
 
-    fetchDonations();
-  }, [apiUrl]);
+    if (activeTab === "donations") {
+      fetchDonations();
+    }
+  }, [apiUrl, activeTab]);
 
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
@@ -99,8 +96,10 @@ const UserProfile: React.FC = () => {
       }
     };
 
-    fetchAdoptionRequests();
-  }, [apiUrl]);
+    if (activeTab === "requests") {
+      fetchAdoptionRequests();
+    }
+  }, [apiUrl, activeTab]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -217,56 +216,41 @@ const UserProfile: React.FC = () => {
       {activeTab === "donations" && (
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Historial de donación</h3>
-          <div className="space-y-4">
-            {donations.length > 0 ? (
-              donations.map((donation, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-50 border border-gray-200 p-4 rounded-2xl shadow-sm"
-                >
-                  <p className="text-gray-700">
-                    <strong className="font-medium">Charity:</strong> {donation.charity}
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    <strong>Date:</strong> {donation.date}
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    <strong>Amount:</strong> {donation.amount}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p>No has realizado donaciones aún.</p>
-            )}
-          </div>
+          {donationsLoading ? (
+            <p>Cargando donaciones...</p>
+          ) : donationsError ? (
+            <p className="text-red-500">{donationsError}</p>
+          ) : donations.length > 0 ? (
+            <ul className="space-y-4">
+              {donations.map((donation) => (
+                <li key={donation.id} className="p-4 border border-gray-200 rounded-md">
+                  <h4 className="text-lg font-semibold">{donation.item}</h4>
+                  <p className="text-gray-600">Monto objetivo: {donation.targetAmountMoney}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No tienes donaciones registradas.</p>
+          )}
         </div>
       )}
 
       {activeTab === "requests" && (
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">Solicitudes de adopción</h3>
-          <div className="space-y-4">
-            {adoptionRequests.length > 0 ? (
-              adoptionRequests.map((request, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-50 border border-gray-200 p-4 rounded-2xl shadow-sm"
-                >
-                  <p className="text-gray-700">
-                    <strong className="font-medium">Mascota:</strong> {request.petName}
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    <strong>Estatus:</strong> {request.status}
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    <strong>Fecha:</strong> {request.date}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p>No tienes solicitudes de adopción aún.</p>
-            )}
-          </div>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">Solicitudes de Adopción</h3>
+          {adoptionRequests.length > 0 ? (
+            <ul className="space-y-4">
+              {adoptionRequests.map((request, index) => (
+                <li key={index} className="p-4 border border-gray-200 rounded-md">
+                  <h4 className="text-lg font-semibold">{request.petName}</h4>
+                  <p className="text-gray-600">Estado: {request.status}</p>
+                  <p className="text-gray-600">Fecha: {new Date(request.date).toLocaleDateString()}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No tienes solicitudes de adopción.</p>
+          )}
         </div>
       )}
     </div>
