@@ -5,6 +5,8 @@ import { IRefuge } from "@/interfaces/IRefugee";
 export const FETCH_REFUGEES_REQUEST = "FETCH_REFUGEES_REQUEST";
 export const FETCH_REFUGEES_SUCCESS = "FETCH_REFUGEES_SUCCESS";
 export const FETCH_REFUGEES_FAILURE = "FETCH_REFUGEES_FAILURE";
+export const SEE_REFUGEE_SUCCESS = "SEE_REFUGEE_SUCCESS";
+
 
 export interface FetchRefugeesRequestAction {
   type: typeof FETCH_REFUGEES_REQUEST;
@@ -19,6 +21,7 @@ export interface FetchRefugeesFailureAction {
   type: typeof FETCH_REFUGEES_FAILURE;
   payload: string;
 }
+
 
 export type RefugeeActions =
   | FetchRefugeesRequestAction

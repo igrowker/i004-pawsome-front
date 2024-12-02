@@ -10,6 +10,10 @@ export const UPDATE_USER_PROFILE_START = "UPDATE_USER_PROFILE_START";
 export const UPDATE_USER_PROFILE_SUCCESS = "UPDATE_USER_PROFILE_SUCCESS";
 export const UPDATE_USER_PROFILE_FAILURE = "UPDATE_USER_PROFILE_FAILURE";
 
+export const FETCH_USER_START = "FETCH_USER_START";
+export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
+export const FETCH_USER_FAILURE = "FETCH_USER_ERROR";
+
 interface FetchUseProfileStart {
   type: typeof FETCH_USER_PROFILE_START
 }
@@ -34,6 +38,18 @@ interface UpdateUserProfileFailure{
   type: typeof UPDATE_USER_PROFILE_FAILURE
 }
 
+interface FetchUserStart {
+  type: typeof FETCH_USER_START
+}
+
+interface FetchUserSuccess {
+  type: typeof FETCH_USER_SUCCESS
+}
+
+interface FetchUserError{
+  type: typeof FETCH_USER_FAILURE
+}
+
 export type UserProfileActionTypes = 
   FetchUseProfileStart 
 | FetchUserProfileSuccess
@@ -43,6 +59,11 @@ export type UpdateProfileActionTypes =
   UpdateUserProfileStart
 | UpdateUserProfileSuccess
 | UpdateUserProfileFailure
+
+export type UserActionTypes = 
+  FetchUserStart 
+| FetchUserSuccess
+| FetchUserError;
 
 export const fetchUserProfile = (userId: string) => async (dispatch: ThunkDispatch<RootState, void, UserProfileActionTypes>) => {
   dispatch({ type: FETCH_USER_PROFILE_START });
@@ -67,6 +88,20 @@ export const updateUserProfile = (userId: string, userData: any) => async (dispa
   } catch (error: any) {
     dispatch({
       type: UPDATE_USER_PROFILE_FAILURE,
+      payload: error.response?.data?.message || "Error al actualizar el perfil",
+    });
+  }
+};
+
+export const fetchUser = (userId: string) => async (dispatch: ThunkDispatch<RootState, void, UserActionTypes>) => {
+  dispatch({ type: FETCH_USER_START });
+
+  try {
+    const response = await apiClient.get(`/api/user/${userId}`);
+    dispatch({ type: FETCH_USER_SUCCESS, payload: response.data });
+  } catch (error: any) {
+    dispatch({
+      type: FETCH_USER_FAILURE,
       payload: error.response?.data?.message || "Error al actualizar el perfil",
     });
   }

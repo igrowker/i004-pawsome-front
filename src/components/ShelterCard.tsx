@@ -1,7 +1,13 @@
 import { IRefuge } from "@/interfaces/IRefugee";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
+  // const handleClick =(event: MouseEventHandler<HTMLImageElement>)=>{
+  //   seeRefugee(shelter);
+  //   useNavigate("/refugee/")
+  // }
+  const navigate = useNavigate()
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4">
       <div className="p-4">
@@ -10,7 +16,10 @@ const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
             <img
               src={shelter.img}
               alt={`${shelter.name_refugee} profile`}
-              className="w-10 h-10 rounded-full mr-4"
+              className="btn w-10 h-10 rounded-full mr-4"
+              onClick={() => {
+                navigate("/refugee/"+shelter._id)
+              }}
             />
             <div>
               <h2 className="font-semibold text-lg">{shelter.name_refugee}</h2>

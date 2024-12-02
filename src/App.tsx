@@ -25,6 +25,8 @@ import DonationSuccess from "./components/DonationSuccess";
 import DonationAmount from "./components/DonationAmount";
 import DonationCancel from "./components/DonationCancel";
 import InKindDonationForm from "./views/InKindDonationForm";
+import RefugeProfile from "./views/dashboard/refugee/pages/RefugeProfile";
+
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
           <Route path="/donation-form" element={<DonationForm />} />
           <Route path="/in-kind-donation" element={<InKindDonationForm />} />
+          <Route path="/refugee/:id" element={<RefugeProfile />} />
+
           <Route
             path="/forgotpassword"
             element={<ForgotPassword apiEndpoint={""} />}
@@ -62,6 +66,7 @@ function App() {
           <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee" element={<RefugeeRoutes />} />
+
 
           {/* Ruta del usuario adoptante? volunteer? y sus subrutas */}
           <Route path="/user" element={<UsersRoutes />} />

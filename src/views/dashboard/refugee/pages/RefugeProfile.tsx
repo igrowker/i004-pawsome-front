@@ -1,18 +1,36 @@
+import { useEffect } from "react";
 import PetCard from "@/components/PetCard";
+import { useParams } from "react-router-dom";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchUser } from "@/redux/actions/userActions";
 
 
 const URL = import.meta.env.VITE_API_URL
 
 export default function RefugeProfile() {
+  const { id } = useParams<{ id: string }>();
+  const dispatch: AppDispatch = useDispatch(); // Usa el tipo AppDispatch
+
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
 
+  const { data: user, loading, error } = useSelector(
+    (state: RootState) => state.user
+  );
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchUser(id)); // Despacha la acción para obtener el animal
+    }
+  }, [id, dispatch]);
   const setAnimalFilter = (event: MouseEvent<HTMLButtonElement>) => {
     // el .currentTarget me da el botón actual que dio click
     setFilter(event.currentTarget.textContent || "")
@@ -28,7 +46,9 @@ export default function RefugeProfile() {
   }
 
   const getStylesButton = (labelButton: string) => filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : ""
-
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!user) return <div>No se encontró el refugio</div>;
   return (
     <>
       <div className="md:grid">
@@ -40,7 +60,7 @@ export default function RefugeProfile() {
         <div className="sm:w-[600px] lg:w-[900px] m-auto">
           <div className="mx-5 mt-[15px]">
             <div className="flex justify-between">
-              <h2 className="font-roboto text-2xl">Refugio Patitas</h2>
+              <h2 className="font-roboto text-2xl">{user.refugee.name_refugee}</h2>
               <img src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
             <RefugeDescription />
