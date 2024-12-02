@@ -1,51 +1,39 @@
-import React, { useEffect } from "react";
-import AdoptionCard from "./AdoptionCard";
-import { Spinner } from "./ui/spinner";
-import { fetchAllAnimals } from "@/redux/actions/animalActions";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { RootState } from "@/redux/store";
-import { IAnimal } from "@/interfaces/IAnimal";
+import React, { useEffect } from 'react';
+import AdoptionCard from './AdoptionCard';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAvailableAnimals } from '@/redux/actions/animalActions';
+import { RootState } from '@/redux/rootReducer';
+import { AppDispatch } from '@/redux/store';
+import { IAnimal } from '@/interfaces/IAnimal';
 
-interface AdoptionListProps {
-  animals: IAnimal[];
-}
-const AdoptionList: React.FC<AdoptionListProps> = ({ animals }) => {
-  const dispatch = useAppDispatch();
+const AdoptionList: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-  const {
-    allAnimals: adoptions,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.animal);
+  const { availableAnimals, loading } = useSelector((state: RootState) => state.animal);
 
   useEffect(() => {
-    dispatch(fetchAllAnimals());
+    dispatch(fetchAvailableAnimals());
   }, [dispatch]);
 
   if (loading) {
-    return <Spinner />;
+    return <div>Cargando animales disponibles para su adopción...</div>;
+  }
+  if (!availableAnimals || availableAnimals.length === 0) {
+    return <div>No hay animales disponibles para adopción en este momento.</div>;
   }
 
-  if (error) {
-    return <p className="text-red-500">Error: {error}</p>;
-  }
-
-  if (adoptions.length === 0) {
-    return <p>No hay mascotas disponibles para adopción.</p>;
-  }
 
   return (
     <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {animals.map((adoption) => (
+      {availableAnimals.map((animal: IAnimal) => (
         <AdoptionCard
-          key={adoption._id}
-          id={adoption._id}
-          name={adoption.name}
-          breed={adoption.breed || "Desconocido"}
-          age={`${adoption.age} años`}
-          imageUrl={adoption.photos[0]} // Usa la primera foto
-          tag={adoption.adoption_status}
+          key={animal._id}
+          id={animal._id}
+          name={animal.name}
+          breed={animal.breed || 'Desconocido'}
+          age={`${animal.age} años`}
+          imageUrl={animal.photos[0]} // Usa la primera foto
+          tag={animal.adoption_status}
         />
       ))}
     </div>
