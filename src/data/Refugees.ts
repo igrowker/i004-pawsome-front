@@ -3,7 +3,7 @@ import { IRefuge } from "@/interfaces/IRefugee";
 export const refuges: IRefuge[] = [
   {
     _id: "64d0f4c2b45302e4a7d3bc35",
-    name: "Hogar de Animales Luna",
+    name_refuge: "Hogar de Animales Luna",
     address: "Calle Principal 123, Barcelona",
     contact_email: "contacto@hogarluna.org",
     phone: "+34 600 123 456",
