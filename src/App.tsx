@@ -20,11 +20,13 @@ import About from "./views/About";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import NotificationContainer from "./components/NotificationContainer";
 import AdoptPage from "./views/adopt";
+import VolunteeringList from './views/VolunteeringList';
 import DonationForm from "./views/DonationForm";
 import DonationSuccess from "./components/DonationSuccess";
 import DonationAmount from "./components/DonationAmount";
 import DonationCancel from "./components/DonationCancel";
 import InKindDonationForm from "./views/InKindDonationForm";
+
 
 function App() {
   return (
@@ -44,6 +46,7 @@ function App() {
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
+          <Route path="/volunteeringlist" element={<VolunteeringList/>} /> 
           <Route path="/donation-form" element={<DonationForm />} />
           <Route path="/in-kind-donation" element={<InKindDonationForm />} />
           <Route
