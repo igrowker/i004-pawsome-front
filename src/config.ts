@@ -38,4 +38,7 @@ export const apiUrls = {
   getAllVolunteers: () => `${baseUrl}/volunteers`, // Obtiene una lista de todas las oportunidades de voluntariado disponibles.
   getVolunterId: (id: string) => `${baseUrl}/volunteers/${id}`, //Obtiene todas las oportunidades de voluntariado asociadas a un refugiado específico usando su ID.
   postVolunterId: (id: string) => `${baseUrl}/volunteers/${id}`, //Crea una nueva oportunidad de voluntariado para un refugiado utilizando su ID como parámetro de ruta.
+
+  // Carga de Imagenes
+  filesUpload: () => `${baseUrl}/files/upload`, // Carga de imagenes
 };
