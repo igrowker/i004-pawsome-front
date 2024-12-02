@@ -1,52 +1,45 @@
 import AdoptionList from "@/components/AdoptionList";
 import FilterAdoption from "@/components/FilterAdoption";
-import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import ShelterList from "@/components/ShelterList";
-import React, { useState } from "react";
-
-
-interface Shelter {
-  id: number;
-  name: string;
-  location: string;
-  timeAgo: string;
-  imageUrl: string;
-  profileUrl: string;
-  tags: string[];
-}
-
-const shelters: Shelter[] = [
-  {
-    id: 1,
-    name: "Refugio Patitas",
-    location: "Valencia",
-    timeAgo: "5 minutos",
-    imageUrl:
-      "https://es.mypet.com/wp-content/uploads/sites/23/2021/03/GettyImages-1143107320-e1597136744606.jpg",
-    profileUrl:
-      "https://static.abc.es/media/ciencia/2017/10/19/AdobeStock_31122580-kgKD--1240x698@abc.jpg",
-    tags: ["RESCATE", "PERRO"],
-  },
-  {
-    id: 2,
-    name: "Refugio Colitas",
-    location: "Barcelona",
-    timeAgo: "2 horas",
-    imageUrl:
-      "https://www.lavanguardia.com/files/og_thumbnail/uploads/2023/10/24/653782d413b16.jpeg",
-    profileUrl:
-      "https://www.zooplus.es/magazine/wp-content/uploads/2024/08/El-perro-mas-viejo-del-mundo.jpeg",
-    tags: ["ADOPCIÓN", "GATO"],
-  },
-];
+import Pagination from "@/components/ui/pagination";
+import { Spinner } from "@/components/ui/spinner";
+import { RootState } from "@/redux/store";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { fetchRefugees } from "@/redux/actions/refugeeActions";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const Home: React.FC = () => {
-  const [activeView, setActiveView] = useState("refugios"); // 'refugios' or 'adopciones'
+  const dispatch = useAppDispatch();
+  const {
+    loading,
+    data: shelters,
+    error,
+  } = useSelector((state: RootState) => state.refugee);
+  const { allAnimals } = useSelector((state: RootState) => state.animal);
+  const [activeView, setActiveView] = React.useState("refugios");
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const itemsPerPage = 5;
+
+  useEffect(() => {
+    if (activeView === "refugios") {
+      dispatch(fetchRefugees());
+    }
+  }, [activeView, dispatch]);
+
+  const currentShelters = shelters.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const currentAnimals = allAnimals.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header />
       <Navigation activeView={activeView} setActiveView={setActiveView} />
       <main className="p-4">
         {/* Filtro y botón de donar */}
@@ -65,10 +58,22 @@ const Home: React.FC = () => {
         )}
         {/* Mostrar vista activa */}
         {activeView === "refugios" ? (
-          <ShelterList shelters={shelters} />
+          loading ? (
+            <Spinner />
+          ) : error ? (
+            <p className="text-red-500"> Error:{error} </p>
+          ) : (
+            <ShelterList shelters={currentShelters} />
+          )
         ) : (
-          <AdoptionList />
+          <AdoptionList animals={currentAnimals} />
         )}
+        <Pagination
+          totalItems={shelters.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
       </main>
     </div>
   );

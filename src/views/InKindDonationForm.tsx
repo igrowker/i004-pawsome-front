@@ -1,5 +1,5 @@
 
-const InKindDonation = () =>{
+const InKindDonationForm = () =>{
 
     return(
         <div className="flex flex-col justify-center items-center bg-gray-100 p-4">
@@ -37,4 +37,4 @@ const InKindDonation = () =>{
     )
 }
 
-export default InKindDonation;
+export default InKindDonationForm;

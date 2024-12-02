@@ -10,9 +10,8 @@ interface RefugeeRegisterData {
     last_name: string;
     name_refugee: string; 
     description: string;
-    registerUser: string; 
     img?: string; 
-    pets?: string[];
+    role:string
 }
 
 interface RefugeeRegisterReturn {
@@ -32,12 +31,6 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
         setError(null);
         setIsSuccess(false)
 
-        if (data.registerUser !== "refugio") {
-            setError("El valor de 'registerUser' debe ser 'refugio'");
-            setIsLoading(false);
-            return;
-        }
-
         const role = "refugee";
 
         try {
@@ -45,33 +38,23 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
             const userResponse = await axios.post(`${apiUrl}/auth/register`, {
                 name: data.name,
                 last_name: data.last_name,
-                email: data.email,
                 password: data.password,
-                role: role
-        
-            });
-
-            if (userResponse.status !== 201) {
-                throw new Error("Hubo un problema al registrar al usuario");
-            }
-
-            const userId = userResponse.data.id; 
-
-         
-            const refugeeResponse = await axios.post(`${apiUrl}/refugees`, {
-                user_id: userId,
+                email: data.email,
+                role: role,
                 name_refugee: data.name_refugee,
                 description: data.description,
                 img: data.img || undefined, 
-                ...(data.pets ? { pets: data.pets } : {}),
+
             });
 
-            if (refugeeResponse.status === 201) {
+           
+            if(userResponse.status === 201) {
                 setIsSuccess(true);
-                return refugeeResponse.data;
+                return userResponse.data;
             } else {
-                throw new Error("Hubo un problema al crear el refugio");
-            }
+                throw new Error ("Hubo un problema con el registro");
+            } 
+    
         } catch (error: any) {
             if (error.response) {
                 // Capturamos el mensaje del backend

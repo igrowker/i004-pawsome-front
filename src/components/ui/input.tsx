@@ -20,6 +20,7 @@ export default function Input({
   type = "text",
   required = false,
   className = "",
+  onChange,
   
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -45,6 +46,9 @@ export default function Input({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHasValue(e.target.value.length > 0);
+    if (onChange) {
+      onChange(e); // Llama a la función pasada como prop
+    }
   };
 
   return (

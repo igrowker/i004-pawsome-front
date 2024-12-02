@@ -17,10 +17,16 @@ export default function Navbar() {
     (state: RootState) => state.auth
   );
 
-  const handleLogout = () => {
-    setIsOpen(false);
-    navigate("/home");
-    dispatch(logout());
+  const handleLogout = async () => {
+    try {
+      // Espera a que el logout se complete y recarga la página y redirige a home
+      await dispatch(logout()); 
+      setIsOpen(false);
+      navigate("/home");
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Error en logout:", error);
+    }
   };
 
   useEffect(() => {
@@ -65,9 +71,8 @@ export default function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${
-              isOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
+              }`}
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-end">
