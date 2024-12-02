@@ -56,6 +56,10 @@ const RegisterRefugeeForm = () => {
       },
       description: (value) => {
         if (!value) return "Por favor ingresa una descripción";
+        if(value.length < 10)
+          return "La descripción debe tener entre 10 y 200 caracteres.";
+        if (value.length > 200)
+          return "La descripción debe tener entre 10 y 200 caracteres.";
       },
     },
   });
@@ -86,10 +90,11 @@ const RegisterRefugeeForm = () => {
         name_refugee: formData.name_refugee,
         description: formData.description,
         img: formData.image || undefined,
-        
+       
       });
-
+      
       if (result) {
+        console.log(result)
         setIsSubmitted(true);
       }
     } catch (err) {
@@ -237,16 +242,6 @@ const RegisterRefugeeForm = () => {
             }
           />
         </div>
-        {/* <div className="pets">
-          <Input
-          name="animals_list"
-            type="text"
-            placeholder="Animales en el refugio (opcional)"
-            className=""
-            value={formData.pets}
-            onChange={(e) => updateForm({ pets: e.target.value })}
-          />
-        </div> */}
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"

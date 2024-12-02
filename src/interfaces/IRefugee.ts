@@ -1,10 +1,11 @@
 export interface IRefuge {
   _id: string;
-  name: string;
+  name_refugee: string;
   address: string;
   contact_email: string;
   phone: string;
-  photo: string;
+  img: string;
   description: string;
-  animals: string[];
+  pets: string[];
+ 
 }

@@ -34,11 +34,6 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
         const role = "refugee";
 
         try {
-
-            const formData = {
-
-            }
-          console.log(formData);
           
             const userResponse = await axios.post(`${apiUrl}/auth/register`, {
                 name: data.name,
@@ -52,10 +47,13 @@ const useRefugeeRegister = (): RefugeeRegisterReturn => {
 
             });
 
-            if (userResponse.status !== 201) {
-                throw new Error("Hubo un problema al registrar al usuario");
-            }
-
+           
+            if(userResponse.status === 201) {
+                setIsSuccess(true);
+                return userResponse.data;
+            } else {
+                throw new Error ("Hubo un problema con el registro");
+            } 
     
         } catch (error: any) {
             if (error.response) {

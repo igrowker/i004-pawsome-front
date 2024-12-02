@@ -2,10 +2,12 @@ import apiClient from "@/apiClient";
 import { AppDispatch } from "../store";
 import { IAnimal } from "@/interfaces/IAnimal";
 
-
 export const FETCH_ANIMAL_START = "FETCH_ANIMAL_START";
 export const FETCH_ANIMAL_SUCCESS = "FETCH_ANIMAL_SUCCESS";
 export const FETCH_ANIMAL_ERROR = "FETCH_ANIMAL_ERROR";
+export const FETCH_ALL_ANIMALS_START = "FETCH_ALL_ANIMALS_START";
+export const FETCH_ALL_ANIMALS_SUCCESS = "FETCH_ALL_ANIMALS_SUCCESS";
+export const FETCH_ALL_ANIMALS_ERROR = "FETCH_ALL_ANIMALS_ERROR";
 
 export const FETCH_AVAILABLE_ANIMALS_START = "FETCH_AVAILABLE_ANIMALS_START";
 export const FETCH_AVAILABLE_ANIMALS_SUCCESS = "FETCH_AVAILABLE_ANIMALS_SUCCESS";
@@ -23,6 +25,20 @@ export const fetchAnimalSuccess = (animal: any) => ({
 
 export const fetchAnimalError = (error: string) => ({
   type: FETCH_ANIMAL_ERROR,
+  payload: error,
+});
+
+export const fetchAllAnimalsStart = () => ({
+  type: FETCH_ALL_ANIMALS_START,
+});
+
+export const fetchAllAnimalsSuccess = (animals: any[]) => ({
+  type: FETCH_ALL_ANIMALS_SUCCESS,
+  payload: animals,
+});
+
+export const fetchAllAnimalsError = (error: string) => ({
+  type: FETCH_ALL_ANIMALS_ERROR,
   payload: error,
 });
 
@@ -58,18 +74,17 @@ export const fetchAnimal = (id: string) => {
   };
 };
 
-// Animales disponibles para adopción GET
-export const fetchAvailableAnimals = () => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(fetchAvailableAnimalsStart());
+export const fetchAllAnimals = () => {
+  return async (dispatch: any) => {
+    dispatch(fetchAllAnimalsStart());
 
     try {
-      const response = await apiClient.get(`/animals/available`);
-      dispatch(fetchAvailableAnimalsSuccess(response.data));
-    } catch (error: any) {
+      const response = await apiClient.get("/animals");
+      dispatch(fetchAllAnimalsSuccess(response.data));
+    } catch (error: unknown) {
       const errorMessage =
-        error?.response?.data?.message || "Error al obtener los animales disponibles.";
-      dispatch(fetchAvailableAnimalsError(errorMessage));
+        error instanceof Error ? error.message : "Error desconocido.";
+      dispatch(fetchAllAnimalsError(errorMessage));
     }
   };
 };
