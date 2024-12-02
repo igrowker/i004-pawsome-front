@@ -2,8 +2,8 @@
 import axios from "axios"
 
 interface DonationInterface {
-    id: number,
-    refuge_id: string,
+    _id: string,
+    refugee_id: string,
     title: string,
     description: string,
     imageUrl: string,
@@ -12,17 +12,6 @@ interface DonationInterface {
     targetItemsCount: number,
   }
   
-  interface DonationPostInterface{
-    id: number,
-    refuge_id: number,
-    title: string,
-    description: string,
-    imageUrl: string,
-    monetaryDonation: boolean,
-    cuantityDonatio: number,
-    donationNumber: number,
-  }
-
   interface DonationsResponse {
     donationRequests: DonationInterface[];
   }

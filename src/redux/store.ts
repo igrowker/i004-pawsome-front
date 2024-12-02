@@ -1,4 +1,9 @@
-import { legacy_createStore as createStore, applyMiddleware, compose } from "redux";
+import {
+  legacy_createStore as createStore,
+  applyMiddleware,
+  compose,
+  Reducer,
+} from "redux";
 import { thunk } from "redux-thunk";
 import rootReducer from "./rootReducer";
 import storage from "redux-persist/lib/storage";
@@ -7,10 +12,13 @@ import { persistStore, persistReducer } from "redux-persist";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth","donation"],
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(
+  persistConfig,
+  rootReducer as Reducer<Partial<RootState>>
+);
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;

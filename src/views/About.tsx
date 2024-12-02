@@ -44,22 +44,22 @@ const AboutUs: React.FC = () => {
         {/* Imágenes */}
         <div className="grid grid-cols-2 gap-4">
           <img
-            src="/public/happy-family.jpg"
+            src="/happy-family.jpg"
             alt="Familia feliz con perro adoptado"
             className="rounded-lg shadow-lg object-cover w-full h-full"
           />
           <img
-            src="/public/rescued-cat.jpg"
+            src="/rescued-cat.jpg"
             alt="Gato rescatado"
             className="rounded-lg shadow-lg object-cover w-full h-full"
           />
           <img
-            src="/public/volunter.jpg"
+            src="/volunter.jpg"
             alt="Voluntario ayudando animales"
             className="rounded-lg shadow-lg object-cover w-full h-full"
           />
           <img
-            src="/public/new-owner.jpg"
+            src="/new-owner.jpg"
             alt="Perro con nuevo dueño"
             className="rounded-lg shadow-lg object-cover w-full h-full"
           />
