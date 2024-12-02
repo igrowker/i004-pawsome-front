@@ -9,6 +9,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  role: "user" | "refugee" | "admin";
 }
 
 export interface AuthState {
