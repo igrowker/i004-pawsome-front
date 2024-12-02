@@ -29,8 +29,7 @@ const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
           {/* <p className="text-sm text-gray-500">{shelter.timeAgo}</p> */}
         </div>
         <p className="text-sm text-gray-700 mb-2">
-          Ayuda para rescate de perro en {shelter.location}, está solo en la
-          calle, no tiene comida...
+          {shelter.description}
         </p>
       </div>
       <img
