@@ -1,15 +1,34 @@
 import PetCard from "@/components/PetCard";
-import { animals } from "@/data/Animals";
-import { IAnimal } from "@/interfaces/IAnimal";
-import React, { useState } from "react";
+import { fetchAllAnimals } from "@/redux/actions/animalActions";
+import { AppDispatch, RootState } from "@/redux/store";
+import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const PetList: React.FC = () => {
   const [filter, setFilter] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
-  const pets: Partial<IAnimal>[] = animals;
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { allAnimals, loading } = useSelector(
+    (state: RootState) => state.animal
+  );
 
-  const filteredPets = pets.filter(
+  useEffect(() => {
+    // Obtener todos los animales si no están cargados
+    if (!allAnimals.length) {
+      dispatch(fetchAllAnimals());
+    }
+  }, [dispatch, allAnimals]);
+
+  const userPetIds = user?.refugee?.pets || [];
+
+  const userPets = allAnimals.filter((animal) =>
+    userPetIds.includes(animal._id)
+  );
+
+  const filteredPets = userPets.filter(
     (pet) =>
       pet.name!.toLowerCase().includes(filter.toLowerCase()) ||
       pet.breed!.toLowerCase().includes(filter.toLowerCase())
@@ -31,16 +50,24 @@ const PetList: React.FC = () => {
         />
       </div>
 
-      <div>
-        {filteredPets.map((pet) => (
-          <PetCard
-            key={pet._id}
-            photos={pet.photos}
-            name={pet.name!}
-            breed={pet.breed!}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <p>Loading pets...</p>
+      ) : (
+        <div>
+          {filteredPets.length > 0 ? (
+            filteredPets.map((pet) => (
+              <PetCard
+                key={pet._id}
+                photos={pet.photos}
+                name={pet.name!}
+                breed={pet.breed!}
+              />
+            ))
+          ) : (
+            <p>No pets found.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
