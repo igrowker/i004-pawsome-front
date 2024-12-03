@@ -1,5 +1,6 @@
 export interface IUser {
   name: string;
+  refugee: string;
   password: string;
   email: string;
   created_at?: Date;
