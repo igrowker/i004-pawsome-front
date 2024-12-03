@@ -1,11 +1,13 @@
 import { AppDispatch } from "../store";
 import { apiUrls } from "@/config";
 import { IRefuge } from "@/interfaces/IRefugee";
+import { RootState } from '@/redux/store';
 
 export const FETCH_REFUGEES_REQUEST = "FETCH_REFUGEES_REQUEST";
 export const FETCH_REFUGEES_SUCCESS = "FETCH_REFUGEES_SUCCESS";
 export const FETCH_REFUGEES_FAILURE = "FETCH_REFUGEES_FAILURE";
-
+export const FETCH_REFUGEE_BY_ID = "FETCH_REFUGEE_BY_ID";
+export const SELECT_REFUGEE_BY_ID = "SELECT_REFUGEE_BY_ID"
 export interface FetchRefugeesRequestAction {
   type: typeof FETCH_REFUGEES_REQUEST;
 }
@@ -20,10 +22,16 @@ export interface FetchRefugeesFailureAction {
   payload: string;
 }
 
+export interface FetchRefugeesById {
+  type: typeof FETCH_REFUGEE_BY_ID;
+  payload: IRefuge | null;
+}
+
 export type RefugeeActions =
   | FetchRefugeesRequestAction
   | FetchRefugeesSuccessAction
-  | FetchRefugeesFailureAction;
+  | FetchRefugeesFailureAction
+  | FetchRefugeesById;
 
 export const fetchRefugeesRequest = (): FetchRefugeesRequestAction => ({
   type: FETCH_REFUGEES_REQUEST,
@@ -60,3 +68,16 @@ export const fetchRefugees = () => {
     }
   };
 };
+
+export const fetchRefugeeById = (id: string) => {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
+    const {data: refugees} = getState().refugee;
+    const refuge = refugees.find ( (refuge) => refuge._id === id) ;
+
+    dispatch({
+      type: FETCH_REFUGEE_BY_ID,
+      payload: refuge,
+    })
+  }
+}
+

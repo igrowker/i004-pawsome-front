@@ -3,12 +3,20 @@ import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { RootState } from "@/redux/store";
+import { fetchRefugeeById, fetchRefugees } from "@/redux/actions/refugeeActions";
 
-
-const URL = import.meta.env.VITE_API_URL
+const URL = import.meta.env.VITE_BACK_URL
 
 export default function RefugeProfile() {
+  const dispatch = useAppDispatch();
+  const {id} = useParams<{ id: string}>();
+  const refuge = useSelector((state: RootState) => state.refugee.selectedRefuge);
+  const { data: shelters} = useSelector((state: RootState) => state.refugee);
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
@@ -29,8 +37,33 @@ export default function RefugeProfile() {
 
   const getStylesButton = (labelButton: string) => filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : ""
 
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(fetchRefugeeById(id)); // Buscar refugio por ID
+  //   }
+  // }, [id, dispatch]);
+
+  if (!refuge) {
+    return <p>Refugio no encontrado</p>;
+  }
+  
+  useEffect(() => {
+    if (!refuge && id) {
+      if (shelters.length === 0) {
+        console.log(shelters)
+        // Vuelve a cargar los refugios si no están en el estado
+        dispatch(fetchRefugees());
+      } else {
+        // Intenta encontrar el refugio directamente
+        dispatch(fetchRefugeeById(id));
+      }
+    }
+  }, [id, dispatch, shelters, refuge]);
+  
+
   return (
     <>
+    
       <div className="md:grid">
         <img
           src="/refugee-profile.png"
@@ -40,7 +73,7 @@ export default function RefugeProfile() {
         <div className="sm:w-[600px] lg:w-[900px] m-auto">
           <div className="mx-5 mt-[15px]">
             <div className="flex justify-between">
-              <h2 className="font-roboto text-2xl">Refugio Patitas</h2>
+              <h2 className="font-roboto text-2xl">{refuge.name_refugee}</h2>
               <img src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
             <RefugeDescription />
