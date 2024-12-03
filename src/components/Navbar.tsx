@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { logout } from "@/redux/actions/authActions";
 import { AppDispatch } from "@/redux/store";
-import { MdOutlinePets } from "react-icons/md";
+import { MdOutlinePets, MdFavoriteBorder } from "react-icons/md";
+import { SiPetsathome } from "react-icons/si";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +46,28 @@ export default function Navbar() {
 
   const menuItems = [
     { icon: FiHome, text: "Home", to: "/home" },
-    { icon: CiUser, text: "Profile", to: "/user" },
+    ...(auth.user?.role === "user"
+      ? [
+          {
+            icon: MdFavoriteBorder,
+            text: "Favorite",
+            to: "/dashboard/user/favorites",
+          },
+        ]
+      : []),
+    ...(auth.user?.role === "refugee"
+      ? [
+          {
+            icon: SiPetsathome,
+            text: "Your pets for adoption",
+            to: "dashboard/refugee/petslist",
+          },
+        ]
+      : []),
+    ...(auth.user?.role === "refugee" || auth.user?.role === "user"
+      ? [{ icon: CiUser, text: "Profile", to: "/user" }]
+      : []),
+
     ...(auth.user?.role === "refugee"
       ? [
           {
