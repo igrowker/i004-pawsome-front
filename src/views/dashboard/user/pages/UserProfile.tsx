@@ -9,6 +9,7 @@ import { useDispatch } from "@/redux/hooks";
 import UploadPhoto from "@/components/UploadPhoto";
 import { DonationInterface } from "@/interfaces/DonationInterface";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
+import { Link } from "react-router-dom";
 
 interface FormData {
   name: string;
@@ -301,9 +302,12 @@ const UserProfile: React.FC = () => {
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Mascotas favoritas
           </h3>
-          <p>Aún no tienes mascotas favoritas.</p>
+          <p>Aún no tienes mascotas favoritas.</p>       
+          <Link to="/dashboard/user/favorites" className="text-secondaryLight">
+            Ver favoritos
+          </Link>
         </div>
-      )}
+      )}    
     </div>
   );
 };
