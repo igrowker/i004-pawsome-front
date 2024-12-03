@@ -10,6 +10,7 @@ import { AppDispatch } from "@/redux/store";
 import { MdOutlinePets, MdFavoriteBorder } from "react-icons/md";
 import { SiPetsathome } from "react-icons/si";
 
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ export default function Navbar() {
     ...(auth.user?.role === "refugee" || auth.user?.role === "user"
       ? [{ icon: CiUser, text: "Profile", to: "/user" }]
       : []),
+
     ...(auth.user?.role === "refugee"
       ? [
           {

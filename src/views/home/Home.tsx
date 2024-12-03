@@ -17,7 +17,6 @@ const Home: React.FC = () => {
     data: shelters,
     error,
   } = useSelector((state: RootState) => state.refugee);
-  const { allAnimals } = useSelector((state: RootState) => state.animal);
   const [activeView, setActiveView] = React.useState("refugios");
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 5;
@@ -29,11 +28,6 @@ const Home: React.FC = () => {
   }, [activeView, dispatch]);
 
   const currentShelters = shelters.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const currentAnimals = allAnimals.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -66,7 +60,7 @@ const Home: React.FC = () => {
             <ShelterList shelters={currentShelters} />
           )
         ) : (
-          <AdoptionList animals={currentAnimals} />
+          <AdoptionList />
         )}
         <Pagination
           totalItems={shelters.length}
