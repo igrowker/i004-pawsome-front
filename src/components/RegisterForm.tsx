@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
-// import useRegister from "@/hooks/useRegister";
+import useRegister from "@/hooks/useRegister";
 
 
 const RegisterForm = () => {
