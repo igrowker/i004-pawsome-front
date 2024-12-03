@@ -107,7 +107,7 @@ const RegisterForm = () => {
             placeholder="Email"
             className=""
             value={formData.email}
-            onChange={(e) => updateForm({ email: e.target.value })
+            onChange={(e) => updateForm({ email: e.target.value.trim() })
             }
           />
           {formErrors.email && <p className="text-red-500">{formErrors.email}</p>}
@@ -120,7 +120,7 @@ const RegisterForm = () => {
             placeholder="Contraseña"
             className=""
             value={formData.password}
-            onChange={(e) => updateForm({ password: e.target.value })}
+            onChange={(e) => updateForm({ password: e.target.value.trim() })}
           ></Input>
           {formErrors.password && <p className="text-red-500">{formErrors.password}</p>}
         </div>
@@ -131,7 +131,7 @@ const RegisterForm = () => {
             placeholder="Confirmar Contraseña"
             className=""
             value={formData.confirmPassword}
-            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+            onChange={(e) => updateForm({ confirmPassword: e.target.value.trim() })}
           ></Input>
           {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
@@ -142,7 +142,7 @@ const RegisterForm = () => {
             placeholder="Nombre"
             className=""
             value={formData.name}
-            onChange={(e) => updateForm({ name: e.target.value })}
+            onChange={(e) => updateForm({ name: e.target.value.trim() })}
           ></Input>
           {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
         </div>
@@ -153,7 +153,7 @@ const RegisterForm = () => {
             placeholder="Apellidos"
             className=""
             value={formData.last_name}
-            onChange={(e) => updateForm({ last_name: e.target.value })}
+            onChange={(e) => updateForm({ last_name: e.target.value.trim() })}
           ></Input>
           {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
         </div>

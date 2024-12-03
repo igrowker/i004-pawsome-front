@@ -10,6 +10,12 @@ import UploadPhoto from "@/components/UploadPhoto";
 import { DonationInterface } from "@/interfaces/DonationInterface";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();
   const {
@@ -20,24 +26,20 @@ const UserProfile: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   console.log("user", user);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
   });
 
-  const [activeTab, setActiveTab] = useState<
-    "profile" | "donations" | "requests" | "favorite"
-  >("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "donations" | "requests" | "favorite">("profile");
 
   const [profilePhoto, setProfilePhoto] = useState<string>(
     "https://via.placeholder.com/150"
   );
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>(
-    []
-  );
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
@@ -171,9 +173,7 @@ const UserProfile: React.FC = () => {
           <button
             key={tab}
             onClick={() =>
-              setActiveTab(
-                tab as "profile" | "donations" | "requests" | "favorite"
-              )
+              setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
             }
             className={`pb-2 px-4 text-lg ${
               activeTab === tab
@@ -261,48 +261,47 @@ const UserProfile: React.FC = () => {
           ) : donationsError ? (
             <p className="text-red-500">{donationsError}</p>
           ) : donations.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               {donations.map((donation) => (
-                <li
-                  key={donation.id}
-                  className="p-4 border border-gray-200 rounded-md"
-                >
-                  <h4 className="text-lg font-semibold">{donation.item}</h4>
-                  <p className="text-gray-600">
-                    Monto objetivo: {donation.targetAmountMoney}
-                  </p>
+                <li key={donation.id} className="border p-4 rounded-md">
+                  <p>{donation.description}</p>
+                  <p>{donation.targetAmountMoney}€</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No tienes donaciones registradas.</p>
+            <p>No hay donaciones.</p>
           )}
         </div>
       )}
 
       {activeTab === "requests" && (
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
-            Solicitudes de Adopción
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Solicitudes de adopción
           </h3>
           {adoptionRequests.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               {adoptionRequests.map((request, index) => (
-                <li
-                  key={index}
-                  className="p-4 border border-gray-200 rounded-md"
-                >
-                  <h4 className="text-lg font-semibold">{request.petName}</h4>
-                  <p className="text-gray-600">Estado: {request.status}</p>
-                  <p className="text-gray-600">
-                    Fecha: {new Date(request.date).toLocaleDateString()}
-                  </p>
+                <li key={index} className="border p-4 rounded-md">
+                  <p>{request.petName}</p>
+                  <p>{request.status}</p>
+                  <p>{request.date}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No tienes solicitudes de adopción.</p>
+            <p>No tienes solicitudes.</p>
           )}
+        </div>
+      )}
+
+      {activeTab === "favorite" && (
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Mascotas favoritas
+          </h3>
+          <p>Aún no tienes mascotas favoritas.</p>
         </div>
       )}
     </div>
