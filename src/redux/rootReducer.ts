@@ -20,7 +20,6 @@ const rootReducer = combineReducers({
   refugee: refugeeReducer,
   adopt: adoptionRequestReducer,
   donation: donationReducer
-
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
