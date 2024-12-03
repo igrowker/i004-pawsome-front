@@ -6,6 +6,7 @@ import {
 } from "../actions/authActions";
 
 export interface User {
+  refugee: any;
   id: string;
   name: string;
   email: string;
