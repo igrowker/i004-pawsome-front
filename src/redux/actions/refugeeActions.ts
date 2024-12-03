@@ -1,7 +1,8 @@
 import { AppDispatch } from "../store";
 import { apiUrls } from "@/config";
 import { IRefuge } from "@/interfaces/IRefugee";
-import { RootState } from '@/redux/store';
+// import { RootState } from '@/redux/store';
+import apiClient from "@/apiClient";
 
 export const FETCH_REFUGEES_REQUEST = "FETCH_REFUGEES_REQUEST";
 export const FETCH_REFUGEES_SUCCESS = "FETCH_REFUGEES_SUCCESS";
@@ -14,7 +15,7 @@ export interface FetchRefugeesRequestAction {
 
 export interface FetchRefugeesSuccessAction {
   type: typeof FETCH_REFUGEES_SUCCESS;
-  payload: IRefuge[];
+  payload: IRefuge |IRefuge[] ;
 }
 
 export interface FetchRefugeesFailureAction {
@@ -38,9 +39,15 @@ export const fetchRefugeesRequest = (): FetchRefugeesRequestAction => ({
 });
 
 export const fetchRefugeesSuccess = (
-  refugees: IRefuge[]
+  refugees : any
 ): FetchRefugeesSuccessAction => ({
   type: FETCH_REFUGEES_SUCCESS,
+  payload: refugees,
+});
+export const fetchRefugeesSuccessById = (
+  refugees : any
+): FetchRefugeesById => ({
+  type: FETCH_REFUGEE_BY_ID,
   payload: refugees,
 });
 
@@ -61,6 +68,7 @@ export const fetchRefugees = () => {
       }
       const data = await response.json();
       dispatch(fetchRefugeesSuccess(data.refugees));
+      console.log(data.refugees)
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Error desconocido.";
@@ -69,15 +77,18 @@ export const fetchRefugees = () => {
   };
 };
 
-export const fetchRefugeeById = (id: string) => {
-  return (dispatch: AppDispatch, getState: () => RootState) => {
-    const {data: refugees} = getState().refugee;
-    const refuge = refugees.find ( (refuge) => refuge._id === id) ;
+export const fetchRefugeeById = (id: string|undefined)  => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(fetchRefugeesRequest());
 
-    dispatch({
-      type: FETCH_REFUGEE_BY_ID,
-      payload: refuge,
-    })
-  }
-}
-
+    try {
+      const response = await apiClient.get(`/refugees/${id}`);
+      dispatch(fetchRefugeesSuccessById(response.data.refugee));
+      console.log(response)
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message || "Error al obtener el refugio.";
+      dispatch(fetchRefugeesFailure(errorMessage));
+    }
+  };
+};

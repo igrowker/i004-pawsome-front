@@ -4,19 +4,20 @@ import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { RootState } from "@/redux/store";
-import { fetchRefugeeById, fetchRefugees } from "@/redux/actions/refugeeActions";
+import { useEffect } from "react";
+import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 
 const URL = import.meta.env.VITE_BACK_URL
 
 export default function RefugeProfile() {
   const dispatch = useAppDispatch();
-  const {id} = useParams<{ id: string}>();
-  const refuge = useSelector((state: RootState) => state.refugee.selectedRefuge);
-  const { data: shelters} = useSelector((state: RootState) => state.refugee);
+  const {id} = useParams<{ id: string }>();
+  const {data_refugee} = useSelector((state: RootState) => state.refugee);
+    console.log(data_refugee)
+
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
@@ -38,28 +39,28 @@ export default function RefugeProfile() {
   const getStylesButton = (labelButton: string) => filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : ""
 
   // useEffect(() => {
-  //   if (id) {
-  //     dispatch(fetchRefugeeById(id)); // Buscar refugio por ID
-  //   }
-  // }, [id, dispatch]);
+  //   const fetchShelter = async () => {
+  //     try {
+  //       const response = await axios.get(`/refugee/${id}`);
+  //       return response.data
+        
+  //     } catch (error) {
+  //       console.error("Error fetching shelter data:", error);
+  //     }
+  //   };
 
-  if (!refuge) {
-    return <p>Refugio no encontrado</p>;
-  }
-  
+  //   fetchShelter();
+  // }, [id]);
   useEffect(() => {
-    if (!refuge && id) {
-      if (shelters.length === 0) {
-        console.log(shelters)
-        // Vuelve a cargar los refugios si no están en el estado
-        dispatch(fetchRefugees());
-      } else {
-        // Intenta encontrar el refugio directamente
-        dispatch(fetchRefugeeById(id));
-      }
-    }
-  }, [id, dispatch, shelters, refuge]);
+    dispatch(fetchRefugeeById(id));
   
+  }, [id, dispatch]);
+
+  // if (!data) {
+  //   return <p>Refugio no encontrado</p>;
+  // }
+  
+
 
   return (
     <>
@@ -73,10 +74,10 @@ export default function RefugeProfile() {
         <div className="sm:w-[600px] lg:w-[900px] m-auto">
           <div className="mx-5 mt-[15px]">
             <div className="flex justify-between">
-              <h2 className="font-roboto text-2xl">{refuge.name_refugee}</h2>
+              <h2 className="font-roboto text-2xl">{data_refugee.name_refugee}</h2>
               <img src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
-            <RefugeDescription />
+            <RefugeDescription RefugeeDescription={data_refugee.description}/>
             <Link to={"/volunteerform"}><span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">Ser Voluntario</span></Link>
 
             <h5 className="text-lg font-roboto">Filtros</h5>

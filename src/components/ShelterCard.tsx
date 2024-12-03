@@ -1,14 +1,14 @@
-import { IRefuge } from "@/interfaces/IRefugee";
+
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { IRefuge } from "@/interfaces/IRefugee";
+
 
 const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
-  const navigate = useNavigate()
-  const handleClick = () => {
-    navigate(`refugee/${shelter._id}`)
-  }
+
+ 
+
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4" onClick={handleClick}>
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4">
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
