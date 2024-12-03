@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
 interface UploadPhotoProps {
-  onPhotoUpload: (photo: string) => void;
+  onPhotoUpload: (photoUrl: string) => void;
 }
 
 const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -24,12 +25,33 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setError(null);
-      onPhotoUpload(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    setError(null);
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/file-upload/upload`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al subir la imagen.');
+      }
+
+      const result = await response.json();
+      onPhotoUpload(result.url);
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : 'Error desconocido.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,7 +61,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
         className="hover:bg-secondaryLight bg-primaryLight text-white py-1 px-3 rounded-full text-sm cursor-pointer"
         style={{ marginLeft: '16px' }}
       >
-        Editar foto
+        {loading ? 'Subiendo...' : 'Editar foto'}
       </label>
       <input
         id="upload-photo"
