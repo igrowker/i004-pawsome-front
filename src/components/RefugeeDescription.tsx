@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export default function RefugeDescription({RefugeeDescription}) {
+interface Props {
+  RefugeeDescription: string; // O el tipo de tu objeto si no es string
+}
+
+export default function RefugeDescription({RefugeeDescription}: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = () => {

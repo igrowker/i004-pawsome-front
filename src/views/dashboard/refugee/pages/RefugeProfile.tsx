@@ -31,6 +31,7 @@ export default function RefugeProfile() {
     const { data } = await axios<IAnimal[]>(`${URL}/animals`)
 
     if (data) {
+      console.log(data)
       const fetchAnimalsBySpecie = data.filter(animal => animal.species.toLowerCase() === filterValue.toLowerCase())
       setFilteredAnimals(fetchAnimalsBySpecie)
     }
