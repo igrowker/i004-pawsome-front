@@ -5,7 +5,7 @@ import ShelterList from "@/components/ShelterList";
 import Pagination from "@/components/ui/pagination";
 import { Spinner } from "@/components/ui/spinner";
 import { RootState } from "@/redux/store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchRefugees } from "@/redux/actions/refugeeActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
@@ -21,11 +21,18 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 5;
 
+  // Estado para el filtro
+  const [filter, setFilter] = useState<string>('');
+
   useEffect(() => {
     if (activeView === "refugios") {
       dispatch(fetchRefugees());
     }
   }, [activeView, dispatch]);
+
+  const handleFilterChange = (species: string) => {
+    setFilter(species);
+  };
 
   const currentShelters = shelters.slice(
     (currentPage - 1) * itemsPerPage,
@@ -47,7 +54,7 @@ const Home: React.FC = () => {
         )}
         {activeView === "adopciones" && (
           <div className="mb-4">
-            <FilterAdoption />
+            <FilterAdoption onFilterChange={handleFilterChange} />
           </div>
         )}
         {/* Mostrar vista activa */}

@@ -6,7 +6,13 @@ import { RootState } from '@/redux/rootReducer';
 import { AppDispatch } from '@/redux/store';
 import { IAnimal } from '@/interfaces/IAnimal';
 
-const AdoptionList: React.FC = () => {
+
+interface AdoptionListProps {
+  filter: string;  // Recibimos el filtro como prop
+}
+
+
+const AdoptionList: React.FC<AdoptionListProps> = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { availableAnimals, loading } = useSelector((state: RootState) => state.animal);

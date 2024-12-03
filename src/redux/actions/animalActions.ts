@@ -90,16 +90,16 @@ export const fetchAllAnimals = () => {
 
 //   // Animales disponibles para adopción GET
 export const fetchAvailableAnimals = () => {
-    return async (dispatch: AppDispatch) => {
-      dispatch(fetchAvailableAnimalsStart());
-  
-      try {
-        const response = await apiClient.get(`/animals/available`);
-        dispatch(fetchAvailableAnimalsSuccess(response.data));
-      } catch (error: any) {
-        const errorMessage =
-          error?.response?.data?.message || "Error al obtener los animales disponibles.";
-        dispatch(fetchAvailableAnimalsError(errorMessage));
-      }
-    };
+  return async (dispatch: AppDispatch) => {
+    dispatch(fetchAvailableAnimalsStart());
+
+    try {
+      const response = await apiClient.get(`/animals/available`);
+      dispatch(fetchAvailableAnimalsSuccess(response.data));
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message || "Error al obtener los animales disponibles.";
+      dispatch(fetchAvailableAnimalsError(errorMessage));
+    }
   };
+};
