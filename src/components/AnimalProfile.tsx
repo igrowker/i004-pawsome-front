@@ -77,30 +77,56 @@ const AnimalProfile: React.FC = () => {
           </p>
         </section>
 
-        {/* Estado de salud */}
-        <section className="flex items-center justify-between mt-4 bg-red-50 p-4 rounded-lg shadow-md">
-          <div className="flex items-center">
+        {/* Estado de salud y historial médico */}
+        <section className="mt-4">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2 sm:text-xl">
+            Historial Médico
+          </h2>
+
+          {/* Estado de salud */}
+          <div className="flex items-center bg-red-50 p-4 rounded-lg shadow-md mb-4">
             <FaBriefcaseMedical className="text-red-600 text-3xl mr-4" />
             <p className="text-gray-800 font-medium text-sm sm:text-base">
               {animal.health_status}
             </p>
-            {/* Condiciones */}
- 
-  {animal.medicalHistory?.conditions && animal.medicalHistory.conditions.length > 0 ? (
-    <div>
-      <h3 className="text-md font-semibold text-gray-700">Condiciones:</h3>
-      <ul className="list-disc list-inside text-gray-700 text-sm sm:text-base">
-        {animal.medicalHistory.conditions.map((condition, index) => (
-          <li key={index}>{condition}</li>
-        ))}
-      </ul>
-    </div>
-  ) : (
-    <p className="text-gray-600 text-sm"></p>
-  )}
-            
           </div>
+
+          {/* Condiciones */}
+          {animal.medicalHistory?.conditions && animal.medicalHistory.conditions.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-md font-semibold text-gray-700 mb-2">
+                Condiciones de Salud:
+              </h3>
+              <div className="space-y-1">
+                {animal.medicalHistory.conditions.map((condition, index) => (
+                  <div key={index} className="text-gray-700 text-sm sm:text-base">
+                    {condition}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Vacunaciones */}
+          {animal.medicalHistory?.vaccinations && animal.medicalHistory.vaccinations.length > 0 && (
+            <div>
+              <h3 className="text-md font-semibold text-gray-700 mb-2">
+                Vacunaciones:
+              </h3>
+              <div className="space-y-1">
+                {animal.medicalHistory.vaccinations.map((vaccination, index) => (
+                  <div key={index} className="text-gray-700 text-sm sm:text-base">
+                    <span className="font-medium">{vaccination.name}</span> -{" "}
+                    <span className="text-gray-600">
+                      {new Date(vaccination.date).toLocaleDateString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
+
 
         {/* Disponibilidad */}
         <div className="availability flex items-center justify-between mt-4 bg-secondaryLight rounded-xl px-6 py-4 shadow-md">
