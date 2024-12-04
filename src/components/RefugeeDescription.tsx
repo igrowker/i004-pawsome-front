@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export default function RefugeDescription() {
+interface Props {
+  RefugeeDescription: string; // O el tipo de tu objeto si no es string
+}
+
+export default function RefugeDescription({RefugeeDescription}: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -9,15 +13,14 @@ export default function RefugeDescription() {
 
   return (
     <div>
-      <p>
-        Su misión principal es brindarles una segunda oportunidad a perros, gatos y otros animales,
-        ofreciéndoles un entorno seguro, alimento, atención veterinaria y, sobre todo, mucho amor.
+      <p> {RefugeeDescription}
+        
         {!isExpanded && "..."} {/* Muestra puntos suspensivos si no está expandido */}
         {isExpanded && (
           <span>
-            Estos animales son rescatados de situaciones de abandono o maltrato y, en el refugio,
+            {/* Estos animales son rescatados de situaciones de abandono o maltrato y, en el refugio,
             encuentran un lugar donde pueden sanar, recibir cuidados y prepararse para encontrar
-            un hogar definitivo lleno de cariño y respeto.
+            un hogar definitivo lleno de cariño y respeto. */}
           </span>
         )}
       </p>
