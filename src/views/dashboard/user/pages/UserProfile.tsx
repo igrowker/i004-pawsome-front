@@ -302,9 +302,8 @@ const UserProfile: React.FC = () => {
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Mascotas favoritas
           </h3>
-          <p>Aún no tienes mascotas favoritas.</p>       
           <Link to="/dashboard/user/favorites" className="text-secondaryLight">
-            Ver favoritos
+            Ver animales favoritos
           </Link>
         </div>
       )}    
