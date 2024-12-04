@@ -7,5 +7,5 @@ export interface IRefuge {
   img: string;
   description: string;
   pets: string[];
- 
+
 }
