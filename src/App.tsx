@@ -50,6 +50,8 @@ function App() {
           <Route path="/volunteeringlist" element={<VolunteeringList/>} /> 
           <Route path="/donation-form" element={<DonationForm />} />
           <Route path="/in-kind-donation" element={<InKindDonationForm />} />
+          <Route path="/refugee/:id" element={<RefugeProfile />} />
+
           <Route
             path="/forgotpassword"
             element={<ForgotPassword apiEndpoint={""} />}
