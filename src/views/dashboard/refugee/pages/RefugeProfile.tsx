@@ -8,15 +8,20 @@ import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchUser } from "@/redux/actions/userActions";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { RootState } from "@/redux/store";
+import { useEffect } from "react";
+import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 
-
-const URL = import.meta.env.VITE_API_URL
+const URL = import.meta.env.VITE_BACK_URL
 
 export default function RefugeProfile() {
-  const { id } = useParams<{ id: string }>();
-  const dispatch: AppDispatch = useDispatch(); // Usa el tipo AppDispatch
+  const dispatch = useAppDispatch();
+  const {id} = useParams<{ id: string }>();
+  const {data_refugee} = useSelector((state: RootState) => state.refugee);
+    console.log(data_refugee)
 
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
@@ -40,17 +45,41 @@ export default function RefugeProfile() {
     const { data } = await axios<IAnimal[]>(`${URL}/animals`)
 
     if (data) {
+      console.log(data)
       const fetchAnimalsBySpecie = data.filter(animal => animal.species.toLowerCase() === filterValue.toLowerCase())
       setFilteredAnimals(fetchAnimalsBySpecie)
     }
   }
 
   const getStylesButton = (labelButton: string) => filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : ""
-  if (loading) return <div>Cargando...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!user) return <div>No se encontró el refugio</div>;
+
+  // useEffect(() => {
+  //   const fetchShelter = async () => {
+  //     try {
+  //       const response = await axios.get(`/refugee/${id}`);
+  //       return response.data
+        
+  //     } catch (error) {
+  //       console.error("Error fetching shelter data:", error);
+  //     }
+  //   };
+
+  //   fetchShelter();
+  // }, [id]);
+  useEffect(() => {
+    dispatch(fetchRefugeeById(id));
+  
+  }, [id, dispatch]);
+
+  // if (!data) {
+  //   return <p>Refugio no encontrado</p>;
+  // }
+  
+
+
   return (
     <>
+    
       <div className="md:grid">
         <img
           src="/refugee-profile.png"
@@ -60,10 +89,10 @@ export default function RefugeProfile() {
         <div className="sm:w-[600px] lg:w-[900px] m-auto">
           <div className="mx-5 mt-[15px]">
             <div className="flex justify-between">
-              <h2 className="font-roboto text-2xl">{user.refugee.name_refugee}</h2>
+              <h2 className="font-roboto text-2xl">{data_refugee.name_refugee}</h2>
               <img src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
-            <RefugeDescription />
+            <RefugeDescription RefugeeDescription={data_refugee.description}/>
             <Link to={"/volunteerform"}><span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">Ser Voluntario</span></Link>
 
             <h5 className="text-lg font-roboto">Filtros</h5>

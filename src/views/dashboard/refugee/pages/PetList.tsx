@@ -16,11 +16,10 @@ const PetList: React.FC = () => {
   );
 
   useEffect(() => {
-    // Obtener todos los animales si no están cargados
-    if (!allAnimals.length) {
+    if (user?.refugee) {
       dispatch(fetchAllAnimals());
     }
-  }, [dispatch, allAnimals]);
+  }, [dispatch, user?.refugee, user?.refugee.pets]);
 
   const userPetIds = user?.refugee?.pets || [];
 

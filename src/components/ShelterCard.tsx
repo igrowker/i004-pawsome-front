@@ -1,13 +1,12 @@
-import { IRefuge } from "@/interfaces/IRefugee";
+
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { IRefuge } from "@/interfaces/IRefugee";
+
 
 const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
-  // const handleClick =(event: MouseEventHandler<HTMLImageElement>)=>{
-  //   seeRefugee(shelter);
-  //   useNavigate("/refugee/")
-  // }
-  const navigate = useNavigate()
+
+ 
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4">
       <div className="p-4">
@@ -23,24 +22,9 @@ const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
             />
             <div>
               <h2 className="font-semibold text-lg">{shelter.name_refugee}</h2>
-              {/* <div className="flex space-x-2 mt-1">
-                {shelter.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="bg-gray-200 text-xs px-2 py-1 rounded-full text-gray-600"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div> */}
             </div>
           </div>
-          {/* <p className="text-sm text-gray-500">{shelter.timeAgo}</p> */}
         </div>
-        {/* <p className="text-sm text-gray-700 mb-2">
-          Ayuda para rescate de perro en {shelter.location}, está solo en la
-          calle, no tiene comida...
-        </p> */}
       </div>
       <img
         src={shelter.img}

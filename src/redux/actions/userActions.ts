@@ -67,7 +67,7 @@ export const fetchUserProfile =
   };
 
 export const updateUserProfile =
-  (userId: string, userData: { profilePhoto?: string }) =>
+  (userId: string, userData: { name?: string, email?: string, password?: string, profilePhoto?: string }) =>
   async (
     dispatch: ThunkDispatch<RootState, void, UpdateProfileActionTypes>
   ) => {
@@ -92,3 +92,4 @@ export const updateUserProfile =
       });
     }
   };
+

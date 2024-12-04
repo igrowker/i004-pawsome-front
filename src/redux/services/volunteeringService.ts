@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getVolunteeringData = async() => {
     try {
-        const response = await axios.get('/volunteers');
+        const response = await axios.get('/volunteer');
         console.log(response)
         return response.data;
     } catch (error) {
@@ -10,3 +10,4 @@ export const getVolunteeringData = async() => {
         return [];
     }
 }
+

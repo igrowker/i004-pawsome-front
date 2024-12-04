@@ -7,7 +7,7 @@ import Home from "./views/home/Home";
 import AnimalProfile from "./components/AnimalProfile";
 import LandingPage from "./views/LandingPage";
 import UsersRoutes from "./views/dashboard/user/UsersRoutes";
-import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
+// import RefugeeRoutes from "./views/dashboard/refugee/RefugeeRoutes";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import NotFound from "./components/notFound";
@@ -27,7 +27,6 @@ import DonationAmount from "./components/DonationAmount";
 import DonationCancel from "./components/DonationCancel";
 import InKindDonationForm from "./views/InKindDonationForm";
 import RefugeProfile from "./views/dashboard/refugee/pages/RefugeProfile";
-
 
 
 function App() {
@@ -68,8 +67,8 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
-          <Route path="/refugee" element={<RefugeeRoutes />} />
-
+          <Route path="/refugee/:id" element={<RefugeProfile />} />
+          
 
           {/* Ruta del usuario adoptante? volunteer? y sus subrutas */}
           <Route path="/user" element={<UsersRoutes />} />
