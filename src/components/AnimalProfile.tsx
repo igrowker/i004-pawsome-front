@@ -107,11 +107,11 @@ const AnimalProfile: React.FC = () => {
             </div>
           )}
 
-          {/* Vacunaciones */}
+          {/* Vacunas */}
           {animal.medicalHistory?.vaccinations && animal.medicalHistory.vaccinations.length > 0 && (
             <div>
               <h3 className="text-md font-semibold text-gray-700 mb-2">
-                Vacunaciones:
+                Vacunas:
               </h3>
               <div className="space-y-1">
                 {animal.medicalHistory.vaccinations.map((vaccination, index) => (
