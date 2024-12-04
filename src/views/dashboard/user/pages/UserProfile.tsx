@@ -139,11 +139,11 @@ const UserProfile: React.FC = () => {
   const handleProfilePhotoUpload = (url: string) => {
     setProfilePhoto(url);
     if (user?.id) {
-      dispatch(updateUserProfile(user.id, { profilePhoto: url }));
+        dispatch(updateUserProfile(user.id, { profilePhoto: url }));
     } else {
-      console.error("El usuario no tiene un ID válido para actualizar.");
+        console.error("El usuario no tiene un ID válido para actualizar.");
     }
-  };
+};
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
