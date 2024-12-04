@@ -1,11 +1,12 @@
 
 import React from "react";
 import { IRefuge } from "@/interfaces/IRefugee";
-
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
 
- 
+ const navigate = useNavigate()
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4">
@@ -26,11 +27,17 @@ const ShelterCard: React.FC<{ shelter: IRefuge }> = ({ shelter }) => {
           </div>
         </div>
       </div>
+      <div>
+        <h5 className="text-lg">{shelter.description}</h5>
+      </div>
       <img
         src={shelter.img}
         alt={`Animal at ${shelter.name_refugee}`}
         className="w-full h-64 object-cover"
       />
+      <button className="w-full bg-teal-500 text-white font-semibold py-3 mt-4 rounded-b-lg">
+        <Link to={"/refugee/"+shelter._id}>Ir al refugio</Link>
+      </button>
     </div>
   );
 };
