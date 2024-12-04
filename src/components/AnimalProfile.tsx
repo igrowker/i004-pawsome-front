@@ -33,21 +33,13 @@ const AnimalProfile: React.FC = () => {
   return (
     <div className="animal-profile p-4 max-w-7xl mx-auto bg-white rounded-3xl shadow-lg sm:p-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center lg:mb-40 lg:mt-10">
       {/* Imagen */}
-      <div className="w-full h-full flex justify-center lg:justify-start">
-        {animal.photos && animal.photos.length > 2 ? (
-          <img
-            src={animal.photos[0]}
-            alt={`Foto de ${animal.name}`}
-            className="rounded-2xl object-cover lg:w-full lg:h-auto"
-          />
-        ) : (
-          <img
-            src={defaultImage}
-            alt="Imagen por defecto"
-            className="rounded-2xl object-cover lg:w-full lg:h-auto"
-          />
-        )}
-      </div>
+      <img
+      src={animal.photos && animal.photos.length > 0 ? animal.photos[0] : defaultImage}
+      alt={`Foto de ${animal.name}`}
+      className="rounded-2xl object-cover lg:w-full lg:h-auto"
+      onError={(e) => (e.currentTarget.src = defaultImage)} // Cambiar a la imagen por defecto si hay un error
+      />
+
 
       {/* Información */}
       <div className="ficha p-4 bg-white rounded-xl shadow-md lg:p-6">
@@ -92,6 +84,21 @@ const AnimalProfile: React.FC = () => {
             <p className="text-gray-800 font-medium text-sm sm:text-base">
               {animal.health_status}
             </p>
+            {/* Condiciones */}
+ 
+  {animal.medicalHistory?.conditions && animal.medicalHistory.conditions.length > 0 ? (
+    <div>
+      <h3 className="text-md font-semibold text-gray-700">Condiciones:</h3>
+      <ul className="list-disc list-inside text-gray-700 text-sm sm:text-base">
+        {animal.medicalHistory.conditions.map((condition, index) => (
+          <li key={index}>{condition}</li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p className="text-gray-600 text-sm"></p>
+  )}
+            
           </div>
         </section>
 
