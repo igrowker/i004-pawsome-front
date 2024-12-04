@@ -54,7 +54,7 @@ jobs:
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
         with:
-          context: ../../Dockerfile
+          context: ./ # Adjust if your Dockerfile is in a subdirectory
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/pawsome-node:frontend
@@ -76,7 +76,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
-          netlify deploy --dir=../../dist --prod
+          netlify deploy --dir=./dist
 
   deploy-to-ec2:
     runs-on: ubuntu-latest
@@ -94,12 +94,10 @@ jobs:
 
       - name: Deploy to EC2 Instance
         run: |
-          # Copy built files to EC2
-          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} -r ../../dist/* ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/i004-pawsome-front
+          scp -o StrictHostKeyChecking=no -r ./dist/* ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/i004-pawsome-front
 
-          # SSH into EC2 and restart the application
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
             cd /i004-pawsome-front
             npm install --production
-            pm2 reload ecosystem.config.js || pm2 start app.js --name i004-pawsome-front
+            pm2 reload ecosystem.config.js || pm2 start ecosystem.config.js --name i004-pawsome-front
           EOF
