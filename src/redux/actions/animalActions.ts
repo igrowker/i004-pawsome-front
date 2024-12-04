@@ -5,7 +5,6 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { apiUrls } from "@/config";
 import { addNotification } from "@/redux/notificationSlice";
-import { updateUserPets } from "./authActions";
 
 export const FETCH_ANIMAL_START = "FETCH_ANIMAL_START";
 export const FETCH_ANIMAL_SUCCESS = "FETCH_ANIMAL_SUCCESS";
@@ -156,7 +155,6 @@ export const createAnimal =
       });
 
       dispatch({ type: CREATE_ANIMAL_SUCCESS, payload: response.data });
-      dispatch(updateUserPets(response.data._id));
 
       dispatch(
         addNotification({
