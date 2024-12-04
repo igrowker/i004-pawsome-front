@@ -11,4 +11,5 @@ export interface IAnimal {
   adoption_status: "disponible" | "en proceso" | "adoptado";
   createdAt: string;
   updatedAt: string;
+  sex: string
 }

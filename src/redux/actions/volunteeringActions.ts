@@ -1,19 +1,16 @@
 import { AppDispatch } from '../store';
-import axios from 'axios';
-
+import { Volunteering } from '@/interfaces/Volunteering';
+import apiClient from '@/apiClient';
+export const GET_VOLUNTEERING_START = "GET_VOLUNTEERING_START";
 export const ADD_VOLUNTEERING = "ADD_VOLUNTEERING";
 export const GET_VOLUNTEERING = "GET_VOLUNTEERING";
 export const GET_VOLUNTEERING_ERROR = "GET_VOLUNTEERING_ERROR"
+export const SET_VOLUNTEERING_DATA = "SET_VOLUNTEERING_DATA"
 
-interface Volunteering {
-    id: number;
-    refugee_name: string,
-    imageUrl: string,
-    description: string,
-    requirements: string,
-    availability: string
-  }
-  
+export const getVolunteeringStart = () => ({
+  type: GET_VOLUNTEERING_START,
+})
+
 export const getVolunteering = (volunteerData: Volunteering[]) => ({
     type: GET_VOLUNTEERING,
     payload: volunteerData
@@ -28,16 +25,21 @@ export const addVolunteering = (volunteer: Volunteering) => ({
     payload: volunteer
 })
 
-export const fetchVolunteeringOportunities = () => {
-    return async (dispatch: AppDispatch) => {
-      try {
-        const response = await axios.get('/volunteer');
-        dispatch(getVolunteering(response.data));
-      } catch (error: any) {
-        const errorMessage =
-          error?.response?.data?.message || "Error al obtener el animal.";
-        dispatch(getVolunteeringerror(errorMessage));
-      }
-    };
-  };
-  
+
+export const fetchVolunteeringData = () => {
+ return async (dispatch: AppDispatch) => {
+  dispatch(getVolunteeringStart());
+
+  try {
+    const response = await apiClient.get("/volunteer");
+    dispatch({
+      type: GET_VOLUNTEERING,
+      payload: response.data.data
+    });
+    console.log(response.data.data)
+  } catch (error:unknown) {
+    const errorMessage = error instanceof Error ? error.message: "Error desconocido";
+    dispatch(getVolunteeringerror(errorMessage))
+  }
+ }
+};

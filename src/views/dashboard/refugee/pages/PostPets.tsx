@@ -1,9 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
-import { apiUrls } from "@/config";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { addNotification } from "@/redux/notificationSlice";
 import Input from "@/components/ui/input";
+import { createAnimal } from "@/redux/actions/animalActions";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface IMedicalHitory {
   conditions: string[];
@@ -39,9 +39,10 @@ const AnimalForm = () => {
   });
   const [error, setError] = useState("");
   const [images, setImages] = useState<FileList | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const dispatch = useAppDispatch();
+  const { loading } = useSelector((state: RootState) => state.animal);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -175,116 +176,9 @@ const AnimalForm = () => {
     if (!validateForm()) {
       return;
     }
-
-    setIsSubmitting(true);
-
-    try {
-      const user = localStorage.getItem("user");
-      if (!user) {
-        throw new Error(
-          "No se encontró la información del usuario en el localStorage."
-        );
-      }
-
-      const refugeeId = JSON.parse(user)?.refugee?._id;
-      if (!refugeeId) {
-        throw new Error(
-          "No se encontró el ID del refugio en los datos del usuario."
-        );
-      }
-
-      const photoUrls: string[] = [];
-      const formDataForFiles = new FormData();
-
-      if (images) {
-        for (const image of Array.from(images)) {
-          formDataForFiles.append("file", image);
-        }
-      }
-
-      const uploadResponse = await axios.post(
-        apiUrls.filesUpload(),
-        formDataForFiles,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (uploadResponse.data.url) {
-        photoUrls.push(uploadResponse.data.url);
-      } else {
-        throw new Error("La respuesta del backend no contiene una URL.");
-      }
-
-      const payload = {
-        ...formData,
-        photos: photoUrls,
-        refugee_id: refugeeId,
-      };
-
-      const token = localStorage.getItem("token");
-
-      const response = await axios.post(apiUrls.postAnimal(), payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      console.log("Animal creado:", response.data);
-      dispatch(
-        addNotification({
-          type: "success",
-          message: "Animal creado exitosamente.",
-        })
-      );
-
-      setFormData({
-        name: "",
-        age: "",
-        species: "",
-        breed: "",
-        health_status: "",
-        medicalHistory: {
-          conditions: [],
-          vaccinations: [],
-        },
-        description: "",
-        adoption_status: "",
-        photos: [],
-      });
-      setImages(null);
-      setErrors({});
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const serverMessage =
-          error.response?.data?.message || "Error desconocido.";
-
-        dispatch(
-          addNotification({
-            type: "error",
-            message: `Error del servidor: ${serverMessage}`,
-          })
-        );
-      } else if (error instanceof Error) {
-        dispatch(
-          addNotification({
-            type: "error",
-            message: error.message,
-          })
-        );
-      } else {
-        dispatch(
-          addNotification({
-            type: "error",
-            message: "Ocurrió un error inesperado.",
-          })
-        );
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    dispatch(createAnimal(formData, images));
+    setImages(null);
+    setErrors({});
   };
 
   return (
@@ -498,10 +392,10 @@ const AnimalForm = () => {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || loading}
         className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? "Enviando..." : "Enviar"}
+        {isSubmitting || loading ? "Enviando..." : "Enviar"}
       </button>
     </form>
   );

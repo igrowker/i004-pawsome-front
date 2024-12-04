@@ -20,7 +20,7 @@ const RegisterPage = () => {
             className="bg-primaryLight text-white py-3 rounded-xl font-medium text-lg"
             onClick={() => handleNavigate('/userRegister')}
           >
-            Quiero adoptar
+            Quiero adoptar o ayudar
           </button>
           <button
             className="bg-secondaryLight text-white py-3 rounded-xl font-medium text-lg"
