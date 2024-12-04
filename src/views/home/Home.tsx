@@ -1,5 +1,4 @@
 import AdoptionList from "@/components/AdoptionList";
-import FilterAdoption from "@/components/FilterAdoption";
 import Navigation from "@/components/Navigation";
 import ShelterList from "@/components/ShelterList";
 import Pagination from "@/components/ui/pagination";
@@ -17,12 +16,11 @@ const Home: React.FC = () => {
     data: shelters,
     error,
   } = useSelector((state: RootState) => state.refugee);
-  const [activeView, setActiveView] = React.useState("refugios");
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const itemsPerPage = 5;
 
-  // Estado para el filtro
-  const [filter, setFilter] = useState<string>('');
+  const [activeView, setActiveView] = React.useState("refugios");
+  const [currentPage, setCurrentPage] = useState<number>(1); // Estado para la paginación
+  const itemsPerPage = 6; //Seis maps por pag
+
 
   useEffect(() => {
     if (activeView === "refugios") {
@@ -30,9 +28,6 @@ const Home: React.FC = () => {
     }
   }, [activeView, dispatch]);
 
-  const handleFilterChange = (species: string) => {
-    setFilter(species);
-  };
 
   const currentShelters = shelters.slice(
     (currentPage - 1) * itemsPerPage,
@@ -47,16 +42,9 @@ const Home: React.FC = () => {
         {activeView === "adopciones" && (
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">Adopciones</h2>
-            <button className="bg-teal-500 text-white font-semibold px-4 py-2 rounded-full shadow-md">
-              Donar
-            </button>
           </div>
         )}
-        {activeView === "adopciones" && (
-          <div className="mb-4">
-            <FilterAdoption onFilterChange={handleFilterChange} />
-          </div>
-        )}
+
         {/* Mostrar vista activa */}
         {activeView === "refugios" ? (
           loading ? (
@@ -64,17 +52,20 @@ const Home: React.FC = () => {
           ) : error ? (
             <p className="text-red-500"> Error:{error} </p>
           ) : (
-            <ShelterList shelters={currentShelters} />
+            <div>
+              <ShelterList shelters={currentShelters} />
+              {/* Paginación de refugios */}
+              <Pagination
+                totalItems={shelters.length}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            </div>
           )
         ) : (
           <AdoptionList />
         )}
-        <Pagination
-          totalItems={shelters.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
       </main>
     </div>
   );
