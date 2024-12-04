@@ -7,11 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { logout } from "@/redux/actions/authActions";
 import { AppDispatch } from "@/redux/store";
+import { MdOutlinePets, MdFavoriteBorder } from "react-icons/md";
+import { SiPetsathome } from "react-icons/si";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const auth = useSelector((state: RootState) => state.auth);
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
@@ -20,10 +24,10 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       // Espera a que el logout se complete y recarga la página y redirige a home
-      await dispatch(logout()); 
+      await dispatch(logout());
       setIsOpen(false);
       navigate("/home");
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error("Error en logout:", error);
     }
@@ -42,7 +46,37 @@ export default function Navbar() {
 
   const menuItems = [
     { icon: FiHome, text: "Home", to: "/home" },
-    { icon: CiUser, text: "Profile", to: "/user" },
+    ...(auth.user?.role === "user"
+      ? [
+          {
+            icon: MdFavoriteBorder,
+            text: "Favorite",
+            to: "/dashboard/user/favorites",
+          },
+        ]
+      : []),
+    ...(auth.user?.role === "refugee"
+      ? [
+          {
+            icon: SiPetsathome,
+            text: "Your pets for adoption",
+            to: "dashboard/refugee/petslist",
+          },
+        ]
+      : []),
+    ...(auth.user?.role === "refugee" || auth.user?.role === "user"
+      ? [{ icon: CiUser, text: "Profile", to: "/user" }]
+      : []),
+
+    ...(auth.user?.role === "refugee"
+      ? [
+          {
+            icon: MdOutlinePets,
+            text: "Add new pet",
+            to: "/dashboard/refugee/postpets",
+          },
+        ]
+      : []),
     { icon: FiInfo, text: "About us", to: "/about" },
   ];
 
@@ -71,8 +105,9 @@ export default function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
-              }`}
+            className={`absolute top-0 right-0 bottom-0 w-[80%] sm:w-[385px] bg-primaryLight text-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+              isOpen ? "translate-x-0" : "translate-x-full"
+            }`}
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-end">

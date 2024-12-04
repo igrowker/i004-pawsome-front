@@ -1,4 +1,4 @@
-import { GET_VOLUNTEERING, ADD_VOLUNTEERING } from "../actions/volunteeringActions";
+import { GET_VOLUNTEERING, ADD_VOLUNTEERING, GET_VOLUNTEERING_ERROR } from "../actions/volunteeringActions";
 
 const initialState = {
     volunteering: []
@@ -17,6 +17,8 @@ const volunteeringReducer = (state = initialState, action: any) => {
                 ... state,
                 volunteering: [...state.volunteering, action.payload]
             };
+            case GET_VOLUNTEERING_ERROR:
+                return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }

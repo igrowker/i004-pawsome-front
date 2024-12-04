@@ -15,94 +15,80 @@ export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const FETCH_USER_FAILURE = "FETCH_USER_ERROR";
 
 interface FetchUseProfileStart {
-  type: typeof FETCH_USER_PROFILE_START
+  type: typeof FETCH_USER_PROFILE_START;
 }
 
 interface FetchUserProfileSuccess {
-  type: typeof FETCH_USER_PROFILE_SUCCESS
+  type: typeof FETCH_USER_PROFILE_SUCCESS;
 }
 
-interface FetchUserProfileError{
-  type: typeof FETCH_USER_PROFILE_ERROR
+interface FetchUserProfileError {
+  type: typeof FETCH_USER_PROFILE_ERROR;
 }
 
-interface UpdateUserProfileStart{
-  type: typeof UPDATE_USER_PROFILE_START
+interface UpdateUserProfileStart {
+  type: typeof UPDATE_USER_PROFILE_START;
 }
 
-interface UpdateUserProfileSuccess{
-  type: typeof UPDATE_USER_PROFILE_SUCCESS
+interface UpdateUserProfileSuccess {
+  type: typeof UPDATE_USER_PROFILE_SUCCESS;
 }
 
-interface UpdateUserProfileFailure{
-  type: typeof UPDATE_USER_PROFILE_FAILURE
+interface UpdateUserProfileFailure {
+  type: typeof UPDATE_USER_PROFILE_FAILURE;
 }
 
-interface FetchUserStart {
-  type: typeof FETCH_USER_START
-}
-
-interface FetchUserSuccess {
-  type: typeof FETCH_USER_SUCCESS
-}
-
-interface FetchUserError{
-  type: typeof FETCH_USER_FAILURE
-}
-
-export type UserProfileActionTypes = 
-  FetchUseProfileStart 
-| FetchUserProfileSuccess
-| FetchUserProfileError;
+export type UserProfileActionTypes =
+  | FetchUseProfileStart
+  | FetchUserProfileSuccess
+  | FetchUserProfileError;
 
 export type UpdateProfileActionTypes =
-  UpdateUserProfileStart
-| UpdateUserProfileSuccess
-| UpdateUserProfileFailure
+  | UpdateUserProfileStart
+  | UpdateUserProfileSuccess
+  | UpdateUserProfileFailure;
 
-export type UserActionTypes = 
-  FetchUserStart 
-| FetchUserSuccess
-| FetchUserError;
+export const fetchUserProfile =
+  (userId: string) =>
+  async (dispatch: ThunkDispatch<RootState, void, UserProfileActionTypes>) => {
+    dispatch({ type: FETCH_USER_PROFILE_START });
 
-export const fetchUserProfile = (userId: string) => async (dispatch: ThunkDispatch<RootState, void, UserProfileActionTypes>) => {
-  dispatch({ type: FETCH_USER_PROFILE_START });
+    try {
+      const response = await apiClient.get(`/user/${userId}`);
+      dispatch({ type: FETCH_USER_PROFILE_SUCCESS, payload: response.data });
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido.";
+      dispatch({
+        type: FETCH_USER_PROFILE_ERROR,
+        payload: errorMessage || "Error al cargar el perfil",
+      });
+    }
+  };
 
-  try {
-    const response = await apiClient.get(`/api/user-profile/${userId}`);
-    dispatch({ type: FETCH_USER_PROFILE_SUCCESS, payload: response.data });
-  } catch (error: any) {
-    dispatch({
-      type: FETCH_USER_PROFILE_ERROR,
-      payload: error.response?.data?.message || "Error al cargar el perfil",
-    });
-  }
-};
+export const updateUserProfile =
+  (userId: string, userData: { profilePhoto?: string }) =>
+  async (
+    dispatch: ThunkDispatch<RootState, void, UpdateProfileActionTypes>
+  ) => {
+    dispatch({ type: UPDATE_USER_PROFILE_START });
 
-export const updateUserProfile = (userId: string, userData: any) => async (dispatch: ThunkDispatch<RootState, void, UpdateProfileActionTypes>) => {
-  dispatch({ type: UPDATE_USER_PROFILE_START });
+    try {
+      console.log("Datos para actualizar el perfil:", userData);
 
-  try {
-    const response = await apiClient.put(`/api/user-profile/${userId}`, userData);
-    dispatch({ type: UPDATE_USER_PROFILE_SUCCESS, payload: response.data });
-  } catch (error: any) {
-    dispatch({
-      type: UPDATE_USER_PROFILE_FAILURE,
-      payload: error.response?.data?.message || "Error al actualizar el perfil",
-    });
-  }
-};
+      const response = await apiClient.put(`/user/${userId}`, userData);
+      console.log(
+        "Respuesta del servidor al actualizar perfil:",
+        response.data
+      );
 
-export const fetchUser = (userId: string) => async (dispatch: ThunkDispatch<RootState, void, UserActionTypes>) => {
-  dispatch({ type: FETCH_USER_START });
-
-  try {
-    const response = await apiClient.get(`/api/user/${userId}`);
-    dispatch({ type: FETCH_USER_SUCCESS, payload: response.data });
-  } catch (error: any) {
-    dispatch({
-      type: FETCH_USER_FAILURE,
-      payload: error.response?.data?.message || "Error al actualizar el perfil",
-    });
-  }
-};
+      dispatch({ type: UPDATE_USER_PROFILE_SUCCESS, payload: response.data });
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido.";
+      dispatch({
+        type: UPDATE_USER_PROFILE_FAILURE,
+        payload: errorMessage || "Error al actualizar el perfil",
+      });
+    }
+  };
