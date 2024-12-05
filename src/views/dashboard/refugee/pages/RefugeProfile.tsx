@@ -6,7 +6,7 @@ import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 
@@ -97,8 +97,8 @@ export default function RefugeProfile() {
                 }}
               >
                 {data_refugee.opportunities.length === 0
-                  ? "Sin voluntariados disponibles"
-                  : "Ir al voluntariado"}
+                  ? "Voluntariados"
+                  : "Voluntariados"}
               </button>
 
               {data_refugee.opportunities.length === 0 && (
@@ -147,3 +147,4 @@ export default function RefugeProfile() {
     </>
   );
 }
+

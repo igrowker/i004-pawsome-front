@@ -100,7 +100,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/adoption-requests`, {
+        const response = await fetch(`${apiUrl}/adoption-requests`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
