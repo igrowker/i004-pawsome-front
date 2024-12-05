@@ -4,13 +4,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
-import axios from "axios";
+// import axios from "axios";
 import { MouseEvent, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 
-const URL = import.meta.env.VITE_BACK_URL
+// const URL = import.meta.env.VITE_BACK_URL
 
 export default function RefugeProfile() {
   const dispatch = useAppDispatch();
@@ -30,18 +30,20 @@ export default function RefugeProfile() {
     if (id) {
       dispatch(fetchRefugeeById(id)); // Despacha la acción para obtener el animal
     }
+    setFilteredAnimals(data_refugee.pets);
+
   }, [id, dispatch]);
   const setAnimalFilter = (event: MouseEvent<HTMLButtonElement>) => {
     // el .currentTarget me da el botón actual que dio click
     setFilter(event.currentTarget.textContent || "")
   }
+  
+  const getAnimalsBySpecie =  (filterValue: string) => {
+    // const { data } = data_refugee.pets
 
-  const getAnimalsBySpecie = async (filterValue: string) => {
-    const { data } = await axios<IAnimal[]>(`${URL}/animals`)
-
-    if (data) {
-      console.log(data)
-      const fetchAnimalsBySpecie = data.filter(animal => animal.species.toLowerCase() === filterValue.toLowerCase())
+    if (data_refugee) {
+      // console.log(data)
+      const fetchAnimalsBySpecie = data_refugee.pets.filter(pet => pet.species.toLowerCase() === filterValue.toLowerCase())
       setFilteredAnimals(fetchAnimalsBySpecie)
     }
   }
