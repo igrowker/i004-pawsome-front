@@ -6,6 +6,10 @@ export interface IAnimal {
   species: string;
   breed?: string;
   health_status: string;
+  medicalHistory?: {
+    conditions: string[]; 
+    vaccinations: { name: string; date: string }[]; 
+  };
   description: string;
   photos: string[];
   adoption_status: "disponible" | "en proceso" | "adoptado";
