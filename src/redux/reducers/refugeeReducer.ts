@@ -24,6 +24,7 @@ const refugee: IRefuge = {
   img: "",
   description: "",
   pets: [],
+  opportunities: []
 
 }
 const initialState: RefugeeState = {

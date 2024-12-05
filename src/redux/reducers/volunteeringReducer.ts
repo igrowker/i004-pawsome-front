@@ -1,6 +1,7 @@
 import { IVolunteeringByRefugeeId } from "@/interfaces/IVolunteeringByRefugee";
-import { GET_VOLUNTEERING, ADD_VOLUNTEERING, GET_VOLUNTEERING_ERROR, GET_VOLUNTEERING_BY_REFUGEE_ID } from "../actions/volunteeringActions";
+import { GET_VOLUNTEERING, GET_VOLUNTEERING_ERROR, GET_VOLUNTEERING_BY_REFUGEE_ID } from "../actions/volunteeringActions";
 import { Volunteering } from "@/interfaces/Volunteering";
+
 
 
 export interface VolunteeringState {
@@ -28,9 +29,9 @@ const initialState: VolunteeringState = {
 
 type VolunteeringAction =
   | { type: typeof GET_VOLUNTEERING; payload: IVolunteeringByRefugeeId[] }
-  | { type: typeof ADD_VOLUNTEERING; payload: string }
   | { type: typeof GET_VOLUNTEERING_BY_REFUGEE_ID; payload: IVolunteeringByRefugeeId}
   | {type: typeof GET_VOLUNTEERING_ERROR; payload: string }
+
 
 
   const volunteeringReducer = (state = initialState, action: VolunteeringAction) => {
@@ -51,13 +52,9 @@ type VolunteeringAction =
                 loading: false,
                 success: true
             }
-        case ADD_VOLUNTEERING:
-            return {
-                ... state,
-                volunteering: [...state.volunteering, action.payload]
-            };
             case GET_VOLUNTEERING_ERROR:
                 return { ...state, loading: false, error: action.payload };
+            
         default:
             return state;
     }
