@@ -16,15 +16,11 @@ export default function RefugeProfile() {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const { data_refugee } = useSelector((state: RootState) => state.refugee);
-  console.log(data_refugee);
   const navigate = useNavigate();
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
 
-  // const { data: user, loading, error } = useSelector(
-  //   (state: RootState) => state.user
-  // );
 
   useEffect(() => {
     if (id) {
