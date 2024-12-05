@@ -39,28 +39,11 @@ export default function RefugeProfile() {
 
   const getStylesButton = (labelButton: string) => filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : ""
 
-  // useEffect(() => {
-  //   const fetchShelter = async () => {
-  //     try {
-  //       const response = await axios.get(`/refugee/${id}`);
-  //       return response.data
-        
-  //     } catch (error) {
-  //       console.error("Error fetching shelter data:", error);
-  //     }
-  //   };
-
-  //   fetchShelter();
-  // }, [id]);
   useEffect(() => {
     dispatch(fetchRefugeeById(id));
   
   }, [id, dispatch]);
 
-  // if (!data) {
-  //   return <p>Refugio no encontrado</p>;
-  // }
-  
 
 
   return (
@@ -80,7 +63,7 @@ export default function RefugeProfile() {
             </div>
             <RefugeDescription RefugeeDescription={data_refugee.description}/>
             <Link to={"/volunteerform"}><span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">Ser Voluntario</span></Link>
-
+            <Link to={`/volunteering/${data_refugee._id}`}><span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">Voluntariados</span></Link>
             <h5 className="text-lg font-roboto">Filtros</h5>
             <div className="flex justify-around mt-2">
               {

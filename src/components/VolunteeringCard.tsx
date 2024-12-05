@@ -4,17 +4,15 @@ import { Link } from "react-router-dom";
 
 interface VolunteeringCardProps {
   _id: string;
-  refugee_name: string;
-  // imageUrl: string;
   description: string;
   requirements: string;
   availability: string;
 }
-const VolunteeringCard: React.FC <VolunteeringCardProps>= ({refugee_name,description,requirements,availability}) => {
+const VolunteeringCard: React.FC <VolunteeringCardProps>= ({description,requirements,availability}) => {
   
   return (
     
-    <div className="mt-20 mb-20 flex flex-col items-center">
+    <div className="mt-10 flex flex-col rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {/* <div
         key={item._id}
@@ -26,9 +24,6 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({refugee_name,descrip
           alt={`Imagen de ${item.refugee_name}`}
         /> */}
         <div className="text-center space-y-2">
-          <h3 className="text-lg font-semibold text-neutral-800">
-            {refugee_name}
-          </h3>
           <p className="text-sm text-neutral-600 text-justify">
             {description}
           </p>
