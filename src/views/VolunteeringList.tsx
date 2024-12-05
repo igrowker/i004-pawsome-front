@@ -26,16 +26,19 @@ useEffect(() => {
 
 return (
         <>
-           <div className="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {volunteering_id.map((volunteering: IVolunteeringByRefugeeId) => (
-        <VolunteeringCard
-        _id ={volunteering._id}
-        description = {volunteering.description}
-        requirements = {volunteering.requirements}
-        availability = {volunteering.availability}
-        />
-      ))}
-    </div>
+          <div className="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+  {(Array.isArray(volunteering_id) ? volunteering_id : [volunteering_id]).map(
+    (volunteering: IVolunteeringByRefugeeId) => (
+      <VolunteeringCard
+        key={volunteering._id}
+        _id={volunteering._id}
+        description={volunteering.description}
+        requirements={volunteering.requirements}
+        availability={volunteering.availability}
+      />
+    )
+  )}
+</div>
         </>
     )
 }

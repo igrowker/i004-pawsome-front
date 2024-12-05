@@ -5,9 +5,12 @@ import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import FilterAdoption from "@/components/FilterAdoption";
 
 const PetList: React.FC = () => {
   const [filter, setFilter] = useState("");
+  const [speciesFilter, setSpeciesFilter] = useState("");
+
   const dispatch = useDispatch<AppDispatch>();
 
   const { user } = useSelector((state: RootState) => state.auth);
@@ -27,10 +30,18 @@ const PetList: React.FC = () => {
     userPetIds.includes(animal._id)
   );
 
-  const filteredPets = userPets.filter(
+  const filteredByNameOrBreed = userPets.filter(
     (pet) =>
       pet.name!.toLowerCase().includes(filter.toLowerCase()) ||
       pet.breed!.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  // Filtrar los animales según la especie seleccionada en el filtro
+  const filteredPets = filteredByNameOrBreed.filter(
+    (pet) =>
+      speciesFilter
+        ? pet.species.toLowerCase().includes(speciesFilter.toLowerCase())
+        : true
   );
 
   return (
@@ -48,6 +59,7 @@ const PetList: React.FC = () => {
           style={{ fontSize: "2.1rem", color: "white" }}
         />
       </div>
+      <FilterAdoption onFilterChange={setSpeciesFilter} />
 
       {loading ? (
         <p>Loading pets...</p>
