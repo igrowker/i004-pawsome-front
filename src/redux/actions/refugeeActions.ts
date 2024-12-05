@@ -1,7 +1,6 @@
 import { AppDispatch } from "../store";
 import { apiUrls } from "@/config";
 import { IRefuge } from "@/interfaces/IRefugee";
-// import { RootState } from '@/redux/store';
 import apiClient from "@/apiClient";
 
 export const FETCH_REFUGEES_REQUEST = "FETCH_REFUGEES_REQUEST";
