@@ -55,10 +55,10 @@ const AnimalProfile: React.FC = () => {
 
         {/* Detalles */}
         <div className="grid grid-cols-3 gap-4 mt-4 text-sm">
-          <p className="flex items-center text-gray-600">
+          {/* <p className="flex items-center text-gray-600">
             <FaPaw className="text-secondaryDark text-lg mr-2" />
             <span className="font-medium">{animal.sex}</span>
-          </p>
+          </p> */}
           <p className="flex items-center text-gray-600">
             <FaCakeCandles className="text-secondaryDark text-lg mr-2" />
             <span className="font-medium">{animal.age} años</span>
