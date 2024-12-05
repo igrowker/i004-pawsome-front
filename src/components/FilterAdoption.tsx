@@ -15,35 +15,42 @@ const FilterAdoption: React.FC<FilterAdoptionProps> = ({ onFilterChange }) => {
     isOpen,
     handleSpeciesChange,
     toggleDropdown
-  } = useFilterAdoption(onFilterChange); // Usamos el hook aquí
+  } = useFilterAdoption(onFilterChange);
 
   return (
-    <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 shadow-sm">
-      <button
-        id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-        onClick={toggleDropdown} // Usamos el toggle del hook
-        className="bg-teal-500 text-white w-full py-2 px-4 rounded-lg flex justify-between items-center"
-      >
-        {selectedSpecies}
-        <FaChevronDown className="ml-2" />
-      </button>
+    <div>
+      <h3>Selecciona una especie:</h3>
+      <div className="relative flex items-center bg-gray-100 rounded-full px-4 py-2 shadow-sm">
+        <button
+          id="dropdownDefaultButton"
+          data-dropdown-toggle="dropdown"
+          onClick={toggleDropdown}
+          className="bg-teal-500 text-white w-full py-2 px-4 rounded-lg flex justify-between items-center"
+        >
+          {selectedSpecies}
+          <FaChevronDown className="ml-2" />
+        </button>
 
-      {/* Opciones del dropdown */}
-      {isOpen && (
-        <div id="dropdown ">
-          <ul className="absolute py-2 left-0 w-full bg-white border border-gray-200 rounded-lg mt-2 shadow-lg z-10">
-            {species.map((speciesOption) => (
-              <li
-                key={speciesOption}
-                onClick={() => handleSpeciesChange(speciesOption)} // Usamos la función del hook
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              >
-                {speciesOption}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {/* Opciones del dropdown */}
+        {isOpen && (
+          <div
+            id="dropdown"
+            className="absolute left-0 w-full top-full mt-1 z-20"
+          >
+            <ul className="w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
+              {species.map((speciesOption) => (
+                <li
+                  key={speciesOption}
+                  onClick={() => handleSpeciesChange(speciesOption)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {speciesOption}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
