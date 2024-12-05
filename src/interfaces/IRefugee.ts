@@ -7,6 +7,6 @@ export interface IRefuge {
   phone: string;
   img: string;
   description: string;
-  pets: string[];
+  pets: string;
 
 }

@@ -4,7 +4,7 @@ interface Props {
   RefugeeDescription: string; // O el tipo de tu objeto si no es string
 }
 
-export default function RefugeDescription({RefugeeDescription}: Props) {
+export default function RefugeDescription({ RefugeeDescription }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -13,8 +13,8 @@ export default function RefugeDescription({RefugeeDescription}: Props) {
 
   return (
     <div>
-      <p> {RefugeeDescription}
-        
+      <p className="text-sm"> {RefugeeDescription}
+
         {!isExpanded && "..."} {/* Muestra puntos suspensivos si no está expandido */}
         {isExpanded && (
           <span>
@@ -26,7 +26,7 @@ export default function RefugeDescription({RefugeeDescription}: Props) {
       </p>
       <button
         onClick={toggleExpanded}
-        className="text-primaryDark underline hover:text-primaryLight transition-colors"
+        className="text-primaryDark underline hover:text-primaryLight transition-colors text-xs"
       >
         {isExpanded ? "Leer menos" : "Leer más"}
       </button>
