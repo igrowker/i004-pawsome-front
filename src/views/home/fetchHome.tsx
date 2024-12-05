@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 // ----------> El fetch de get available animals esta en animalActions.ts
 

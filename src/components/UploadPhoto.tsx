@@ -32,7 +32,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/file-upload/upload`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/file-upload/upload`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
