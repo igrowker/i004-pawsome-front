@@ -2,9 +2,8 @@ import { AppDispatch } from '../store';
 import { Volunteering } from '@/interfaces/Volunteering';
 import apiClient from '@/apiClient';
 import { IVolunteeringByRefugeeId } from '@/interfaces/IVolunteeringByRefugee';
-// import { IVolunteeringByRefugeeId } from "@/interfaces/IVolunteeringByRefugee";
+
 export const GET_VOLUNTEERING_START = "GET_VOLUNTEERING_START";
-export const ADD_VOLUNTEERING = "ADD_VOLUNTEERING";
 export const GET_VOLUNTEERING = "GET_VOLUNTEERING";
 export const GET_VOLUNTEERING_BY_REFUGEE_ID = "GET_VOLUNTEERING_BY_REFUGEE_ID";
 export const GET_VOLUNTEERING_ERROR = "GET_VOLUNTEERING_ERROR"
@@ -27,11 +26,6 @@ export const getVolunteeringerror = (error: string) => ({
     type: GET_VOLUNTEERING_ERROR,
     payload: error
 })
-export const addVolunteering = (volunteer: Volunteering) => ({
-    type: ADD_VOLUNTEERING,
-    payload: volunteer
-})
-
 
 export const fetchVolunteeringData = () => {
  return async (dispatch: AppDispatch) => {
@@ -70,3 +64,4 @@ export const fetchVolunteeringByRefugeeId = (id: string|undefined) => {
     }
   }
 };
+

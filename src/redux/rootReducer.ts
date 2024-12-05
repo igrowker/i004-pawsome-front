@@ -8,6 +8,7 @@ import notificationReducer from "./notificationSlice";
 import refugeeReducer from "./reducers/refugeeReducer";
 import adoptionRequestReducer from "./reducers/adoptRequestReducer";
 import donationReducer from "./reducers/donationReducer";
+import volunteeringCreationReducer from "./reducers/volunteeringCreationReducer";
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   favorites: favoritesReducer,
   volunteering: volunteeringReducer,
+  volunteeringCreation: volunteeringCreationReducer,
   notifications: notificationReducer,
   refugee: refugeeReducer,
   adopt: adoptionRequestReducer,

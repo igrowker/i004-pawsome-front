@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
-import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import { MouseEvent, useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 import BackButton from "@/components/VolverButton";
@@ -14,10 +16,16 @@ export default function RefugeProfile() {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const { data_refugee } = useSelector((state: RootState) => state.refugee);
-  const [filter, setFilter] = useState("");
-  const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([]);
+  console.log(data_refugee);
+  const navigate = useNavigate();
+  // agrego un estado para ver que botón pintar
+  const [filter, setFilter] = useState("")
+  const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
 
-  // Cargar los datos del refugio al montar el componente
+  // const { data: user, loading, error } = useSelector(
+  //   (state: RootState) => state.user
+  // );
+
   useEffect(() => {
     if (id) {
       dispatch(fetchRefugeeById(id));
@@ -78,12 +86,46 @@ export default function RefugeProfile() {
                 </span>
               </Link>
             </div>
+            <RefugeDescription RefugeeDescription={data_refugee.description} />
+            <Link to={"/volunteerform"}>
+              <span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">
+                Ser Voluntario
+              </span>
+            </Link>
+            <div className="relative group">
+              <button
+                className={`w-full ${
+                  data_refugee.opportunities.length === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-teal-500 hover:bg-teal-600"
+                } text-white font-semibold py-2 px-4 rounded-lg transition duration-200`}
+                disabled={data_refugee.opportunities.length === 0}
+                onClick={() => {
+                  if (data_refugee.opportunities.length > 0) {
+                    handleClick();
+                  }
+                }}
+              >
+                {data_refugee.opportunities.length === 0
+                  ? "Voluntariados"
+                  : "Voluntariados"}
+              </button>
 
-            <div className="flex justify-around mt-2 text-sm">
-              {["Perro", "Gato", "Otros"].map(item => (
+              {data_refugee.opportunities.length === 0 && (
+                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-black text-white text-sm font-medium py-1 px-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  No hay voluntariados
+                </span>
+              )}
+            </div>
+            <h5 className="text-lg font-roboto">Filtros</h5>
+            <div className="flex justify-around mt-2">
+              {["Perro", "Gato", "Otro"].map((item) => (
                 <button
                   key={item}
-                  onClick={setAnimalFilter}
+                  onClick={(event) => {
+                    setAnimalFilter(event);
+                    getAnimalsBySpecie(item);
+                  }}
                   className={getStylesButton(item)}
                 >
                   {item}
@@ -97,7 +139,9 @@ export default function RefugeProfile() {
       {/* Mostrar animales filtrados */}
       <div className="mt-5 mx-5">
         {filteredAnimals.length === 0 ? (
-          <p className="text-gray-500 text-center">No hay animales para mostrar.</p>
+          <p className="text-gray-500 text-center">
+            No hay animales para mostrar.
+          </p>
         ) : (
           <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredAnimals.map(animal => (
@@ -110,3 +154,4 @@ export default function RefugeProfile() {
     </>
   );
 }
+
