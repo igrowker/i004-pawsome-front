@@ -31,7 +31,7 @@ useEffect(() => {
 
 return (
         <>
-           <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+           <div className="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       {volunteering_id.map((volunteering: IVolunteeringByRefugeeId) => (
         <VolunteeringCard
         _id ={volunteering._id}

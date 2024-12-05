@@ -23,15 +23,17 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({description,requirem
           src={item.imageUrl}
           alt={`Imagen de ${item.refugee_name}`}
         /> */}
-        <div className="text-center space-y-2">
-          <p className="text-sm text-neutral-600 text-justify">
+        <div className="space-y-2">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">
             {description}
+          </h2>
+          <p className="text-gray-600 mb-2">
+          <h3 className="text-lg font-semibold text-teal-600">Requisitos:</h3>
+          {requirements}
           </p>
-          <p className="text-sm text-neutral-600 text-justify">
-            {requirements}
-          </p>
-          <p className="text-sm text-neutral-600 text-justify">
-            {availability}
+          <p className="text-gray-600 mb-4">
+          <h3 className="text-lg font-semibold text-teal-600">Horario:</h3>
+          {availability}
           </p>
         </div>
         <button className="w-full bg-teal-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors">
