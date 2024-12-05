@@ -16,43 +16,43 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
     const maxSize = 5 * 1024 * 1024;
 
     if (!validTypes.includes(file.type)) {
-      setError('La imagen debe ser formato .jpg, .png o .webp.');
-      return;
+        setError('La imagen debe ser formato .jpg, .png o .webp.');
+        return;
     }
 
     if (file.size > maxSize) {
-      setError('La imagen debe pesar menos de 5 MB.');
-      return;
+        setError('La imagen debe pesar menos de 5 MB.');
+        return;
     }
 
     setError(null);
     setLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+        const formData = new FormData();
+        formData.append('file', file);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/file-upload/upload`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: formData,
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/file-upload/upload`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: formData,
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al subir la imagen.');
-      }
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error al subir la imagen.');
+        }
 
-      const result = await response.json();
-      onPhotoUpload(result.url);
+        const result = await response.json();
+        onPhotoUpload(result.url);
     } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : 'Error desconocido.');
+        setError(uploadError instanceof Error ? uploadError.message : 'Error desconocido.');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
     <div className="relative">

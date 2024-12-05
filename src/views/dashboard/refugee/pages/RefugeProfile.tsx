@@ -1,13 +1,13 @@
+import { useEffect } from "react";
 import PetCard from "@/components/PetCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
 import axios from "axios";
 import { MouseEvent, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { RootState } from "@/redux/store";
-import { useEffect } from "react";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 
 const URL = import.meta.env.VITE_BACK_URL
@@ -22,6 +22,15 @@ export default function RefugeProfile() {
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
 
+  // const { data: user, loading, error } = useSelector(
+  //   (state: RootState) => state.user
+  // );
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchRefugeeById(id)); // Despacha la acción para obtener el animal
+    }
+  }, [id, dispatch]);
   const setAnimalFilter = (event: MouseEvent<HTMLButtonElement>) => {
     // el .currentTarget me da el botón actual que dio click
     setFilter(event.currentTarget.textContent || "")

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaDog, FaPaw, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
+import { FaDog, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
 import { FaCakeCandles } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -33,21 +33,13 @@ const AnimalProfile: React.FC = () => {
   return (
     <div className="animal-profile p-4 max-w-7xl mx-auto bg-white rounded-3xl shadow-lg sm:p-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center lg:mb-40 lg:mt-10">
       {/* Imagen */}
-      <div className="w-full h-full flex justify-center lg:justify-start">
-        {animal.photos && animal.photos.length > 2 ? (
-          <img
-            src={animal.photos[0]}
-            alt={`Foto de ${animal.name}`}
-            className="rounded-2xl object-cover lg:w-full lg:h-auto"
-          />
-        ) : (
-          <img
-            src={defaultImage}
-            alt="Imagen por defecto"
-            className="rounded-2xl object-cover lg:w-full lg:h-auto"
-          />
-        )}
-      </div>
+      <img
+      src={animal.photos && animal.photos.length > 0 ? animal.photos[0] : defaultImage}
+      alt={`Foto de ${animal.name}`}
+      className="rounded-2xl object-cover lg:w-full lg:h-auto"
+      onError={(e) => (e.currentTarget.src = defaultImage)} // Cambiar a la imagen por defecto si hay un error
+      />
+
 
       {/* Información */}
       <div className="ficha p-4 bg-white rounded-xl shadow-md lg:p-6">
@@ -63,10 +55,10 @@ const AnimalProfile: React.FC = () => {
 
         {/* Detalles */}
         <div className="grid grid-cols-3 gap-4 mt-4 text-sm">
-          <p className="flex items-center text-gray-600">
+          {/* <p className="flex items-center text-gray-600">
             <FaPaw className="text-secondaryDark text-lg mr-2" />
             <span className="font-medium">{animal.sex}</span>
-          </p>
+          </p> */}
           <p className="flex items-center text-gray-600">
             <FaCakeCandles className="text-secondaryDark text-lg mr-2" />
             <span className="font-medium">{animal.age} años</span>
@@ -85,15 +77,56 @@ const AnimalProfile: React.FC = () => {
           </p>
         </section>
 
-        {/* Estado de salud */}
-        <section className="flex items-center justify-between mt-4 bg-red-50 p-4 rounded-lg shadow-md">
-          <div className="flex items-center">
+        {/* Estado de salud y historial médico */}
+        <section className="mt-4">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2 sm:text-xl">
+            Historial Médico
+          </h2>
+
+          {/* Estado de salud */}
+          <div className="flex items-center bg-red-50 p-4 rounded-lg shadow-md mb-4">
             <FaBriefcaseMedical className="text-red-600 text-3xl mr-4" />
             <p className="text-gray-800 font-medium text-sm sm:text-base">
               {animal.health_status}
             </p>
           </div>
+
+          {/* Condiciones */}
+          {animal.medicalHistory?.conditions && animal.medicalHistory.conditions.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-md font-semibold text-gray-700 mb-2">
+                Condiciones de Salud:
+              </h3>
+              <div className="space-y-1">
+                {animal.medicalHistory.conditions.map((condition, index) => (
+                  <div key={index} className="text-gray-700 text-sm sm:text-base">
+                    {condition}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Vacunas */}
+          {animal.medicalHistory?.vaccinations && animal.medicalHistory.vaccinations.length > 0 && (
+            <div>
+              <h3 className="text-md font-semibold text-gray-700 mb-2">
+                Vacunas:
+              </h3>
+              <div className="space-y-1">
+                {animal.medicalHistory.vaccinations.map((vaccination, index) => (
+                  <div key={index} className="text-gray-700 text-sm sm:text-base">
+                    <span className="font-medium">{vaccination.name}</span> -{" "}
+                    <span className="text-gray-600">
+                      {new Date(vaccination.date).toLocaleDateString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
+
 
         {/* Disponibilidad */}
         <div className="availability flex items-center justify-between mt-4 bg-secondaryLight rounded-xl px-6 py-4 shadow-md">
