@@ -14,15 +14,6 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({description,requirem
     
     <div className="mt-10 flex flex-col rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {/* <div
-        key={item._id}
-        className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow space-y-4 max-w-sm"
-      > */}
-        {/* <img
-          className="w-28 h-28 rounded-full object-cover"
-          src={item.imageUrl}
-          alt={`Imagen de ${item.refugee_name}`}
-        /> */}
         <div className="space-y-2">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             {description}

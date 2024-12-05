@@ -11,11 +11,9 @@ const VolunteeringList: React.FC = () => {
 const dispatch = useDispatch<AppDispatch>();
 const {id} = useParams<{ id: string }>();
 const {volunteering_id, loading} = useSelector((state: RootState) => state.volunteering);
-console.log(volunteering_id)
 
 useEffect(() => {
   if (id) {
-    console.log("Despachando acción para ID de refugio:", id);
     dispatch(fetchVolunteeringByRefugeeId(id));
   }
     
@@ -24,9 +22,6 @@ useEffect(() => {
   if (loading) {
     return <div>Cargando voluntariados disponibles para su adopción...</div>;
   }
-  // if (!volunteering_id || volunteering_id.length === 0) {
-  //   return <div>No hay voluntariados disponibles en este momento.</div>;
-  // }
 
 
 return (
