@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaDog, FaPaw, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
+import { FaDog, FaArrowLeft, FaBriefcaseMedical } from "react-icons/fa";
 import { FaCakeCandles } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
