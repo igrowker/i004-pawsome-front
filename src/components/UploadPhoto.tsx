@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 
 interface UploadPhotoProps {
   onPhotoUpload: (photoUrl: string) => void;
+  buttonText?: string; // Permite cambiar el texto del botón (por defecto, "Editar foto").
+  validateFile?: boolean; // Controla si se deben realizar las validaciones.
+  requireToken?: boolean; 
 }
 
-const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
+const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload, buttonText = 'Editar foto', validateFile = true ,requireToken = true }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -12,17 +15,19 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const maxSize = 5 * 1024 * 1024;
+    if (validateFile) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      const maxSize = 5 * 1024 * 1024;
 
-    if (!validTypes.includes(file.type)) {
+      if (!validTypes.includes(file.type)) {
         setError('La imagen debe ser formato .jpg, .png o .webp.');
         return;
-    }
+      }
 
-    if (file.size > maxSize) {
+      if (file.size > maxSize) {
         setError('La imagen debe pesar menos de 5 MB.');
         return;
+      }
     }
 
     setError(null);
@@ -32,12 +37,15 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
         const formData = new FormData();
         formData.append('file', file);
 
+        const headers: Record<string, string> = {};
+        if (requireToken) {
+          headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+        }
+  
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/file-upload/upload`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: formData,
+          method: 'POST',
+          headers,
+          body: formData,
         });
 
         if (!response.ok) {
@@ -61,7 +69,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload }) => {
         className="hover:bg-secondaryLight bg-primaryLight text-white py-1 px-3 rounded-full text-sm cursor-pointer"
         style={{ marginLeft: '16px' }}
       >
-        {loading ? 'Subiendo...' : 'Editar foto'}
+        {loading ? 'Subiendo...' : buttonText}
       </label>
       <input
         id="upload-photo"
