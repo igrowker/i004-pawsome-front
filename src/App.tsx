@@ -19,7 +19,7 @@ import RegisterPage from "./views/RegisterPage";
 import About from "./views/About";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import NotificationContainer from "./components/NotificationContainer";
-import AdoptPage from "./views/adopt";
+import AdoptPage from "./views/Adopt";
 import VolunteeringList from './views/VolunteeringList';
 import DonationForm from "./views/DonationForm";
 import DonationSuccess from "./components/DonationSuccess";
@@ -48,8 +48,8 @@ function App() {
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
 
-          <Route path="/volunteering/:id" element={<VolunteeringList/>} /> 
-          
+          <Route path="/volunteering/:id" element={<VolunteeringList />} />
+
           <Route path="/donation-form" element={<DonationForm />} />
           <Route path="/in-kind-donation" element={<InKindDonationForm />} />
           <Route path="/refugee/:id" element={<RefugeProfile />} />
@@ -70,7 +70,7 @@ function App() {
           <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee/:id" element={<RefugeProfile />} />
-          
+
 
           {/* Ruta del usuario adoptante? volunteer? y sus subrutas */}
           <Route path="/user" element={<UsersRoutes />} />

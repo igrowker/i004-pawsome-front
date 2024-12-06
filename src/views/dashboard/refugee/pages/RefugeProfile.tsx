@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
-import axios from "axios";
-import { MouseEvent, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
@@ -15,16 +13,14 @@ import PetCardPublic from "@/components/PetCardPublic";
 export default function RefugeProfile() {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
-  const { data_refugee } = useSelector((state: RootState) => state.refugee);
-  console.log(data_refugee);
   const navigate = useNavigate();
+  const { data_refugee } = useSelector((state: RootState) => state.refugee);
+
+  console.log(data_refugee);
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
 
-  // const { data: user, loading, error } = useSelector(
-  //   (state: RootState) => state.user
-  // );
 
   useEffect(() => {
     if (id) {
@@ -34,7 +30,7 @@ export default function RefugeProfile() {
 
   // Establecer los animales filtrados cuando cambia data_refugee
   useEffect(() => {
-    if (data_refugee?.pets) {
+    if (data_refugee?.pets && Array.isArray(data_refugee.pets)) {
       setFilteredAnimals(data_refugee.pets);
     }
   }, [data_refugee]);
@@ -47,17 +43,22 @@ export default function RefugeProfile() {
   };
 
   const getAnimalsBySpecie = (filterValue: string) => {
-    if (data_refugee?.pets) {
-      const filtered = data_refugee.pets.filter(
-        pet => pet.species.toLowerCase() === filterValue.toLowerCase()
+    if (data_refugee?.pets && Array.isArray(data_refugee.pets)) {
+      const filtered = data_refugee.pets.filter((pet: IAnimal) =>
+        filterValue ? pet.species.toLowerCase() === filterValue.toLowerCase() : true
       );
       setFilteredAnimals(filtered);
     }
   };
 
+
   // Función para aplicar estilos a los botones del filtro
   const getStylesButton = (labelButton: string) =>
     filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : "";
+
+  const handleClick = () => {
+    navigate(`/volunteering/${data_refugee._id}`);
+  };
 
   return (
     <>
@@ -76,29 +77,22 @@ export default function RefugeProfile() {
             <RefugeDescription RefugeeDescription={data_refugee?.description} />
             <div className="flex gap-1 justify-around">
               <Link to="/volunteerform">
-                <span className="text-sm inline-block rounded font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
+                <button className="text-sm inline-block rounded font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
                   Ser Voluntario
-                </span>
+                </button>
               </Link>
               <Link to={`/volunteering/${data_refugee?._id}`}>
-                <span className="text-sm inline-block font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
+                <button className="text-sm inline-block font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
                   Donar
-                </span>
+                </button>
               </Link>
             </div>
-            <RefugeDescription RefugeeDescription={data_refugee.description} />
-            <Link to={"/volunteerform"}>
-              <span className="inline-block text-lg font-roboto mt-[15px] mb-[13px] bg-primaryLight p-3 rounded text-white font-semibold shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all">
-                Ser Voluntario
-              </span>
-            </Link>
             <div className="relative group">
               <button
-                className={`w-full ${
-                  data_refugee.opportunities.length === 0
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-teal-500 hover:bg-teal-600"
-                } text-white font-semibold py-2 px-4 rounded-lg transition duration-200`}
+                className={`w-full ${data_refugee.opportunities.length === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-teal-500 hover:bg-teal-600"
+                  } text-sm inline-block font-roboto mt-0 mb-2 p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white`}
                 disabled={data_refugee.opportunities.length === 0}
                 onClick={() => {
                   if (data_refugee.opportunities.length > 0) {
@@ -107,7 +101,7 @@ export default function RefugeProfile() {
                 }}
               >
                 {data_refugee.opportunities.length === 0
-                  ? "Voluntariados"
+                  ? "Voluntariados abiertos"
                   : "Voluntariados"}
               </button>
 
@@ -117,7 +111,7 @@ export default function RefugeProfile() {
                 </span>
               )}
             </div>
-            <h5 className="text-lg font-roboto">Filtros</h5>
+            {/* <h5 className="text-xs font-robot">NUESTRA MANADA</h5> */}
             <div className="flex justify-around mt-2">
               {["Perro", "Gato", "Otro"].map((item) => (
                 <button
@@ -145,7 +139,7 @@ export default function RefugeProfile() {
         ) : (
           <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredAnimals.map(animal => (
-              <PetCardPublic key={animal._id} name={animal.name} photos={animal.photos} breed={animal.breed}/>
+              <PetCardPublic key={animal._id} name={animal.name} photos={animal.photos} breed={animal.breed} />
             ))}
           </div>
         )}
