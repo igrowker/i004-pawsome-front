@@ -7,7 +7,7 @@ interface DonationPostInterface {
   title: string,
   description: string,
   imageUrl: string,
-  monetaryDonation: boolean | undefined,
+  isMonetaryDonation: boolean | undefined,
   cuantityDonation: number,
   donationNumber: number,
   status: string
@@ -23,18 +23,20 @@ export const useDonationForm = () => {
   const [donation, setDonation] = useState<DonationPostInterface>({
     title: '',
     description: '',
-    monetaryDonation: monetary,
+    isMonetaryDonation: monetary,
     cuantityDonation: 0,
     imageUrl: '',
-    refugee_id: "674afd90d93aca13ac428584",
+    refugee_id: "6752c3b9c017430654bec1e2",
     status: 'active',
     donationNumber: 0
   })
 
+  
+
   useEffect(() => {
     setDonation(prevDonation => ({
       ...prevDonation,
-      monetaryDonation: monetary
+      isMonetaryDonation: monetary
     }));
   }, [monetary]);
 
@@ -73,7 +75,7 @@ export const useDonationForm = () => {
         title: donation.title,
         description: donation.description,
         imageUrl: donation.imageUrl,
-        monetaryDonation: donation.monetaryDonation,
+        isMonetaryDonation: donation.isMonetaryDonation,
         cuantityDonation: donation.cuantityDonation,
         donationNumber: donation.donationNumber,
         status: donation.status
@@ -91,7 +93,7 @@ export const useDonationForm = () => {
         alert('Ha ocurrido un error inesperado.');
       }
     }
-    navigate("/donationList")
+    navigate("/donationList");
   };
 
   return {
@@ -100,6 +102,6 @@ export const useDonationForm = () => {
     setDonation,
     handleInKindChange,
     handleMoneyChange,
-    handleSubmit
+    handleSubmit,
   }
 }
