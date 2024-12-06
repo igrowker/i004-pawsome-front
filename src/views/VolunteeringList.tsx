@@ -13,7 +13,6 @@ const VolunteeringList: React.FC = () => {
 const dispatch = useDispatch<AppDispatch>();
 const {id} = useParams<{ id: string }>();
 const {volunteering_id, loading} = useSelector((state: RootState) => state.volunteering);
-// const auth = useSelector((state: RootState) => state.auth);
 const [isCreating, setIsCreating] = useState<boolean>(false);
 const { isAuthenticated, user } = useSelector(
   (state: RootState) => state.auth

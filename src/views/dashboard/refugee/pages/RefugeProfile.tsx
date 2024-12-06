@@ -24,7 +24,7 @@ export default function RefugeProfile() {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchRefugeeById(id)); // Despacha la acción para obtener el animal
+      dispatch(fetchRefugeeById(id)); 
     }
   }, [id, dispatch]);
   const setAnimalFilter = (event: MouseEvent<HTMLButtonElement>) => {
