@@ -2,13 +2,14 @@ import { getDonationsData } from "@/views/helpers/getDonations";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 interface DonationInterface {
   _id: string,
   refugee_id: string,
   title: string,
   description: string,
   imageUrl: string,
-  monetaryDonation: boolean,
+  isMonetaryDonation: boolean,
   targetAmountMoney: number,
   targetItemsCount: number,
 }
@@ -22,8 +23,10 @@ export const useDonnationList = () => {
   const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
   const [actualDonation, SetActualDonation] = useState<actualDonationInf>();
+
   const navigate = useNavigate();
   // const dispatch = useDispatch();
+
 
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export const useDonnationList = () => {
     
         if (response && Array.isArray(response.donationRequests)) {
           const shelterFilter = response.donationRequests.filter(
-            (element: DonationInterface) => element.refugee_id === '674afd90d93aca13ac428584' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
+            (element: DonationInterface) => element.refugee_id === '6752c3b9c017430654bec1e2' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
           );
           // console.log(shelterFilter)
           setDonations(shelterFilter);
@@ -49,7 +52,9 @@ export const useDonnationList = () => {
    /*  dispatch(setDonationInfo(actualDonation.refugee_id, actualDonation.title)); */
 
     fetchDonations();
+
   }, []);
+  
 
   const handleDonate = (donation: DonationInterface) => {
     const token = localStorage.getItem("token");
@@ -64,14 +69,10 @@ export const useDonnationList = () => {
         title: donation.title,
         description: donation.description,
         refugee_id: donation.refugee_id,
-/*         refugeeName: donation.refugee_id.name, */
+        refugeeName: 'refugio huellitas'
       },
     });
   };
-
-  const form = () =>{
-    navigate('/in-kind-donation'); 
-  }
 
   const handleInKindDonation = (elemen1:string, elemen2:string, elemen3:string) =>{
     const donationInf = {
@@ -80,9 +81,6 @@ export const useDonnationList = () => {
       id : elemen3
     }
     SetActualDonation(donationInf);
-    if (actualDonation){
-      form();
-    }
   }
 
   const handleCloseModal = () => setShowModal(false);
@@ -107,6 +105,8 @@ export const useDonnationList = () => {
     handleLogin,
     handleRegister,
     donations,
-    showModal
+    showModal,
+    actualDonation,
+    setDonations
   }
 }
