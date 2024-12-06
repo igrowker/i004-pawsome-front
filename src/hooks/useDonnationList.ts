@@ -13,9 +13,9 @@ interface DonationInterface {
   targetAmountMoney: number,
   targetItemsCount: number,
 }
-interface actualDonationInf{
-  refugee_id : string,
-  title :string,
+interface actualDonationInf {
+  refugee_id: string,
+  title: string,
 }
 
 export const useDonnationList = () => {
@@ -34,7 +34,7 @@ export const useDonnationList = () => {
       try {
         const response = await getDonationsData();;
         // console.log(response)
-    
+
         if (response && Array.isArray(response.donationRequests)) {
           const shelterFilter = response.donationRequests.filter(
             (element: DonationInterface) => element.refugee_id === '6752c3b9c017430654bec1e2' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
@@ -49,12 +49,12 @@ export const useDonnationList = () => {
       }
     };
 
-   /*  dispatch(setDonationInfo(actualDonation.refugee_id, actualDonation.title)); */
+    /*  dispatch(setDonationInfo(actualDonation.refugee_id, actualDonation.title)); */
 
     fetchDonations();
 
   }, []);
-  
+
 
   const handleDonate = (donation: DonationInterface) => {
     const token = localStorage.getItem("token");
@@ -74,11 +74,11 @@ export const useDonnationList = () => {
     });
   };
 
-  const handleInKindDonation = (elemen1:string, elemen2:string, elemen3:string) =>{
+  const handleInKindDonation = (elemen1: string, elemen2: string, elemen3: string) => {
     const donationInf = {
-      refugee_id : elemen1,
-      title : elemen2,
-      id : elemen3
+      refugee_id: elemen1,
+      title: elemen2,
+      id: elemen3
     }
     SetActualDonation(donationInf);
   }
@@ -94,7 +94,7 @@ export const useDonnationList = () => {
     navigate("/register");
     setShowModal(false);
   };
-  
+
   console.log(donations)
   console.log(actualDonation)
 

@@ -19,7 +19,7 @@ import RegisterPage from "./views/RegisterPage";
 import About from "./views/About";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import NotificationContainer from "./components/NotificationContainer";
-import AdoptPage from "./views/adopt";
+import AdoptPage from "./views/Adopt";
 import VolunteeringList from './views/VolunteeringList';
 import DonationForm from "./views/DonationForm";
 import DonationSuccess from "./components/DonationSuccess";
@@ -27,6 +27,7 @@ import DonationAmount from "./components/DonationAmount";
 import DonationCancel from "./components/DonationCancel";
 import InKindDonationForm from "./views/InKindDonationForm";
 import RefugeProfile from "./views/dashboard/refugee/pages/RefugeProfile";
+import ScrollToTop from "./components/scrollToTop";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
@@ -69,7 +71,7 @@ function App() {
           <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee/:id" element={<RefugeProfile />} />
-          
+
 
           {/* Ruta del usuario adoptante? volunteer? y sus subrutas */}
           <Route path="/user" element={<UsersRoutes />} />

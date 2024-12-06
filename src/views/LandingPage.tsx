@@ -1,10 +1,9 @@
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-
 const LandingPage = () => {
     return (
-        <div className="flex flex-col items-bottom justify-center bg-gray-100 min-h-screen mt-12 pt-12">
+        <div className="flex flex-col items-bottom justify-center bg-gray-100 min-h-screen pt-12">
             <div className="text-center mt-12 pt-12">
                 <h1 className="text-5xl font-extrabold text-black mt-12 pt-12">Pawsome</h1>
                 <h4 className="text-black-500">Un lugar, todos los refugios</h4>

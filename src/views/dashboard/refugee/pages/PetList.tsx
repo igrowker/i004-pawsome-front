@@ -1,4 +1,3 @@
-import PetCard from "@/components/PetCard";
 import { fetchAllAnimals } from "@/redux/actions/animalActions";
 import { AppDispatch, RootState } from "@/redux/store";
 import React, { useEffect, useState } from "react";
@@ -6,6 +5,9 @@ import { FaFilter } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import FilterAdoption from "@/components/FilterAdoption";
+import PetCardPublic from "@/components/PetCardPublic";
+import { IAnimal } from "@/interfaces/IAnimal";
+import { IRefuge } from "@/interfaces/IRefugee";
 
 const PetList: React.FC = () => {
   const [filter, setFilter] = useState("");
@@ -22,23 +24,27 @@ const PetList: React.FC = () => {
     if (user?.refugee) {
       dispatch(fetchAllAnimals());
     }
-  }, [dispatch, user?.refugee, user?.refugee.pets]);
+  }, [dispatch, user?.refugee]);
 
-  const userPetIds = user?.refugee?.pets || [];
+  // Comprobación de que userRefugee esta tipado como IRefuge
+  const userRefugee = user?.refugee as IRefuge | undefined;
 
-  const userPets = allAnimals.filter((animal) =>
-    userPetIds.includes(animal._id)
-  );
+  // Comprobación de si User refugee existe? Tiene la propiedad pets??
+  const userPets = userRefugee?.pets
+    ? allAnimals.filter((animal) =>
+      userRefugee.pets.some((pet) => pet._id === animal._id)
+    )
+    : [];
 
   const filteredByNameOrBreed = userPets.filter(
-    (pet) =>
+    (pet: IAnimal) =>
       pet.name!.toLowerCase().includes(filter.toLowerCase()) ||
       pet.breed!.toLowerCase().includes(filter.toLowerCase())
   );
 
   // Filtrar los animales según la especie seleccionada en el filtro
   const filteredPets = filteredByNameOrBreed.filter(
-    (pet) =>
+    (pet: IAnimal) =>
       speciesFilter
         ? pet.species.toLowerCase().includes(speciesFilter.toLowerCase())
         : true
@@ -67,8 +73,9 @@ const PetList: React.FC = () => {
         <div>
           {filteredPets.length > 0 ? (
             filteredPets.map((pet) => (
-              <PetCard
+              <PetCardPublic
                 key={pet._id}
+                _id={pet._id}
                 photos={pet.photos}
                 name={pet.name!}
                 breed={pet.breed!}

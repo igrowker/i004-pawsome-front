@@ -56,6 +56,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData)
     const isValid = validateForm();
     if (!isValid) {
       console.log("Errores en el formulario:", formErrors);
@@ -176,7 +177,6 @@ const RegisterForm = () => {
           </div>
         </div>
       )}
-
       {formErrors && <p className="text-red-500">{apiError}</p>}
     </>
   );
