@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   const { error, loading } = useSelector((state: RootState) => state.auth);
 
@@ -45,14 +45,14 @@ const Login: React.FC = () => {
   };
 
   const handleSetIsVisible = () => {
-    setIsVisible(!isVisible)
-  }
+    setIsVisible(!isVisible);
+  };
 
   const handleSetPassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
+    setPassword(event.target.value);
+  };
 
-  const eyeStyles = "absolute top-3 right-3"
+  const eyeStyles = "absolute top-3 right-3";
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
@@ -79,8 +79,12 @@ const Login: React.FC = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-300"
               onChange={handleSetPassword}
             />
-            <button onClick={handleSetIsVisible}>
-              {isVisible ? <FaEye className={eyeStyles} /> : <FaEyeSlash className={eyeStyles} />}
+            <button type="button" onClick={handleSetIsVisible}>
+              {isVisible ? (
+                <FaEye className={eyeStyles} />
+              ) : (
+                <FaEyeSlash className={eyeStyles} />
+              )}
             </button>
           </div>
           <button
