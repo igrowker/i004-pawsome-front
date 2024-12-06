@@ -6,6 +6,7 @@ import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
 import useRefugeeRegister from "@/hooks/refugeeRegister";
+// import UploadPhoto from "./UploadPhoto";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();
@@ -69,6 +70,9 @@ const RegisterRefugeeForm = () => {
     },
   });
 
+  // const handlePhotoUpload = (photoUrl: string) => {
+  //   updateForm({ ...formData, image: photoUrl });
+  // };
   const {
     isLoading,
     error: apiError,
@@ -125,49 +129,7 @@ const RegisterRefugeeForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
-        <div className="email text-">
-          <Input
-            name="email"
-            type="email"
-            placeholder="Email"
-            className=""
-            value={formData.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
-          />
-          {formErrors.email && (
-            <p className="text-red-500">{formErrors.email}</p>
-          )}
-          {apiError && <p className="text-red-500">{apiError}</p>}
-        </div>
-
-        <div className="password">
-          <Input
-            name="password"
-            type="password"
-            placeholder="Contraseña"
-            value={formData.password}
-            onChange={(e) => updateForm({ password: e.target.value })}
-          />
-          {formErrors.password && (
-            <p className="text-red-500">{formErrors.password}</p>
-          )}
-        </div>
-
-        <div className="confirmPassword">
-          <Input
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirmar Contraseña"
-            className=""
-            value={formData.confirmPassword}
-            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-          />
-          {formErrors.confirmPassword && (
-            <p className="text-red-500">{formErrors.confirmPassword}</p>
-          )}
-        </div>
-
-        <div className="name">
+         <div className="name">
           <Input
             name="name"
             type="text"
@@ -219,7 +181,49 @@ const RegisterRefugeeForm = () => {
             <p className="text-red-500">{formErrors.description}</p>
           )}
         </div>
-        <div className="image mb-4">
+        <div className="email text-">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            className=""
+            value={formData.email}
+            onChange={(e) => updateForm({ email: e.target.value })}
+          />
+          {formErrors.email && (
+            <p className="text-red-500">{formErrors.email}</p>
+          )}
+          {apiError && <p className="text-red-500">{apiError}</p>}
+        </div>
+
+        <div className="password">
+          <Input
+            name="password"
+            type="password"
+            placeholder="Contraseña"
+            value={formData.password}
+            onChange={(e) => updateForm({ password: e.target.value })}
+          />
+          {formErrors.password && (
+            <p className="text-red-500">{formErrors.password}</p>
+          )}
+        </div>
+
+        <div className="confirmPassword">
+          <Input
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirmar Contraseña"
+            className=""
+            value={formData.confirmPassword}
+            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+          />
+          {formErrors.confirmPassword && (
+            <p className="text-red-500">{formErrors.confirmPassword}</p>
+          )}
+        </div>
+
+        {/* <div className="image mb-4">
           <label
             htmlFor="file-input"
             className="border-2 rounded h-12 w-full flex items-center justify-between px-4 bg-white cursor-pointer"
@@ -244,8 +248,21 @@ const RegisterRefugeeForm = () => {
               })
             }
           />
-        </div>
-
+        </div> */}
+        {/* <div className="image mb-4">
+          <label className="block text-gray-700 font-medium mb-2">Imagen</label>
+          <UploadPhoto
+            onPhotoUpload={handlePhotoUpload}
+            buttonText="Subir foto"
+            validateFile={true} 
+            requireToken={false} 
+          />
+          {formData.image && (
+            <p className="mt-2 text-gray-600 truncate">
+              Imagen subida: {formData.image}
+            </p>
+          )}
+        </div> */}
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"

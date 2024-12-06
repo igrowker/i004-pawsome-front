@@ -99,6 +99,28 @@ const RegisterForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
+         <div className="name">
+          <Input
+            name="name"
+            type="text"
+            placeholder="Nombre"
+            className=""
+            value={formData.name}
+            onChange={(e) => updateForm({ name: e.target.value.trim() })}
+          ></Input>
+          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
+        </div>
+        <div className="lastName">
+          <Input
+            name="last_name"
+            type="text"
+            placeholder="Apellidos"
+            className=""
+            value={formData.last_name}
+            onChange={(e) => updateForm({ last_name: e.target.value.trim() })}
+          ></Input>
+          {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
+        </div>
         <div className="email text-">
           <Input
             name="email"
@@ -134,28 +156,7 @@ const RegisterForm = () => {
           ></Input>
           {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
-        <div className="name">
-          <Input
-            name="name"
-            type="text"
-            placeholder="Nombre"
-            className=""
-            value={formData.name}
-            onChange={(e) => updateForm({ name: e.target.value.trim() })}
-          ></Input>
-          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
-        </div>
-        <div className="lastName">
-          <Input
-            name="last_name"
-            type="text"
-            placeholder="Apellidos"
-            className=""
-            value={formData.last_name}
-            onChange={(e) => updateForm({ last_name: e.target.value.trim() })}
-          ></Input>
-          {formErrors.last_name && <p className="text-red-500">{formErrors.last_name}</p>}
-        </div>
+       
         <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto mt-4" type="submit">
           Registrar
         </button>
