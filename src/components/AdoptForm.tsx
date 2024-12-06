@@ -3,8 +3,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { Spinner } from "@/components/ui/spinner";
 import { useAdoptForm } from "@/hooks/useAdoptForm";
+import BackButton from "./VolverButton";
+import { FaArrowLeft } from 'react-icons/fa';
+import { useParams } from "react-router-dom";
+
 
 const AdoptForm: React.FC = () => {
+
+    const { animal_id } = useParams();
 
     const { loading } = useSelector((state: RootState) => state.adopt);
     const { errorTerms, formData, handleCloseUp, handleSubmit, isSubmitted, isSuccess, updateForm } = useAdoptForm()
@@ -119,6 +125,7 @@ const AdoptForm: React.FC = () => {
                     </div>
                 )}
             </div >
+            <BackButton className="mt-5" icon={<FaArrowLeft />} to={`/animalprofile/${animal_id}`} />
         </div >
     );
 }

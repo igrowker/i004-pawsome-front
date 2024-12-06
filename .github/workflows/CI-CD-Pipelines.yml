@@ -54,8 +54,7 @@ jobs:
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
         with:
-          context: ../../Dockerfile
-          push: true
+          context: ./
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/pawsome-node:frontend
             ${{ secrets.DOCKERHUB_USERNAME }}/pawsome:${{ github.sha }}
@@ -76,11 +75,11 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
-          netlify deploy --dir=../../dist --prod
+          netlify deploy --dir=./dist
 
   deploy-to-ec2:
     runs-on: ubuntu-latest
-    needs: build-and-push-docker
+    needs: build-and-test
     if: ${{ github.ref_name == 'main' || github.event.inputs.environment == 'production' }}
 
     steps:
@@ -93,13 +92,21 @@ jobs:
           ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
       - name: Deploy to EC2 Instance
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
         run: |
-          # Copy built files to EC2
-          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} -r ../../dist/* ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/i004-pawsome-front
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
 
-          # SSH into EC2 and restart the application
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            cd /i004-pawsome-front
-            npm install --production
-            pm2 reload ecosystem.config.js || pm2 start app.js --name i004-pawsome-front
+          cd /home/ec2-user
+          if [ ! -d "i004-devops" ]; then
+            git clone https://github.com/igrowker/i004-devops.git
+          fi
+
+          cd i004-devops/pawsome/Pawsome
+
+          docker-compose pull
+
+          export VITE_BACKEND_URL=${VITE_BACKEND_URL}
+
+          docker-compose up -d --build
           EOF

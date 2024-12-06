@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   fetchUserProfile,
+  updateUserPhoto,
   updateUserProfile,
 } from "../../../../redux/actions/userActions";
 import { RootState } from "@/redux/store";
-import { useDispatch } from "@/redux/hooks";
-import UploadPhoto from "@/components/UploadPhoto";
 import { DonationInterface } from "@/interfaces/DonationInterface";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import ImageUpload from "./ImageUpload.tsx";
+import { useAppDispatch } from "@/hooks/useAppDispatch.ts";
+import { Spinner } from "@/components/ui/spinner.tsx";
 
 interface FormData {
   name: string;
@@ -18,14 +21,16 @@ interface FormData {
 }
 
 const UserProfile: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     data: userData,
     loading,
     error,
   } = useSelector((state: RootState) => state.user);
+
   const { user } = useSelector((state: RootState) => state.auth);
-  console.log("user", user);
+
+  const userId = user?.id;
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -33,20 +38,23 @@ const UserProfile: React.FC = () => {
     password: "",
   });
 
-  const [activeTab, setActiveTab] = useState<"profile" | "donations" | "requests" | "favorite">("profile");
+  const [activeTab, setActiveTab] = useState<
+    "profile" | "donations" | "requests" | "favorite"
+  >("profile");
 
-  const [profilePhoto, setProfilePhoto] = useState<string>(
-    "https://via.placeholder.com/150"
-  );
+  const [profilePhoto, setProfilePhoto] = useState(user?.photo || "");
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>(
+    []
+  );
 
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
+  const [isImageLoading, setIsImageLoading] = useState(false);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const auth = useSelector((state: RootState) => state.auth);
 
   const tabsByRole: { [key: string]: string[] } = {
@@ -68,8 +76,8 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     if (userData) {
       setFormData({ name: userData.name, email: userData.email, password: "" });
-      if (userData.profilePhoto) {
-        setProfilePhoto(userData.profilePhoto);
+      if (userData.photo) {
+        setProfilePhoto(userData.photo);
       }
     }
   }, [userData]);
@@ -100,7 +108,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/adoption-requests`, {
+        const response = await fetch(`${apiUrl}/adoption-requests`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -136,24 +144,36 @@ const UserProfile: React.FC = () => {
     }
   };
 
-  const handleProfilePhotoUpload = (url: string) => {
-    setProfilePhoto(url);
-    if (user?.id) {
-        dispatch(updateUserProfile(user.id, { profilePhoto: url }));
-    } else {
-        console.error("El usuario no tiene un ID válido para actualizar.");
+  const handleUpload = (file: File, url: string) => {
+    console.log("URL generada para la imagen:", url);
+    if (!userId) {
+      return;
     }
-};
+    setIsImageLoading(true);
+
+    dispatch(updateUserPhoto(userId, url)).then(() => {
+      dispatch(fetchUserProfile(userId)).finally(() => {
+        setIsImageLoading(false);
+      });
+    });
+  };
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
       <div className="flex flex-col sm:flex-row items-center sm:items-start mb-8">
-        <div className="flex items-center">
-          <img
-            src={profilePhoto}
-            alt="User Profile"
-            className="w-24 h-24 rounded-full border-2 border-gray-300 object-cover"
-          />
+        <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-100 overflow-hidden">
+          {isImageLoading ? (
+            <Spinner />
+          ) : profilePhoto ? (
+            <img
+              src={profilePhoto}
+              alt="User Profile"
+              className="w-full h-full object-cover"
+              onLoad={() => setIsImageLoading(false)}
+            />
+          ) : (
+            <FaUserCircle className="text-gray-400" size={48} />
+          )}
         </div>
         <div className="flex flex-col sm:ml-6 sm:flex-grow text-center sm:text-left">
           <h2 className="text-2xl font-semibold text-gray-900">
@@ -165,7 +185,7 @@ const UserProfile: React.FC = () => {
         </div>
 
         <div className="ml-auto">
-          <UploadPhoto onPhotoUpload={handleProfilePhotoUpload} />
+          <ImageUpload onUpload={handleUpload} />
         </div>
       </div>
 
@@ -174,7 +194,9 @@ const UserProfile: React.FC = () => {
           <button
             key={tab}
             onClick={() =>
-              setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
+              setActiveTab(
+                tab as "profile" | "donations" | "requests" | "favorite"
+              )
             }
             className={`pb-2 px-4 text-lg ${
               activeTab === tab
@@ -306,7 +328,7 @@ const UserProfile: React.FC = () => {
             Ver animales favoritos
           </Link>
         </div>
-      )}    
+      )}
     </div>
   );
 };

@@ -47,7 +47,9 @@ function App() {
           <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
-          <Route path="/volunteeringlist" element={<VolunteeringList/>} /> 
+
+          <Route path="/volunteering/:id" element={<VolunteeringList/>} /> 
+          
           <Route path="/donation-form" element={<DonationForm />} />
           <Route path="/in-kind-donation" element={<InKindDonationForm />} />
           <Route path="/refugee/:id" element={<RefugeProfile />} />
