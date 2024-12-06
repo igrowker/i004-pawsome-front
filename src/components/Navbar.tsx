@@ -16,7 +16,7 @@ export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
   const auth = useSelector((state: RootState) => state.auth);
 
-  const photo = useSelector((state: RootState) => state.user.data.photo);
+  const photo = useSelector((state: RootState) => state.user?.data?.photo);
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
