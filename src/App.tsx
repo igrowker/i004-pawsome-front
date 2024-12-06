@@ -46,12 +46,11 @@ function App() {
           <Route path="/donation-amount" element={<DonationAmount />} />
           <Route path="/donation-success" element={<DonationSuccess />} />
           <Route path="/donation-cancel" element={<DonationCancel />} />
-          <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
-
-          <Route path="/volunteering/:id" element={<VolunteeringList />} />
-
+          <Route path="/volunteer/:id/oportunidades" element={<VolunteerForm/>}/>
+          <Route path="/volunteering/:id" element={<VolunteeringList/>} /> 
+          
           <Route path="/donation-form" element={<DonationForm />} />
           <Route path="/in-kind-donation" element={<InKindDonationForm />} />
           <Route path="/refugee/:id" element={<RefugeProfile />} />
