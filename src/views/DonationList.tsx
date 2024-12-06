@@ -1,11 +1,52 @@
-// import { useDispatch } from "react-redux";
-// import { setDonationInfo } from "@/redux/actions/DonationIndexType";
-
 import { useDonnationList } from "@/hooks/useDonnationList";
+import { useNavigate } from "react-router-dom";
 
 const DonationList: React.FC = () => {
+  const {
+    donations,
+    handleCloseModal,
+    handleDonate,
+    handleInKindDonation,
+    handleLogin,
+    handleRegister,
+    showModal,
+/*     setDonations, */
+  } = useDonnationList();
+  const navigate = useNavigate();
 
-  const { donations, handleCloseModal, handleDonate, handleInKindDonation, handleLogin, handleRegister, showModal} = useDonnationList()
+  const handleDonationClick = (donation: any) => {
+    handleInKindDonation(donation.refugee_id, donation.title, donation._id);
+    navigate("/in-kind-donation", {
+      state: {
+        refugee_id: donation.refugee_id,
+        title: donation.title,
+        donationId: donation._id,
+      },
+    });
+  };
+  
+
+/*   const handleDeleteDonation = async (donationId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/donations-requests/${donationId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        // Elimina la donación de la lista
+        setDonations((prevDonations) => prevDonations.filter(donation => donation._id !== donationId));
+        alert("Donación eliminada correctamente");
+      } else {
+        alert("Error al eliminar la donación");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Hubo un problema al eliminar la donación.");
+    }
+  }; */
 
   return (
     <div className="mt-20 mb-20">
@@ -15,50 +56,63 @@ const DonationList: React.FC = () => {
             key={donation._id}
             className="flex flex-col justify-between gap-4 bg-white rounded-2xl shadow-lg p-4 hover:shadow-xl transition-shadow"
           >
-            <div className="flex gap-4">
-              <img
-                className="w-24 h-24 rounded-full object-cover"
-                src={donation.imageUrl}
-                alt={`Imagen de ${donation.title}`}
-              />
+            <div className="flex justify-between">
+              <div className="flex gap-4">
+                <img
+                  className="w-24 h-24 rounded-full object-cover"
+                  src={donation.imageUrl}
+                  alt={`Imagen de ${donation.title}`}
+                />
                 <div className="flex flex-col justify-between">
-                <span className="font-semibold text-lg text-neutral-800 italic">
-                  {donation.title}
-                </span>
-                <p className="text-sm text-neutral-600 line-clamp-3">
-                  {donation.description}
-                </p>
-                {
-                  donation.monetaryDonation? 
-                  <div>
-
-                <p className="text-sm text-neutral-600 mt-2">
-                  Monto necesitado:{" "}
-                  <span className="font-bold">{donation.targetAmountMoney}€</span>
-                </p>
-                <button
-                  className="mt-4 w-full bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
-                  onClick={() => handleDonate(donation)}
-                >
-                  Donar
-                </button>
-                  </div>
+                  <span className="font-semibold text-lg text-neutral-800 italic">
+                    {donation.title}
+                  </span>
+                  <p className="text-sm text-neutral-600 line-clamp-3">
+                    {donation.description}
+                  </p>
+                  {donation.monetaryDonation ?  
+                  (
+                    <div>
+                      <p className="text-sm text-neutral-600 mt-2">
+                        Cantidad necesitada:{" "}
+                        <span className="font-bold">
+                          {donation.targetItemsCount}
+                        </span>
+                      </p>
+                      <button
+                        className="mt-4 bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
+                        onClick={() => handleDonationClick(donation)}
+                      >
+                        Donar
+                      </button>
+                    </div>
+                  )
                 :
-                <div>
-                <p className="text-sm text-neutral-600 mt-2">
-                Cantidad necesitada:{" "}
-                <span className="font-bold">{donation.targetItemsCount}</span>
-              </p>                <button
-                  className="mt-4 w-full bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
-                  onClick={() => handleInKindDonation( donation.refugee_id, donation.title, donation._id)}
-                >
-                  Donar
-                </button>
-
+                (
+                  <div>
+                    <p className="text-sm text-neutral-600 mt-2">
+                      Monto necesitado:{" "}
+                      <span className="font-bold">
+                        {donation.targetAmountMoney}€
+                      </span>
+                    </p>
+                    <button
+                      className="mt-4 bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
+                      onClick={() => handleDonate(donation)}
+                    >
+                      Donar
+                    </button>
+                  </div>
+                ) }
                 </div>
-
-                }
               </div>
+{/*               Botón de eliminar
+              <button
+                className="text-red-600 text-xl"
+                onClick={() => handleDeleteDonation(donation._id)}
+              >
+                ×
+              </button> */}
             </div>
           </div>
         ))}
@@ -99,3 +153,4 @@ const DonationList: React.FC = () => {
 };
 
 export default DonationList;
+
