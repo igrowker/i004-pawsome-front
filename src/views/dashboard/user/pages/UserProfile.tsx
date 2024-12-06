@@ -148,7 +148,9 @@ const UserProfile: React.FC = () => {
     console.log("URL generada para la imagen:", url);
     if (!userId) {
       return;
+      console.log("Archivo subido:", file);
     }
+    
     setIsImageLoading(true);
 
     dispatch(updateUserPhoto(userId, url)).then(() => {
@@ -157,6 +159,7 @@ const UserProfile: React.FC = () => {
       });
     });
   };
+  
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">

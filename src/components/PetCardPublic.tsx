@@ -1,26 +1,35 @@
-import React, { useState } from "react";
-import Modal from "./ui/modal";
-import Input from "./ui/input";
+import React from "react";
 import { IAnimal } from "@/interfaces/IAnimal";
+import { useNavigate } from "react-router-dom";
 
+// Función para truncar texto si es muy largo
 const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
 
-const PetCardPublic: React.FC<Partial<IAnimal>> = ({
+// Le pasamos a Pet Card que el id sea obligatorio pasarselo ya que Partial IAnimal coge solo algunos valores pero el ID SIEMPRE 
+const PetCardPublic: React.FC<{ _id: string } & Partial<IAnimal>> = ({
+  _id,
   name = "N/A",
   breed = "N/A",
-  photos = "N/A",
+  photos = [],
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    if (_id) {
+      navigate(`/animalprofile/${_id}`);
+    } else {
+      console.error("ID del animal no disponible");
+    }
+  };
 
   return (
     <div className="flex items-center justify-between bg-white rounded-3xl shadow p-4 mb-4 max-w-sm w-full">
       <div className="flex items-center">
         <img
-          src={photos[0]}
+          src={photos[0] || "/default-image.png"}
           alt={name}
           className="w-16 h-16 rounded-full object-cover mr-4 bg-gray-400"
         />
@@ -34,32 +43,10 @@ const PetCardPublic: React.FC<Partial<IAnimal>> = ({
       </div>
       <button
         className="bg-primaryLight text-white font-bold py-3 rounded-3xl w-32 text-sm "
-        onClick={openModal}
+        onClick={handleNavigate}
       >
         Conóceme
       </button>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2 className="flex justify-center items-center text-xl font-bold">
-          {`Edit data of ${name}`}
-        </h2>
-        <nav className="flex-grow mt-2 overflow-y-auto text-primaryDark">
-          <div className="p-2">
-            <Input placeholder="Name" name="name" />
-            <Input placeholder="Breed" name="breed" />
-            <div className="flex justify-center items-center  text-sm w-full">
-              <button
-                onClick={closeModal}
-                className="flex-1 py-2 bg-primaryDark text-white rounded-md"
-              >
-                Cerrar
-              </button>
-              <button className="flex-1 py-2 bg-light border border-primaryDark text-primaryDark rounded-md ml-2">
-                Guardar
-              </button>
-            </div>
-          </div>
-        </nav>
-      </Modal>
     </div>
   );
 };

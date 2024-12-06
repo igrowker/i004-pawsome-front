@@ -16,7 +16,7 @@ export default function RefugeProfile() {
   const navigate = useNavigate();
   const { data_refugee } = useSelector((state: RootState) => state.refugee);
 
-  console.log(data_refugee);
+  // console.log(data_refugee);
   // agrego un estado para ver que botón pintar
   const [filter, setFilter] = useState("")
   const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
@@ -81,7 +81,7 @@ export default function RefugeProfile() {
                   Ser Voluntario
                 </button>
               </Link>
-              <Link to={`/volunteering/${data_refugee?._id}`}>
+              <Link to={`/donationlist`}>
                 <button className="text-sm inline-block font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
                   Donar
                 </button>
@@ -139,7 +139,7 @@ export default function RefugeProfile() {
         ) : (
           <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredAnimals.map(animal => (
-              <PetCardPublic key={animal._id} name={animal.name} photos={animal.photos} breed={animal.breed} />
+              <PetCardPublic key={animal._id} _id={animal._id} name={animal.name} photos={animal.photos} breed={animal.breed} />
             ))}
           </div>
         )}

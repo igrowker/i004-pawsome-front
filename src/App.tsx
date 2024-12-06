@@ -27,6 +27,7 @@ import DonationAmount from "./components/DonationAmount";
 import DonationCancel from "./components/DonationCancel";
 import InKindDonationForm from "./views/InKindDonationForm";
 import RefugeProfile from "./views/dashboard/refugee/pages/RefugeProfile";
+import ScrollToTop from "./components/scrollToTop";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
