@@ -70,8 +70,23 @@ const DonationList: React.FC = () => {
                   <p className="text-sm text-neutral-600 line-clamp-3">
                     {donation.description}
                   </p>
-                  {donation.monetaryDonation ?  
-                  (
+                  {donation.monetaryDonation ? (
+                    <div>
+                      <p className="text-sm text-neutral-600 mt-2">
+                        Monto necesitado:{" "}
+                        <span className="font-bold">
+                          {donation.targetAmountMoney}€
+                        </span>
+                      </p>
+                      <button
+                        className="mt-4 bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
+                        onClick={() => handleDonate(donation)}
+                      >
+                        Donar
+                      </button>
+                    </div>
+                  ) 
+                  : (
                     <div>
                       <p className="text-sm text-neutral-600 mt-2">
                         Cantidad necesitada:{" "}
@@ -86,24 +101,7 @@ const DonationList: React.FC = () => {
                         Donar
                       </button>
                     </div>
-                  )
-                :
-                (
-                  <div>
-                    <p className="text-sm text-neutral-600 mt-2">
-                      Monto necesitado:{" "}
-                      <span className="font-bold">
-                        {donation.targetAmountMoney}€
-                      </span>
-                    </p>
-                    <button
-                      className="mt-4 bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
-                      onClick={() => handleDonate(donation)}
-                    >
-                      Donar
-                    </button>
-                  </div>
-                ) }
+                  )}
                 </div>
               </div>
 {/*               Botón de eliminar
