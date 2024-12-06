@@ -1,6 +1,7 @@
 export interface IAnimal {
   _id: string;
   refugee_id: string;
+  name_refugee: string;
   name: string;
   age: number;
   species: string;
