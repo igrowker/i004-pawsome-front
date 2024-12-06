@@ -70,9 +70,6 @@ const RegisterRefugeeForm = () => {
     },
   });
 
-  // const handlePhotoUpload = (photoUrl: string) => {
-  //   updateForm({ ...formData, image: photoUrl });
-  // };
   const {
     isLoading,
     error: apiError,
@@ -223,46 +220,6 @@ const RegisterRefugeeForm = () => {
           )}
         </div>
 
-        {/* <div className="image mb-4">
-          <label
-            htmlFor="file-input"
-            className="border-2 rounded h-12 w-full flex items-center justify-between px-4 bg-white cursor-pointer"
-          >
-            {formData.image ? (
-              <span className="text-gray-700 truncate">{formData.image}</span>
-            ) : (
-              <span className="text-gray-700">
-                Imagen 
-              </span>
-            )}
-            <span className="text-primaryLight font-semibold">Examinar</span>
-          </label>
-          <input
-            id="file-input"
-            name="file-input"
-            type="file"
-            className="hidden"
-            onChange={(e) =>
-              updateForm({
-                image: e.target.files ? e.target.files[0].name : "",
-              })
-            }
-          />
-        </div> */}
-        {/* <div className="image mb-4">
-          <label className="block text-gray-700 font-medium mb-2">Imagen</label>
-          <UploadPhoto
-            onPhotoUpload={handlePhotoUpload}
-            buttonText="Subir foto"
-            validateFile={true} 
-            requireToken={false} 
-          />
-          {formData.image && (
-            <p className="mt-2 text-gray-600 truncate">
-              Imagen subida: {formData.image}
-            </p>
-          )}
-        </div> */}
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"

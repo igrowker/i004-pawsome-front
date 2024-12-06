@@ -14,6 +14,8 @@ import { RootState } from "@/redux/store";
 import { IVolunteeringByRefugeeId } from "./../interfaces/IVolunteeringByRefugee";
 import useVolunteerRegister from "@/hooks/volunteeringFormRegister";
 import { VolunteerRegisterData } from './../hooks/volunteeringFormRegister';
+import { Link } from "react-router-dom";
+import { PiArrowLineLeftLight } from "react-icons/pi";
 
 const VolunteerForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -229,6 +231,7 @@ const VolunteerForm = () => {
       }
     } catch (err) {
       console.error("Error al registrar:", err);
+      
     }
   };
   
@@ -239,9 +242,16 @@ const VolunteerForm = () => {
   };
 
   return (
+  <>
+  
     <div className="bg-[#F3F4F6]">
+    <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
+        <Link to={`/volunteering/${id}`}>
+          <PiArrowLineLeftLight className="" />
+        </Link>
+      </button>
       <header className="text-[#374151] p-5">
-        <h2 className="text-2xl font-bold font-roboto text-center">
+        <h2 className="text-2xl font-bold font-roboto text-center mt-10">
           Formulario de Inscripción para el refugio: {data_refugee.name_refugee}
         </h2>
       </header>
@@ -680,6 +690,8 @@ const VolunteerForm = () => {
       )}
       {formErrors && <p className="text-red-500">{apiError}</p>}
     </div>
+  </>
+    
   );
 };
 

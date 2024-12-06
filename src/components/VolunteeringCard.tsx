@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useParams } from "react-router-dom";
 interface VolunteeringCardProps {
   _id: string;
   description: string;
@@ -13,7 +14,7 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({description,requirem
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
-  
+  const { id } = useParams<{ id: string }>();
   
   const handleDelete = () => {
     console.log(`Borrando voluntariado con ID: `);
@@ -66,7 +67,7 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({description,requirem
           </p>
         </div>
         <button className="w-full bg-teal-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors">
-          <Link to={'/volunteerForm'}>Ser voluntario</Link>
+          <Link to={`/volunteer/${id}/oportunidades`}>Ser voluntario</Link>
         </button>
       </div>
     )}

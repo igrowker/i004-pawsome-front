@@ -61,7 +61,11 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const {id} = useParams<{ id: string }>();
   const refugee_id = id;
+  const token = localStorage.getItem("authToken");
+
   const registerVolunteer = async (data: VolunteerRegisterData) => {
+
+    
     setIsLoading(true);
     setError(null);
     setIsSuccess(false);
@@ -77,7 +81,13 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
         selectedVolunteering: data.selectedVolunteering,
         additionalObservations: data.additionalObservations,
         additionalMessage: data.additionalMessage,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
       if (response.status === 201) {
         setIsSuccess(true);
@@ -86,15 +96,17 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
         throw new Error("Hubo un problema con el registro");
       }
     } catch (error: any) {
-      if (error.response) {
-        setError(
-          error.response.data.message || "Hubo un problema al enviar el formulario"
-        );
-      } else if (error.request) {
-        setError("Error de red, verifica tu conexión.");
-      } else {
-        setError("Ocurrió un error desconocido");
-      }
+            if (error.response) {
+              if (error.response.status === 401) {
+                setError("Debes estar registrado para inscribirte a un voluntariado");
+              } else {
+                setError(error.response.data.message || "Hubo un problema al enviar el formulario");
+              }
+            } else if (error.request) {
+              setError("Error de red, verifica tu conexión.");
+            } else {
+              setError("Ocurrió un error desconocido");
+            }
     } finally {
       setIsLoading(false);
     }
