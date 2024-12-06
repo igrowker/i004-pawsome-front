@@ -10,12 +10,13 @@ import { AppDispatch } from "@/redux/store";
 import { MdOutlinePets, MdFavoriteBorder } from "react-icons/md";
 import { SiPetsathome } from "react-icons/si";
 
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const auth = useSelector((state: RootState) => state.auth);
+
+  const photo = useSelector((state: RootState) => state.user.data.photo);
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
@@ -120,8 +121,16 @@ export default function Navbar() {
               </div>
 
               <div className="flex justify-between items-center px-5 mb-2">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-50 text-gray-300 px-3">
-                  <FaRegUser className="w-10 h-10" />
+                <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-50 ">
+                  {photo ? (
+                    <img
+                      src={`${photo}?timestamp=${new Date().getTime()}`}
+                      alt="User Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <FaRegUser className="w-10 h-10 text-gray-300" />
+                  )}
                 </div>
                 <div className="flex flex-col ml-4">
                   {isAuthenticated && user ? (
