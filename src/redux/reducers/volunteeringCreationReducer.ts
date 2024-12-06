@@ -5,7 +5,7 @@ import {
   } from "../actions/voluntRequestActions";
 
   import { IVolunteeringByRefugeeId } from "@/interfaces/IVolunteeringByRefugee";
-  interface VolunteeringState {
+  export interface VolunteeringState {
     volunteering: IVolunteeringByRefugeeId[]; // Es un array de objetos con este tipo
     loading: boolean;
     success: boolean,
