@@ -6,7 +6,8 @@ import {
   updateUserProfile,
 } from "../../../../redux/actions/userActions";
 import { RootState } from "@/redux/store";
-import { DonationInterface } from "@/interfaces/DonationInterface";
+// import { DonationInterface } from "@/interfaces/DonationInterface";
+import { DonationInterface } from "@/interfaces/IDonation.ts";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
@@ -150,7 +151,7 @@ const UserProfile: React.FC = () => {
       return;
       console.log("Archivo subido:", file);
     }
-    
+
     setIsImageLoading(true);
 
     dispatch(updateUserPhoto(userId, url)).then(() => {
@@ -159,7 +160,7 @@ const UserProfile: React.FC = () => {
       });
     });
   };
-  
+
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
@@ -201,11 +202,10 @@ const UserProfile: React.FC = () => {
                 tab as "profile" | "donations" | "requests" | "favorite"
               )
             }
-            className={`pb-2 px-4 text-lg ${
-              activeTab === tab
-                ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
-                : "text-gray-500"
-            }`}
+            className={`pb-2 px-4 text-lg ${activeTab === tab
+              ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
+              : "text-gray-500"
+              }`}
           >
             {tab === "profile" && "Perfil"}
             {tab === "donations" && "Donaciones"}
@@ -289,7 +289,7 @@ const UserProfile: React.FC = () => {
           ) : donations.length > 0 ? (
             <ul className="space-y-2">
               {donations.map((donation) => (
-                <li key={donation.id} className="border p-4 rounded-md">
+                <li key={donation._id} className="border p-4 rounded-md">
                   <p>{donation.description}</p>
                   <p>{donation.targetAmountMoney}€</p>
                 </li>
