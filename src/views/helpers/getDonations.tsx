@@ -7,7 +7,7 @@ interface DonationInterface {
     title: string,
     description: string,
     imageUrl: string,
-    monetaryDonation: boolean,
+    isMonetaryDonation: boolean,
     targetAmountMoney: number,
     targetItemsCount: number,
   }

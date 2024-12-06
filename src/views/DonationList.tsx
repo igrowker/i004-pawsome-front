@@ -70,7 +70,7 @@ const DonationList: React.FC = () => {
                   <p className="text-sm text-neutral-600 line-clamp-3">
                     {donation.description}
                   </p>
-                  {donation.monetaryDonation ? (
+                  {donation.isMonetaryDonation ? (
                     <div>
                       <p className="text-sm text-neutral-600 mt-2">
                         Monto necesitado:{" "}
