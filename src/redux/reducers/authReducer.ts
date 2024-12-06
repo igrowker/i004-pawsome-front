@@ -6,11 +6,12 @@ import {
 } from "../actions/authActions";
 
 export interface User {
-  refugee: any;
+  refugee: string;
   id: string;
   name: string;
   email: string;
   role: "user" | "refugee" | "admin";
+  photo: string;
 }
 
 export interface AuthState {

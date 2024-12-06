@@ -1,6 +1,8 @@
 import apiClient from "@/apiClient";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../rootReducer";
+import axios from "axios";
+import { Dispatch } from "redux";
 
 export const FETCH_USER_PROFILE_START = "FETCH_USER_PROFILE_START";
 export const FETCH_USER_PROFILE_SUCCESS = "FETCH_USER_PROFILE_SUCCESS";
@@ -13,6 +15,10 @@ export const UPDATE_USER_PROFILE_FAILURE = "UPDATE_USER_PROFILE_FAILURE";
 export const FETCH_USER_START = "FETCH_USER_START";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const FETCH_USER_FAILURE = "FETCH_USER_ERROR";
+
+export const UPDATE_USER_PHOTO_REQUEST = "UPDATE_USER_PHOTO_REQUEST";
+export const UPDATE_USER_PHOTO_SUCCESS = "UPDATE_USER_PHOTO_SUCCESS";
+export const UPDATE_USER_PHOTO_FAILURE = "UPDATE_USER_PHOTO_FAILURE";
 
 interface FetchUseProfileStart {
   type: typeof FETCH_USER_PROFILE_START;
@@ -67,7 +73,15 @@ export const fetchUserProfile =
   };
 
 export const updateUserProfile =
-  (userId: string, userData: { name?: string, email?: string, password?: string, profilePhoto?: string }) =>
+  (
+    userId: string,
+    userData: {
+      name?: string;
+      email?: string;
+      password?: string;
+      profilePhoto?: string;
+    }
+  ) =>
   async (
     dispatch: ThunkDispatch<RootState, void, UpdateProfileActionTypes>
   ) => {
@@ -93,3 +107,34 @@ export const updateUserProfile =
     }
   };
 
+export const updateUserPhoto =
+  (userId: string, photoUrl: string) => async (dispatch: Dispatch) => {
+    dispatch({ type: UPDATE_USER_PHOTO_REQUEST });
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/user/${userId}`,
+        { photo: photoUrl },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      dispatch({ type: UPDATE_USER_PHOTO_SUCCESS, payload: response.data });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error updating user photo:", error);
+        dispatch({ type: UPDATE_USER_PHOTO_FAILURE, payload: error.message });
+      } else {
+        console.error("Unexpected error updating user photo:", error);
+        dispatch({
+          type: UPDATE_USER_PHOTO_FAILURE,
+          payload: "An unexpected error occurred.",
+        });
+      }
+    }
+  };

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name: CI/CD Pipeline (Front)
 
 on:
@@ -55,114 +54,7 @@ jobs:
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
         with:
-          context: ../../Dockerfile
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/pawsome-node:frontend
-            ${{ secrets.DOCKERHUB_USERNAME }}/pawsome:${{ github.sha }}
-
-  deploy-to-netlify:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: ${{ github.event.inputs.environment == 'development' }}
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-
-      - name: Deploy to Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        run: |
-          netlify deploy --dir=../../dist --prod
-
-  deploy-to-ec2:
-    runs-on: ubuntu-latest
-    needs: build-and-push-docker
-    if: ${{ github.ref_name == 'main' || github.event.inputs.environment == 'production' }}
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up SSH Key for EC2
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-
-      - name: Deploy to EC2 Instance
-        run: |
-          # Copy built files to EC2
-          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} -r ../../dist/* ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/i004-pawsome-front
-
-          # SSH into EC2 and restart the application
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            cd /i004-pawsome-front
-            npm install --production
-            pm2 reload ecosystem.config.js || pm2 start app.js --name i004-pawsome-front
-          EOF
-=======
-name: CI/CD Pipeline (Front)
-
-on:
-  push:
-    branches:
-      - develop
-      - main
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Choose deployment environment"
-        required: true
-        type: choice
-        options:
-          - development
-          - production
-
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application
-        run: npm run build
-
-  build-and-push-docker:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and Push Docker Images
-        uses: docker/build-push-action@v6
-        with:
-          context: ./ # Adjust if your Dockerfile is in a subdirectory
-          push: true
+          context: ./
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/pawsome-node:frontend
             ${{ secrets.DOCKERHUB_USERNAME }}/pawsome:${{ github.sha }}
@@ -187,7 +79,7 @@ jobs:
 
   deploy-to-ec2:
     runs-on: ubuntu-latest
-    needs: build-and-push-docker
+    needs: build-and-test
     if: ${{ github.ref_name == 'main' || github.event.inputs.environment == 'production' }}
 
     steps:
@@ -200,12 +92,21 @@ jobs:
           ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
       - name: Deploy to EC2 Instance
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
         run: |
-          scp -o StrictHostKeyChecking=no -r ./dist/* ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/i004-pawsome-front
-
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            cd /i004-pawsome-front
-            npm install --production
-            pm2 reload ecosystem.config.js || pm2 start ecosystem.config.js --name i004-pawsome-front
+
+          cd /home/ec2-user
+          if [ ! -d "i004-devops" ]; then
+            git clone https://github.com/igrowker/i004-devops.git
+          fi
+
+          cd i004-devops/pawsome/Pawsome
+
+          docker-compose pull
+
+          export VITE_BACKEND_URL=${VITE_BACKEND_URL}
+
+          docker-compose up -d --build
           EOF
->>>>>>> 211bf24173d2b65f909e77a5ebea1802cdb0fac9
