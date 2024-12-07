@@ -29,6 +29,7 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({description,requirem
       // Si es un refugio, mostramos los botones de editar y eliminar
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <div className="space-y-2">
+          <img src="../../public/Vector (1).copia.png" alt="logo_pawsome" className="h-14" />
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             {description}
           </h2>
