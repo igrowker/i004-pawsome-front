@@ -9,6 +9,7 @@ export const VOLUNTEERING_DELETE_START = "VOLUNTEERING_DELETE_START";
 export const VOLUNTEERING_DELETE_SUCCESS = "VOLUTEERING_DELETE_SUCCESS";
 export const VOLUNTEERING_DELETE_FAILURE = "VOLUNTEERING_DELETE_FAILURE";
 
+
 export const submitVolunteeringCreation = (creationVolunteeringData: {
     refugee_id: string,
     description: string;
@@ -26,7 +27,7 @@ export const submitVolunteeringCreation = (creationVolunteeringData: {
             type: VOLUNTEERING_CREATION_SUCCESS,
             payload: response.data,
         });
-        return Promise.resolve();
+        return response;
 
     } catch (error: any) {
         let errorMessage = "Error al procesar la solicitud";
