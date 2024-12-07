@@ -16,6 +16,7 @@ const VolunteeringList: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { volunteering_id, loading } = useSelector((state: RootState) => state.volunteering);
   const [isCreating, setIsCreating] = useState<boolean>(false);
+  const [refreshFlag, setRefreshFlag] = useState(false);
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
@@ -24,7 +25,12 @@ const VolunteeringList: React.FC = () => {
     if (id) {
       dispatch(fetchVolunteeringByRefugeeId(id));
     }
-  }, [id, dispatch]);
+    if(refreshFlag) {
+      dispatch(fetchVolunteeringByRefugeeId(id))
+      setRefreshFlag(false)
+    }
+
+  }, [ dispatch, refreshFlag, id]);
 
   if (loading) {
     return <div>Cargando voluntariados disponibles para su adopción...</div>;
@@ -66,6 +72,7 @@ const VolunteeringList: React.FC = () => {
                 description={volunteering.description}
                 requirements={volunteering.requirements}
                 availability={volunteering.availability}
+                setRefreshFlag={setRefreshFlag}
               />
             )
           )}

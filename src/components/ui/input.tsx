@@ -9,6 +9,7 @@ interface InputProps {
   required?: boolean;
   className?: string;
   value?: string;
+  disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,6 +19,8 @@ export default function Input({
   type = "text",
   required = false,
   className = "",
+  value="",
+  disabled = false,
   onChange,
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -56,11 +59,13 @@ export default function Input({
         name={name}
         id={name}
         required={required}
+        disabled={disabled}
         className={`
           w-full px-3 py-2 text-base text-gray-700 border border-gray-300 rounded transition duration-200
           focus:outline-none focus:ring-2 focus:ring-primaryDark focus:border-transparent
           ${isFocused || hasValue ? "pt-2" : ""}
         `}
+        value={value}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
