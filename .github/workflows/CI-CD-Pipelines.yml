@@ -62,7 +62,7 @@ jobs:
   deploy-to-netlify:
     runs-on: ubuntu-latest
     needs: build-and-test
-    if: ${{ github.event.inputs.environment == 'development' }}
+    if: ${{ github.ref_name == 'develop' || github.event.inputs.environment == 'development' }}
 
     steps:
       - name: Checkout Code
