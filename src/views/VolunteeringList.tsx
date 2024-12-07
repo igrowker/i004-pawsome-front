@@ -39,13 +39,13 @@ const VolunteeringList: React.FC = () => {
   }
   return (
     <>
-      <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
+      <button className="bg-primaryLight text-light text-2xl p-2 ml-[15px] mt-[20px] font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
         <Link to={`/refugee/${id}`}>
           <PiArrowLineLeftLight className="" />
         </Link>
       </button>
       {isAuthenticated && user?.role === "refugee" && (
-        <div className="mb-4">
+        <div className="mb-4 mt-[20px] ml-[190px] ">
           <button
             className="bg-teal-500 text-white font-semibold py-2 px-4 rounded hover:bg-teal-600"
             onClick={handleCreateVolunteering}
