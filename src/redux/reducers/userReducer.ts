@@ -4,7 +4,7 @@ import {
   FETCH_USER_PROFILE_ERROR,
   UPDATE_USER_PHOTO_REQUEST,
   UPDATE_USER_PHOTO_SUCCESS,
-  UPDATE_USER_PHOTO_FAILURE,
+  UPDATE_USER_PHOTO_FAILURE,UPDATE_USER_PROFILE_SUCCESS
 } from "../actions/userActions";
 
 export interface UserProfileState {
@@ -41,6 +41,15 @@ const userReducer = (state = initialState, action: any): UserProfileState => {
       };
     case UPDATE_USER_PHOTO_FAILURE:
       return { ...state, loading: false, error: action.payload };
+      case UPDATE_USER_PROFILE_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    data: {
+      ...state.data,
+      ...action.payload, // Sobrescribe con los datos actualizados del backend
+    },
+  };
     default:
       return state;
   }

@@ -30,7 +30,7 @@ const UserProfile: React.FC = () => {
   } = useSelector((state: RootState) => state.user);
 
   const { user } = useSelector((state: RootState) => state.auth);
-
+console.log(userData)
   const userId = user?.id;
 
   const [formData, setFormData] = useState<FormData>({
@@ -137,13 +137,21 @@ const UserProfile: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+  
+    // Crear un nuevo objeto excluyendo propiedades vacías
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([_, value]) => value !== "")
+    );
+  
     if (user?.id) {
-      dispatch(updateUserProfile(user.id, formData));
+      dispatch(updateUserProfile(user.id, filteredFormData as FormData));
+      console.log(filteredFormData);
       setIsEditing(false);
     } else {
       console.error("El usuario no tiene un ID válido para actualizar.");
     }
   };
+  
 
   const handleUpload = (file: File, url: string) => {
     console.log("URL generada para la imagen:", url);
@@ -181,10 +189,11 @@ const UserProfile: React.FC = () => {
         </div>
         <div className="flex flex-col sm:ml-6 sm:flex-grow text-center sm:text-left">
           <h2 className="text-2xl font-semibold text-gray-900">
-            {user ? user.name : "No tienes nombre"}
+            {userData ? userData.name : "No tienes nombre"}
+          
           </h2>
           <p className="text-secondaryDark text-sm">
-            {user ? user.email : "No tienes email"}
+            {userData ? userData.email : "No tienes email"}
           </p>
         </div>
 
