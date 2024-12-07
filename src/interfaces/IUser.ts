@@ -1,6 +1,8 @@
+import { IRefuge } from "./IRefugee";
+
 export interface IUser {
   name: string;
-  refugee: string;
+  refugee: IRefuge;
   password: string;
   email: string;
   created_at?: Date;

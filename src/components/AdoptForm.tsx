@@ -125,7 +125,7 @@ const AdoptForm: React.FC = () => {
                     </div>
                 )}
             </div >
-            <BackButton className="mt-5" icon={<FaArrowLeft />} to={`/animalprofile/${animal_id}`} />
+            <BackButton className="mt-5 justify-end" icon={<FaArrowLeft />} to={`/animalprofile/${animal_id}`} />
         </div >
     );
 }

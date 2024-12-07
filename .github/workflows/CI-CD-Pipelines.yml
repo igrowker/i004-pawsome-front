@@ -102,7 +102,7 @@ jobs:
             git clone https://github.com/igrowker/i004-devops.git
           fi
 
-          cd i004-devops/pawsome/Pawsome
+          cd /pawsome/Pawsome
 
           docker-compose pull
 

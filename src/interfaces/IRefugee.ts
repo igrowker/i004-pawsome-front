@@ -1,3 +1,5 @@
+import { IAnimal } from "./IAnimal";
+
 export interface IRefuge {
   _id: string;
   user_id: string
@@ -7,7 +9,6 @@ export interface IRefuge {
   phone: string;
   img: string;
   description: string;
-  pets: string[];
+  pets: IAnimal[];
   opportunities: string[]
-
 }
