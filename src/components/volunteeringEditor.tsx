@@ -30,13 +30,6 @@ const VolunteeringEditor = ({
    const [isSubmitted, setIsSubmitted] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>();
-    // const handleSubmit =  (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     dispatch(submitOpportunitySelected(selectedOpportunity.id,formData))
-    //     setIsLoading(true)
-    //     
-    //     console.log(formData)
-    // }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);

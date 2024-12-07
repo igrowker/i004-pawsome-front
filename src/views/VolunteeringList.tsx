@@ -61,7 +61,7 @@ const VolunteeringList: React.FC = () => {
         </div>
       )}
       {isCreating ? (
-        <VolunteeringCreator isOpen={isCreating} onClose={onClose} refugee_id={id} />
+        <VolunteeringCreator isOpen={isCreating} onClose={onClose} refugee_id={id} setRefreshFlag={setRefreshFlag}/>
       ) : (
         <div className="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {(Array.isArray(volunteering_id) ? volunteering_id : [volunteering_id]).map(

@@ -27,7 +27,7 @@ export const submitVolunteeringCreation = (creationVolunteeringData: {
             type: VOLUNTEERING_CREATION_SUCCESS,
             payload: response.data,
         });
-        return Promise.resolve();
+        return response;
 
     } catch (error: any) {
         let errorMessage = "Error al procesar la solicitud";
