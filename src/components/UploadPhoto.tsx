@@ -13,6 +13,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload, buttonText = '
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    console.log(file)
     if (!file) return;
 
     if (validateFile) {

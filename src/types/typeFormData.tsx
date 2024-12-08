@@ -35,7 +35,7 @@ type HealthConditions = {
 };
 
 type SelectedVolunteering = {
-  volunteeringId: string;
+  volunteeringId: string ;
   volunteeringName: string;
   volunteeringDescription: string;
 };

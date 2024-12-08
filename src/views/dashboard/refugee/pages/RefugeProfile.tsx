@@ -76,13 +76,10 @@ export default function RefugeProfile() {
             </div>
             <RefugeDescription RefugeeDescription={data_refugee?.description} />
             <div className="flex gap-1 justify-around">
-              <Link to={`/volunteer/${id}/oportunidades`}>
-                <button className="text-sm inline-block rounded font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
-                  Ser Voluntario
+                <button className="text-sm inline-block rounded font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white"> <Link to={`/volunteer/${id}/oportunidades`}>Ser voluntario</Link>
                 </button>
-              </Link>
-              <Link to={`/donationlist?refugeeId=${data_refugee._id}`}>
-                <button key={id} className="text-sm inline-block font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
+              <Link to={`/donationlist`}>
+                <button className="text-sm inline-block font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
                   Donar
                 </button>
               </Link>

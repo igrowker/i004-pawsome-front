@@ -188,7 +188,7 @@ export const createAnimal =
       const response = await axios.post(apiUrls.postAnimal(), payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
+      console.log(response)
       dispatch({ type: CREATE_ANIMAL_SUCCESS, payload: response.data });
 
       dispatch(
