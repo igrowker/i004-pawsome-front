@@ -1,6 +1,7 @@
 import { useDonnationList } from "@/hooks/useDonnationList";
 import { useNavigate } from "react-router-dom";
 
+
 const DonationList: React.FC = () => {
   const {
     donations,
@@ -10,7 +11,7 @@ const DonationList: React.FC = () => {
     handleLogin,
     handleRegister,
     showModal,
-    /*     setDonations, */
+/*     setDonations, */
   } = useDonnationList();
   const navigate = useNavigate();
 
@@ -24,29 +25,29 @@ const DonationList: React.FC = () => {
       },
     });
   };
-
-
-  /*   const handleDeleteDonation = async (donationId: string) => {
-      try {
-        const response = await fetch(`http://localhost:3000/donations-requests/${donationId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
   
-        if (response.ok) {
-          // Elimina la donación de la lista
-          setDonations((prevDonations) => prevDonations.filter(donation => donation._id !== donationId));
-          alert("Donación eliminada correctamente");
-        } else {
-          alert("Error al eliminar la donación");
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert("Hubo un problema al eliminar la donación.");
+
+/*   const handleDeleteDonation = async (donationId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/donations-requests/${donationId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        // Elimina la donación de la lista
+        setDonations((prevDonations) => prevDonations.filter(donation => donation._id !== donationId));
+        alert("Donación eliminada correctamente");
+      } else {
+        alert("Error al eliminar la donación");
       }
-    }; */
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Hubo un problema al eliminar la donación.");
+    }
+  }; */
 
   return (
     <div className="mt-20 mb-20">
@@ -85,26 +86,26 @@ const DonationList: React.FC = () => {
                         Donar
                       </button>
                     </div>
-                  )
-                    : (
-                      <div>
-                        <p className="text-sm text-neutral-600 mt-2">
-                          Cantidad necesitada:{" "}
-                          <span className="font-bold">
-                            {donation.targetItemsCount}
-                          </span>
-                        </p>
-                        <button
-                          className="mt-4 bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
-                          onClick={() => handleDonationClick(donation)}
-                        >
-                          Donar
-                        </button>
-                      </div>
-                    )}
+                  ) 
+                  : (
+                    <div>
+                      <p className="text-sm text-neutral-600 mt-2">
+                        Cantidad necesitada:{" "}
+                        <span className="font-bold">
+                          {donation.targetItemsCount}
+                        </span>
+                      </p>
+                      <button
+                        className="mt-4 bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"
+                        onClick={() => handleDonationClick(donation)}
+                      >
+                        Donar
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-              {/*               Botón de eliminar
+{/*               Botón de eliminar
               <button
                 className="text-red-600 text-xl"
                 onClick={() => handleDeleteDonation(donation._id)}
@@ -146,6 +147,10 @@ const DonationList: React.FC = () => {
           </div>
         </div>
       )}
+<<<<<<< HEAD
+=======
+      <BackButton className="mt-5 justify-end" icon={<FaArrowLeft />} to={`/home`} />
+>>>>>>> 971ce1da039cb938ce269542daea061e7bd10ea6
     </div>
   );
 };

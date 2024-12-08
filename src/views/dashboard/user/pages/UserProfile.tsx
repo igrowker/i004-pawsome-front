@@ -9,7 +9,6 @@ import { RootState } from "@/redux/store";
 // import { DonationInterface } from "@/interfaces/DonationInterface";
 import { DonationInterface } from "@/interfaces/IDonation.ts";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
-import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import ImageUpload from "./ImageUpload.tsx";
 import { useAppDispatch } from "@/hooks/useAppDispatch.ts";
@@ -46,9 +45,7 @@ console.log(userData)
   const [profilePhoto, setProfilePhoto] = useState(user?.photo || "");
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>(
-    []
-  );
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);  
 
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
@@ -59,8 +56,8 @@ console.log(userData)
   const auth = useSelector((state: RootState) => state.auth);
 
   const tabsByRole: { [key: string]: string[] } = {
-    user: ["profile", "favorite", "donations"],
-    refugee: ["profile", "requests"],
+    user: ["profile", "donations", "requests"], 
+    refugee: ["profile", "requests", "donations"],
   };
 
   const userRole = auth.user?.role || "guest";
@@ -84,23 +81,28 @@ console.log(userData)
   }, [userData]);
 
   useEffect(() => {
-    const fetchDonations = async () => {
+    const fetchDonations = async (): Promise<void> => {
       try {
         const response = await fetch(`${apiUrl}/donations/donation-requests`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+    
+        if (!response.ok) {
+          throw new Error('Failed to fetch donations');
+        }
+    
         const data = await response.json();
         setDonations(data.donationRequests || []);
       } catch (error) {
+        setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
         console.error("Error fetching donations:", error);
-        setDonationsError("Error al cargar las donaciones.");
       } finally {
         setDonationsLoading(false);
       }
     };
-
+    
     if (activeTab === "donations") {
       fetchDonations();
     }
@@ -109,36 +111,39 @@ console.log(userData)
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
       try {
-        const response = await fetch(`${apiUrl}/adoption-requests`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(`${apiUrl}/api/adoption-requests?adopter_id=${userId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch adoption requests');
+        }
+  
         const data = await response.json();
-        const formattedRequests: AdoptionRequest[] = data.map((req: any) => ({
-          petName: req.petName,
-          status: req.status,
-          date: req.date,
-        }));
-        setAdoptionRequests(formattedRequests);
+        console.log('Response Data:', data);
+  
+        if (Array.isArray(data)) {
+          setAdoptionRequests(data);
+        } else {
+          console.error('La respuesta no tiene el formato esperado');
+        }
+  
       } catch (error) {
-        console.error("Error fetching adoption requests:", error);
+        console.error('Error fetching adoption requests:', error);
       }
     };
-
+  
     if (activeTab === "requests") {
       fetchAdoptionRequests();
     }
-  }, [apiUrl, activeTab]);
-
+  }, [apiUrl, activeTab, userId]);
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Crear un nuevo objeto excluyendo propiedades vacías
+    console.log(apiUrl);
+
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([_, value]) => value !== "")
     );
@@ -190,7 +195,6 @@ console.log(userData)
         <div className="flex flex-col sm:ml-6 sm:flex-grow text-center sm:text-left">
           <h2 className="text-2xl font-semibold text-gray-900">
             {userData ? userData.name : "No tienes nombre"}
-          
           </h2>
           <p className="text-secondaryDark text-sm">
             {userData ? userData.email : "No tienes email"}
@@ -207,9 +211,7 @@ console.log(userData)
           <button
             key={tab}
             onClick={() =>
-              setActiveTab(
-                tab as "profile" | "donations" | "requests" | "favorite"
-              )
+              setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
             }
             className={`pb-2 px-4 text-lg ${activeTab === tab
               ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
@@ -252,9 +254,7 @@ console.log(userData)
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">
-                  Correo electrónico
-                </label>
+                <label className="block text-sm font-medium">Correo electrónico</label>
                 <input
                   type="email"
                   name="email"
@@ -264,9 +264,7 @@ console.log(userData)
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">
-                  Contraseña (opcional)
-                </label>
+                <label className="block text-sm font-medium">Contraseña (opcional)</label>
                 <input
                   type="password"
                   name="password"
@@ -319,26 +317,15 @@ console.log(userData)
             <ul className="space-y-2">
               {adoptionRequests.map((request, index) => (
                 <li key={index} className="border p-4 rounded-md">
-                  <p>{request.petName}</p>
-                  <p>{request.status}</p>
-                  <p>{request.date}</p>
+                  <p><strong>Nombre mascota:</strong> {request.petName}</p>
+                  <p><strong>Estado:</strong> {request.status}</p>
+                  <p><strong>Fecha:</strong> {request.date}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No tienes solicitudes.</p>
+            <p>No tienes solicitudes de adopción.</p>
           )}
-        </div>
-      )}
-
-      {activeTab === "favorite" && (
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Mascotas favoritas
-          </h3>
-          <Link to="/dashboard/user/favorites" className="text-secondaryLight">
-            Ver animales favoritos
-          </Link>
         </div>
       )}
     </div>

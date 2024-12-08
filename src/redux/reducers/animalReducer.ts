@@ -26,7 +26,7 @@ export interface AnimalState {
   error: string | null;
   allAnimals: any[];
   animals: string[];
-  animalsByRefugee: string[];
+  animalsByRefugee: IAnimal[] | null;
 }
 
 const initialState: AnimalState = {

@@ -1,6 +1,9 @@
+import { RootState } from "@/redux/rootReducer";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 
 interface DonationPostInterface {
   refugee_id: string,
@@ -26,10 +29,11 @@ export const useDonationForm = () => {
     isMonetaryDonation: monetary,
     cuantityDonation: 0,
     imageUrl: '',
-    refugee_id: "6752c3b9c017430654bec1e2",
+    refugee_id: "",
     status: 'active',
     donationNumber: 0
   })
+  const { data_refugee } = useSelector((state: RootState) => state.refugee);
 
   
 
@@ -93,7 +97,7 @@ export const useDonationForm = () => {
         alert('Ha ocurrido un error inesperado.');
       }
     }
-    navigate("/donationList");
+    navigate(`/refugee/${data_refugee._id}`);
   };
 
   return {
