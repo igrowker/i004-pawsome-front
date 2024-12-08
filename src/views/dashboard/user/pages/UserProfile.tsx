@@ -9,7 +9,6 @@ import { RootState } from "@/redux/store";
 // import { DonationInterface } from "@/interfaces/DonationInterface";
 import { DonationInterface } from "@/interfaces/IDonation.ts";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
-import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import ImageUpload from "./ImageUpload.tsx";
 import { useAppDispatch } from "@/hooks/useAppDispatch.ts";
@@ -49,6 +48,7 @@ console.log(userData)
   const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>(
     []
   );
+  
 
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
@@ -59,8 +59,8 @@ console.log(userData)
   const auth = useSelector((state: RootState) => state.auth);
 
   const tabsByRole: { [key: string]: string[] } = {
-    user: ["profile", "favorite", "donations"],
-    refugee: ["profile", "requests"],
+    user: ["profile", "donations", "requests"], 
+    refugee: ["profile", "requests", "donations"],
   };
 
   const userRole = auth.user?.role || "guest";
@@ -108,18 +108,28 @@ console.log(userData)
 
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
+      if (!userId) return;
+
       try {
-        const response = await fetch(`${apiUrl}/adoption-requests`, {
+        const response = await fetch(`${apiUrl}/adoption-requests?adopter_id=${userId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+
+        if (!response.ok) {
+          console.error("Error fetching adoption requests:", response.statusText);
+          return;
+        }
+
         const data = await response.json();
+
         const formattedRequests: AdoptionRequest[] = data.map((req: any) => ({
-          petName: req.petName,
+          petName: req.animal_id?.name || "Nombre desconocido",
           status: req.status,
-          date: req.date,
+          date: new Date(req.request_date).toLocaleDateString() || "Fecha desconocida",
         }));
+
         setAdoptionRequests(formattedRequests);
       } catch (error) {
         console.error("Error fetching adoption requests:", error);
@@ -129,7 +139,7 @@ console.log(userData)
     if (activeTab === "requests") {
       fetchAdoptionRequests();
     }
-  }, [apiUrl, activeTab]);
+  }, [apiUrl, activeTab, userId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -190,7 +200,6 @@ console.log(userData)
         <div className="flex flex-col sm:ml-6 sm:flex-grow text-center sm:text-left">
           <h2 className="text-2xl font-semibold text-gray-900">
             {userData ? userData.name : "No tienes nombre"}
-          
           </h2>
           <p className="text-secondaryDark text-sm">
             {userData ? userData.email : "No tienes email"}
@@ -207,9 +216,7 @@ console.log(userData)
           <button
             key={tab}
             onClick={() =>
-              setActiveTab(
-                tab as "profile" | "donations" | "requests" | "favorite"
-              )
+              setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
             }
             className={`pb-2 px-4 text-lg ${activeTab === tab
               ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
@@ -252,9 +259,7 @@ console.log(userData)
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">
-                  Correo electrónico
-                </label>
+                <label className="block text-sm font-medium">Correo electrónico</label>
                 <input
                   type="email"
                   name="email"
@@ -264,9 +269,7 @@ console.log(userData)
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">
-                  Contraseña (opcional)
-                </label>
+                <label className="block text-sm font-medium">Contraseña (opcional)</label>
                 <input
                   type="password"
                   name="password"
@@ -319,26 +322,15 @@ console.log(userData)
             <ul className="space-y-2">
               {adoptionRequests.map((request, index) => (
                 <li key={index} className="border p-4 rounded-md">
-                  <p>{request.petName}</p>
-                  <p>{request.status}</p>
-                  <p>{request.date}</p>
+                  <p><strong>Nombre mascota:</strong> {request.petName}</p>
+                  <p><strong>Estado:</strong> {request.status}</p>
+                  <p><strong>Fecha:</strong> {request.date}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No tienes solicitudes.</p>
+            <p>No tienes solicitudes de adopción.</p>
           )}
-        </div>
-      )}
-
-      {activeTab === "favorite" && (
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Mascotas favoritas
-          </h3>
-          <Link to="/dashboard/user/favorites" className="text-secondaryLight">
-            Ver animales favoritos
-          </Link>
         </div>
       )}
     </div>
