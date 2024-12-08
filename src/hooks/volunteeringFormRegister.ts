@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 export interface VolunteerRegisterData {
-  personalData: {
+   personalData: {
     fullName: string;
     birth: string;
     gender: string;
@@ -47,6 +47,7 @@ export interface VolunteerRegisterData {
     additionalMsg: string;
   };
 }
+  
 
 interface VolunteerRegisterReturn {
   isLoading: boolean;
@@ -61,7 +62,7 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const {id} = useParams<{ id: string }>();
   const refugee_id = id;
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("token");
 
   const registerVolunteer = async (data: VolunteerRegisterData) => {
 
@@ -72,16 +73,17 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
 
     try {
       const response = await axios.post(`${apiUrl}/volunteer/${refugee_id}/oportunidades`, {
-        personalData: data.personalData,
-        availability: data.availability,
-        experienceAndSkills: data.experienceAndSkills,
-        motivation: data.motivation,
-        rolePreferences: data.rolePreferences,
-        healthConditions: data.healthConditions,
-        selectedVolunteering: data.selectedVolunteering,
-        additionalObservations: data.additionalObservations,
-        additionalMessage: data.additionalMessage,
-      },
+        formData: {personalData: data.personalData,
+          availability: data.availability,
+          experienceAndSkills: data.experienceAndSkills,
+          motivation: data.motivation,
+          rolePreferences: data.rolePreferences,
+          healthConditions: data.healthConditions,
+          selectedVolunteering: data.selectedVolunteering,
+          additionalObservations: data.additionalObservations,
+          additionalMessage: data.additionalMessage,}, oportunidadId: data.selectedVolunteering.volunteeringId
+        
+      }, 
       {
         headers: {
           Authorization: `Bearer ${token}`,
