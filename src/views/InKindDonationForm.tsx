@@ -1,4 +1,6 @@
+import BackButton from "@/components/VolverButton";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const InKindDonationForm = () => {
@@ -128,6 +130,7 @@ const InKindDonationForm = () => {
             {loading ? "Enviando..." : "Enviar Donación"}
           </button>
         </form>
+        <BackButton className="mt-5 justify-end" icon={<FaArrowLeft />} to={`/donationlist`} />
       </div>
 
       {/* Modal de éxito */}

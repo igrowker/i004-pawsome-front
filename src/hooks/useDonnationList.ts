@@ -1,6 +1,9 @@
 import { getDonationsData } from "@/views/helpers/getDonations";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "@/redux/rootReducer";
+
 
 
 interface DonationInterface {
@@ -23,38 +26,39 @@ export const useDonnationList = () => {
   const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
   const [actualDonation, SetActualDonation] = useState<actualDonationInf>();
-
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const { data_refugee } = useSelector((state: RootState) => state.refugee);
 
-
+  console.log (data_refugee.user_id)
 
   useEffect(() => {
-    const fetchDonations = async () => {
-      try {
-        const response = await getDonationsData();;
-        // console.log(response)
+    if(data_refugee._id){
+      fetchDonations();
+    }
+  
 
-        if (response && Array.isArray(response.donationRequests)) {
-          const shelterFilter = response.donationRequests.filter(
-            (element: DonationInterface) => element.refugee_id === '6752c3b9c017430654bec1e2' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
-          );
-          // console.log(shelterFilter)
-          setDonations(shelterFilter);
-        } else {
-          console.error("La estructura de la respuesta es incorrecta");
-        }
-      } catch (error) {
-        console.error("Error al obtener las donaciones:", error);
+  }, [data_refugee._id]);
+
+  const fetchDonations = async () => {
+    try {
+      const response = await getDonationsData();
+
+      if (response && Array.isArray(response.donationRequests)) {
+        setDonations(response.donationRequests); // Establecer las donaciones filtradas
+      } else {
+        console.error("La estructura de la respuesta es incorrecta");
       }
-    };
+    } catch (error) {
+      console.error("Error al obtener las donaciones:", error);
+    }
+  };
 
-    /*  dispatch(setDonationInfo(actualDonation.refugee_id, actualDonation.title)); */
-
-    fetchDonations();
-
-  }, []);
-
+  const filteredDonations = useMemo(() => {
+    if (data_refugee._id) {
+      return donations.filter((donation) => donation.refugee_id === data_refugee.user_id);
+    }
+    return [];
+  }, [donations, data_refugee.user_id]);
 
   const handleDonate = (donation: DonationInterface) => {
     const token = localStorage.getItem("token");
@@ -69,7 +73,7 @@ export const useDonnationList = () => {
         title: donation.title,
         description: donation.description,
         refugee_id: donation.refugee_id,
-        refugeeName: 'refugio huellitas'
+        refugeeName: data_refugee.name_refugee
       },
     });
   };
@@ -104,9 +108,9 @@ export const useDonnationList = () => {
     handleInKindDonation,
     handleLogin,
     handleRegister,
-    donations,
     showModal,
     actualDonation,
-    setDonations
+    setDonations,
+    donations: filteredDonations,
   }
 }
