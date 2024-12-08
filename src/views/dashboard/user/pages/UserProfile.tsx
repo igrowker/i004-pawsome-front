@@ -45,10 +45,7 @@ console.log(userData)
   const [profilePhoto, setProfilePhoto] = useState(user?.photo || "");
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>(
-    []
-  );
-  
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);  
 
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
@@ -84,23 +81,28 @@ console.log(userData)
   }, [userData]);
 
   useEffect(() => {
-    const fetchDonations = async () => {
+    const fetchDonations = async (): Promise<void> => {
       try {
         const response = await fetch(`${apiUrl}/donations/donation-requests`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+    
+        if (!response.ok) {
+          throw new Error('Failed to fetch donations');
+        }
+    
         const data = await response.json();
         setDonations(data.donationRequests || []);
       } catch (error) {
+        setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
         console.error("Error fetching donations:", error);
-        setDonationsError("Error al cargar las donaciones.");
       } finally {
         setDonationsLoading(false);
       }
     };
-
+    
     if (activeTab === "donations") {
       fetchDonations();
     }
@@ -108,47 +110,40 @@ console.log(userData)
 
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
-      if (!userId) return;
-
       try {
-        const response = await fetch(`${apiUrl}/adoption-requests?adopter_id=${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-
+        const response = await fetch(`${apiUrl}/api/adoption-requests?adopter_id=${userId}`);
+        
         if (!response.ok) {
-          console.error("Error fetching adoption requests:", response.statusText);
-          return;
+          throw new Error('Failed to fetch adoption requests');
         }
-
+  
         const data = await response.json();
-
-        const formattedRequests: AdoptionRequest[] = data.map((req: any) => ({
-          petName: req.animal_id?.name || "Nombre desconocido",
-          status: req.status,
-          date: new Date(req.request_date).toLocaleDateString() || "Fecha desconocida",
-        }));
-
-        setAdoptionRequests(formattedRequests);
+        console.log('Response Data:', data);
+  
+        if (Array.isArray(data)) {
+          setAdoptionRequests(data);
+        } else {
+          console.error('La respuesta no tiene el formato esperado');
+        }
+  
       } catch (error) {
-        console.error("Error fetching adoption requests:", error);
+        console.error('Error fetching adoption requests:', error);
       }
     };
-
+  
     if (activeTab === "requests") {
       fetchAdoptionRequests();
     }
   }, [apiUrl, activeTab, userId]);
-
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Crear un nuevo objeto excluyendo propiedades vacías
+    console.log(apiUrl);
+
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([_, value]) => value !== "")
     );
