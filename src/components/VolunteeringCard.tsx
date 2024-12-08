@@ -39,7 +39,6 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({_id,description,requ
   return (
     
     <div className="mt-10 flex flex-col rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-  {/* Condicional de edición */}
   {isEditing ? (
     <VolunteeringEditor isOpen={isEditing} onClose={onClose} selectedOpportunity={selectedOpportunity} setRefreshFlag={setRefreshFlag}/>
   ) : isAuthenticated && user?.role === "refugee" ? (
@@ -67,9 +66,13 @@ const VolunteeringCard: React.FC <VolunteeringCardProps>= ({_id,description,requ
       </div>
     </div>
   ) : (
-    // Si no es refugio, mostramos el botón de "Ser voluntario"
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       <div className="space-y-2">
+      <img
+          src="/Vector (1).copia.png"
+          alt="logo_pawsome"
+          className="h-14"
+        />
         <h2 className="text-xl font-bold text-gray-800 mb-4">{description}</h2>
         <h3 className="text-lg font-semibold text-teal-600">Requisitos:</h3>
         <p className="text-gray-600 mb-2">{requirements}</p>

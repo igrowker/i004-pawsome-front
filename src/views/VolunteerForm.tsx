@@ -222,7 +222,8 @@ const VolunteerForm = () => {
           additionalMsg: formData.additionalMessage,
         },
       };
-  
+      
+      // const dataToSend = {formData: volunteerData, oportunidadId: formData.selectedVolunteering.volunteeringId}
       const result = await registerVolunteer(volunteerData);
   
       if (result) {
@@ -271,7 +272,7 @@ const VolunteerForm = () => {
                 updateForm({
                   personalData: {
                     ...formData.personalData,
-                    fullName: e.target.value.trim(),
+                    fullName: e.target.value,
                   },
                 })
               }
@@ -299,7 +300,7 @@ const VolunteerForm = () => {
                 updateForm({
                   personalData: {
                     ...formData.personalData,
-                    gender: e.target.value.trim(),
+                    gender: e.target.value,
                   },
                 })
               }
@@ -313,7 +314,7 @@ const VolunteerForm = () => {
                 updateForm({
                   personalData: {
                     ...formData.personalData,
-                    address: e.target.value.trim(),
+                    address: e.target.value,
                   },
                 })
               }
@@ -329,7 +330,7 @@ const VolunteerForm = () => {
                 updateForm({
                   personalData: {
                     ...formData.personalData,
-                    contactTel: e.target.value.trim(),
+                    contactTel: e.target.value,
                   },
                 })
               }
@@ -344,7 +345,7 @@ const VolunteerForm = () => {
                 updateForm({
                   personalData: {
                     ...formData.personalData,
-                    email: e.target.value.trim(),
+                    email: e.target.value,
                   },
                 })
               }
@@ -368,7 +369,7 @@ const VolunteerForm = () => {
                 updateForm({
                   availability: {
                     ...formData.availability,
-                    availableDays: e.target.value.trim(),
+                    availableDays: e.target.value,
                   },
                 })
               }
@@ -383,7 +384,7 @@ const VolunteerForm = () => {
                 updateForm({
                   availability: {
                     ...formData.availability,
-                    availableHours: e.target.value.trim(),
+                    availableHours: e.target.value,
                   },
                 })
               }
@@ -398,7 +399,7 @@ const VolunteerForm = () => {
                 updateForm({
                   availability: {
                     ...formData.availability,
-                    frecuency: e.target.value.trim(),
+                    frecuency: e.target.value,
                   },
                 })
               }
@@ -421,7 +422,7 @@ const VolunteerForm = () => {
                 updateForm({
                   experienceAndSkills: {
                     ...formData.experienceAndSkills,
-                    experience: e.target.value.trim(),
+                    experience: e.target.value,
                   },
                 })
               }
@@ -436,7 +437,7 @@ const VolunteerForm = () => {
                 updateForm({
                   experienceAndSkills: {
                     ...formData.experienceAndSkills,
-                    preferenceArea: e.target.value.trim(),
+                    preferenceArea: e.target.value,
                   },
                 })
               }
@@ -451,7 +452,7 @@ const VolunteerForm = () => {
                 updateForm({
                   experienceAndSkills: {
                     ...formData.experienceAndSkills,
-                    knowledge: e.target.value.trim(),
+                    knowledge: e.target.value,
                   },
                 })
               }
@@ -475,7 +476,7 @@ const VolunteerForm = () => {
                 updateForm({
                   motivation: {
                     ...formData.motivation,
-                    volunteer: e.target.value.trim(),
+                    volunteer: e.target.value,
                   },
                 })
               }
@@ -491,7 +492,7 @@ const VolunteerForm = () => {
                 updateForm({
                   motivation: {
                     ...formData.motivation,
-                    learn: e.target.value.trim(),
+                    learn: e.target.value,
                   },
                 })
               }
@@ -512,7 +513,7 @@ const VolunteerForm = () => {
               updateForm({
                 rolePreferences: {
                   ...formData.rolePreferences,
-                  individualTeam: e.target.value.trim(),
+                  individualTeam: e.target.value,
                 },
               })
             }
@@ -570,7 +571,7 @@ const VolunteerForm = () => {
                 updateForm({
                   healthConditions: {
                     ...formData.healthConditions,
-                    medicalConditions: e.target.value.trim(),
+                    medicalConditions: e.target.value,
                   },
                 })
               }
@@ -584,7 +585,7 @@ const VolunteerForm = () => {
                 updateForm({
                   healthConditions: {
                     ...formData.healthConditions,
-                    alergics: e.target.value.trim(),
+                    alergics: e.target.value,
                   },
                 })
               }
@@ -605,7 +606,7 @@ const VolunteerForm = () => {
               updateForm({
                 additionalObservations: {
                   ...formData.additionalObservations,
-                  additionalInfo: e.target.value.trim(),
+                  additionalInfo: e.target.value,
                 },
               })
             }
@@ -622,13 +623,16 @@ const VolunteerForm = () => {
               name="selectedVolunteering"
               value={formData.selectedVolunteering.volunteeringName}
               onChange={(e) =>
-                updateForm({
-                  selectedVolunteering: {
-                    ...formData.selectedVolunteering,
-                    volunteeringName: e.target.value.trim(),
-                  },
-                })
-              }
+                {
+                  const selectedOption = e.target.options[e.target.selectedIndex];
+                  updateForm({
+                    selectedVolunteering: {
+                      ...formData.selectedVolunteering,
+                      volunteeringName: e.target.value,
+                      volunteeringId: selectedOption.getAttribute('data-id') ?? '' ,
+                    },
+                  });
+                }}
               className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">-- Selecciona un voluntariado --</option>
@@ -638,6 +642,7 @@ const VolunteerForm = () => {
                     <option
                       key={volunteering._id}
                       value={volunteering.description}
+                      data-id={volunteering._id}
                     >
                       {volunteering.description}
                     </option>
@@ -660,7 +665,7 @@ const VolunteerForm = () => {
             required={true}
             value={formData.additionalMessage}
             onChange={(e) =>
-              updateForm({ additionalMessage: e.target.value.trim() })
+              updateForm({ additionalMessage: e.target.value })
             }
           />
         </fieldset>
