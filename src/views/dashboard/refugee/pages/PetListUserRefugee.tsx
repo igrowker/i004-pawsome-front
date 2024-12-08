@@ -1,4 +1,4 @@
-import { fetchAllAnimals } from "@/redux/actions/animalActions";
+import { fetchAllAnimalsByRefugee } from "@/redux/actions/animalActions";
 import { AppDispatch, RootState } from "@/redux/store";
 import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
@@ -14,15 +14,15 @@ const PetList: React.FC = () => {
   const [speciesFilter, setSpeciesFilter] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
-
   const { user } = useSelector((state: RootState) => state.auth);
-  const { allAnimals, loading } = useSelector(
+
+  const { animalsByRefugee, loading } = useSelector(
     (state: RootState) => state.animal
   );
 
   useEffect(() => {
     if (user?.refugee) {
-      dispatch(fetchAllAnimals());
+      dispatch(fetchAllAnimalsByRefugee());
     }
   }, [dispatch, user?.refugee]);
 

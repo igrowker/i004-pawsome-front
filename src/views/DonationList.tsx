@@ -1,7 +1,5 @@
 import { useDonnationList } from "@/hooks/useDonnationList";
 import { useNavigate } from "react-router-dom";
-import BackButton from "@/components/VolverButton";
-import { FaArrowLeft } from "react-icons/fa";
 
 const DonationList: React.FC = () => {
   const {
@@ -148,8 +146,6 @@ const DonationList: React.FC = () => {
           </div>
         </div>
       )}
-      <BackButton className="mt-5 justify-end" icon={<FaArrowLeft />} to={`/home`} />
-
     </div>
   );
 };
