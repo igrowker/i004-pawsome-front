@@ -26,7 +26,7 @@ const DonationForm = () =>{
                 <div className="image mb-[25px]">
                     <label htmlFor="file" className="border-2 rounded-md h-14 w-[85%] flex items-center justify-between px-4 bg-white cursor-pointer">
                         <span className="placeholder-black">Imagen (opcional)</span><span className="text-primaryLight font-semibold">Examinar</span></label>
-                        <input id="file" type="file" className="hidden"/>
+                        <input id="file" type="file" className="hidden" />
                 </div>
                 <label htmlFor="donationkind" className="block text-sm font-medium text-gray-600 pt-2">Tipo de donación </label>
                 <div className="flex items-center space-x-4">
