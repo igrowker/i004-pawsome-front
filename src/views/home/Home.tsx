@@ -16,6 +16,8 @@ const Home: React.FC = () => {
     data: shelters,
     error,
   } = useSelector((state: RootState) => state.refugee);
+  console.log(shelters)
+  
 
   const [activeView, setActiveView] = React.useState("refugios");
   const [currentPage, setCurrentPage] = useState<number>(1); // Estado para la paginación
