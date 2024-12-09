@@ -168,16 +168,16 @@ const VolunteerForm = () => {
   }, [formData]);
 
   const { isLoading, error: apiError, isSuccess, registerVolunteer } = useVolunteerRegister();
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     const isValid = validateForm();
     if (!isValid) {
       console.log("Errores en el formulario:", formErrors);
       return;
     }
-  
+
     try {
       const volunteerData: VolunteerRegisterData = {
         personalData: {
@@ -225,18 +225,18 @@ const VolunteerForm = () => {
       
       // const dataToSend = {formData: volunteerData, oportunidadId: formData.selectedVolunteering.volunteeringId}
       const result = await registerVolunteer(volunteerData);
-  
+
       if (result) {
         console.log("Registro exitoso:", result);
         setIsSubmitted(true);
       }
     } catch (err) {
       console.error("Error al registrar:", err);
-      
+
     }
   };
-  
-  
+
+
   const closePopup = () => {
     navigate(`/volunteering/${id}`);
     setIsSubmitted(false);
@@ -353,11 +353,11 @@ const VolunteerForm = () => {
           </div>
         </fieldset>
 
-        <fieldset className="space-y-2 mt-10">
-          <Legend
-            text="Disponibilidad"
-            className="text-2xl font-bold font-roboto text-[#374151]"
-          />
+          <fieldset className="space-y-2 mt-10">
+            <Legend
+              text="Disponibilidad"
+              className="text-2xl font-bold font-roboto text-[#374151]"
+            />
 
           <div className="pt-2">
             <Input

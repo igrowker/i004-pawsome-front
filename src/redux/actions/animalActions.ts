@@ -23,6 +23,11 @@ export const CREATE_ANIMAL_START = "CREATE_ANIMAL_START";
 export const CREATE_ANIMAL_SUCCESS = "CREATE_ANIMAL_SUCCESS";
 export const CREATE_ANIMAL_ERROR = "CREATE_ANIMAL_ERROR";
 
+export const FETCH_ALL_ANIMALS_BY_REFUGEE_START = "FETCH_ALL_ANIMALS_START";
+export const FETCH_ALL_ANIMALS_BY_REFUGEE_SUCCESS = "FETCH_ALL_ANIMALS_SUCCESS";
+export const FETCH_ALL_ANIMALS_BY_REFUGEE_ERROR = "FETCH_ALL_ANIMALS_ERROR";
+
+
 // Mostrar todos los animales
 export const fetchAnimalStart = () => ({
   type: FETCH_ANIMAL_START,
@@ -64,6 +69,20 @@ export const fetchAvailableAnimalsError = (error: string) => ({
   payload: error,
 });
 
+// Mostras TODOS los animales de un refugio
+export const fetchAllAnimalsByRefugeeStart = () => ({
+  type: FETCH_ALL_ANIMALS_START,
+});
+export const fetchAllAnimalsByRefugeeSuccess = (animals: any[]) => ({
+  type: FETCH_ALL_ANIMALS_SUCCESS,
+  payload: animals,
+});
+export const fetchAllAnimalsByRefugeeError = (error: string) => ({
+  type: FETCH_ALL_ANIMALS_ERROR,
+  payload: error,
+});
+
+
 // Acción asincrónica para obtener un animal
 export const fetchAnimal = (id: string) => {
   return async (dispatch: AppDispatch) => {
@@ -92,6 +111,23 @@ export const fetchAllAnimals = () => {
       const errorMessage =
         error instanceof Error ? error.message : "Error desconocido.";
       dispatch(fetchAllAnimalsError(errorMessage));
+    }
+  };
+};
+
+// Accion para obtener TODOS los animales de un refugio
+export const fetchAllAnimalsByRefugee = (id: string) => {
+  return async (dispatch: any) => {
+    dispatch(fetchAllAnimalsByRefugeeStart());
+
+    try {
+      const response = await apiClient.get(`/animals/refugee/${id}`);
+      console.log("Respuesta de la API:", response.data);
+      dispatch(fetchAllAnimalsByRefugeeSuccess(response.data));
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido.";
+      dispatch(fetchAllAnimalsByRefugeeError(errorMessage));
     }
   };
 };
