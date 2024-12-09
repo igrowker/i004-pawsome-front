@@ -37,29 +37,20 @@ const UserProfile: React.FC = () => {
     password: "",
   });
 
-  const [activeTab, setActiveTab] = useState<
-    "profile" | "donations" | "requests" | "favorite"
-  >("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "donations" | "adoptions">(
+    "profile"
+  );
 
   const [profilePhoto, setProfilePhoto] = useState(user?.photo || "");
-
   const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
+
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
   const [isImageLoading, setIsImageLoading] = useState(false);
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
-  const auth = useSelector((state: RootState) => state.auth);
-
-  const tabsByRole: { [key: string]: string[] } = {
-    user: ["profile", "donations", "requests"],
-    refugee: ["profile", "requests", "donations"],
-  };
-
-  const userRole = auth.user?.role || "guest";
-  const allowedTabs = tabsByRole[userRole] || ["profile"];
 
   useEffect(() => {
     if (user?.id) {
@@ -113,6 +104,31 @@ const UserProfile: React.FC = () => {
     }
   }, [apiUrl, activeTab, userId]);
 
+  useEffect(() => {
+    const fetchAdoptionRequests = async (): Promise<void> => {
+      try {
+        const response = await fetch(`${apiUrl}/adoptions/requests`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch adoption requests");
+        }
+
+        const data = await response.json();
+        setAdoptionRequests(data.requests || []);
+      } catch (error) {
+        console.error("Error fetching adoption requests:", error);
+      }
+    };
+
+    if (activeTab === "adoptions") {
+      fetchAdoptionRequests();
+    }
+  }, [apiUrl, activeTab]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -136,9 +152,12 @@ const UserProfile: React.FC = () => {
     if (!userId) {
       return;
     }
-
+  
+    // Usar 'file' sin afectar la lógica
+    console.log("Archivo subido:", file);
+  
     setIsImageLoading(true);
-
+  
     dispatch(updateUserPhoto(userId, url)).then(() => {
       dispatch(fetchUserProfile(userId)).finally(() => {
         setIsImageLoading(false);
@@ -178,11 +197,11 @@ const UserProfile: React.FC = () => {
       </div>
 
       <div className="flex justify-center border-b mb-6">
-        {allowedTabs.map((tab) => (
+        {["profile", "donations", "adoptions"].map((tab) => (
           <button
             key={tab}
             onClick={() =>
-              setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
+              setActiveTab(tab as "profile" | "donations" | "adoptions")
             }
             className={`pb-2 px-4 text-lg ${
               activeTab === tab
@@ -192,8 +211,7 @@ const UserProfile: React.FC = () => {
           >
             {tab === "profile" && "Perfil"}
             {tab === "donations" && "Donaciones"}
-            {tab === "requests" && "Solicitudes"}
-            {tab === "favorite" && "Favoritos"}
+            {tab === "adoptions" && "Solicitudes de Adopción"}
           </button>
         ))}
       </div>
@@ -256,32 +274,66 @@ const UserProfile: React.FC = () => {
 
       {activeTab === "donations" && (
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
-            Historial de donación
-          </h3>
-          {donationsLoading ? (
-            <p>Cargando donaciones...</p>
-          ) : donationsError ? (
-            <p className="text-red-500">{donationsError}</p>
-          ) : donations.length > 0 ? (
+        <h3 className="text-xl font-semibold mb-4 text-gray-800">
+          Historial de Donación
+        </h3>
+        {donationsLoading ? (
+          <div className="flex justify-center items-center h-32">
+            <Spinner />
+          </div>
+        ) : donationsError ? (
+          <p className="text-red-500">{donationsError}</p>
+        ) : donations.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {donations.map((donation) => (
+              <div
+                key={donation._id}
+                className="border rounded-lg p-4 shadow-md bg-white"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-semibold text-lg text-gray-700">
+                    {donation.title}
+                  </h4>
+                  {donation.targetAmountMoney && (
+                    <span className="text-primaryLight text-sm font-bold">
+                      {donation.targetAmountMoney}€
+                    </span>
+                  )}
+                </div>
+                <div className="w-full h-40 flex items-center justify-center bg-gray-100 rounded-md overflow-hidden mb-4">
+              <img
+                src={donation.imageUrl}
+                alt={donation.title}
+                className="object-contain h-full w-full"
+              />
+            </div>
+                <p className="text-gray-600 text-sm line-clamp-3">
+                  {donation.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No hay donaciones registradas.</p>
+        )}
+      </div>
+      )}
+
+      {activeTab === "adoptions" && (
+        <div>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">Solicitudes de Adopción</h3>
+          {adoptionRequests.length > 0 ? (
             <ul className="space-y-2">
-              {donations.map((donation) => (
-                <li key={donation._id} className="border p-4 rounded-md">
-                  <p>{donation.description}</p>
-                  <p>{donation.targetAmountMoney}€</p>
-                  <img
-                    src={donation.imageUrl}
-                    alt=""
-                    className="w-16 h-16 rounded-full object-cover bg-gray-400"
-                  />
+              {adoptionRequests.map((request) => (
+                <li key={request.petName} className="border p-4 rounded-md">
+                  <p>{request.date}</p>
+                  <p>{request.status}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No hay donaciones.</p>
+            <p>No hay solicitudes de adopción.</p>
           )}
-          <h3 className="text-xl font-semibold mt-6 text-gray-800">Agregar nueva donación</h3>
-          <DonationForm />
         </div>
       )}
     </div>
