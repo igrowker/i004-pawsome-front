@@ -29,6 +29,8 @@ const UserProfile: React.FC = () => {
   } = useSelector((state: RootState) => state.user);
 
   const { user } = useSelector((state: RootState) => state.auth);
+
+
   const userId = user?.id;
 
   const [formData, setFormData] = useState<FormData>({
@@ -49,6 +51,8 @@ const UserProfile: React.FC = () => {
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
   const [isImageLoading, setIsImageLoading] = useState(false);
+
+  const userRole = user?.role || "guest";
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -295,18 +299,20 @@ const UserProfile: React.FC = () => {
                     {donation.title}
                   </h4>
                   {donation.targetAmountMoney && (
-                    <span className="text-primaryLight text-sm font-bold">
+                    <span className="text-primaryLight text-l font-bold">
                       {donation.targetAmountMoney}€
                     </span>
                   )}
                 </div>
-                <div className="w-full h-40 flex items-center justify-center bg-gray-100 rounded-md overflow-hidden mb-4">
-              <img
-                src={donation.imageUrl}
-                alt={donation.title}
-                className="object-contain h-full w-full"
-              />
-            </div>
+                {donation.imageUrl && (
+                  <div className="w-full h-40 flex items-center justify-center bg-gray-100 rounded-md overflow-hidden mb-4">
+                    <img
+                      src={donation.imageUrl}
+                      alt={donation.title}
+                      className="object-contain h-full w-full"
+                    />
+                  </div>
+                )}
                 <p className="text-gray-600 text-sm line-clamp-3">
                   {donation.description}
                 </p>
@@ -316,7 +322,16 @@ const UserProfile: React.FC = () => {
         ) : (
           <p className="text-gray-500">No hay donaciones registradas.</p>
         )}
+        {userRole === "refugee" && (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-800">
+              Agregar Nueva Donación
+            </h3>
+            <DonationForm />
+          </div>
+        )}
       </div>
+      
       )}
 
       {activeTab === "adoptions" && (
