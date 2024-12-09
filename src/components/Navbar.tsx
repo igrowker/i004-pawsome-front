@@ -7,14 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { logout } from "@/redux/actions/authActions";
 import { AppDispatch } from "@/redux/store";
-import { MdOutlinePets, MdFavoriteBorder } from "react-icons/md";
+import { MdOutlinePets, MdFavoriteBorder,MdOutlineVolunteerActivism } from "react-icons/md";
 import { SiPetsathome } from "react-icons/si";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const auth = useSelector((state: RootState) => state.auth);
+  const { data_refugee } = useSelector((state: RootState) => state.refugee); 
 
   const photo = useSelector((state: RootState) => state.user?.data?.photo);
 
@@ -75,6 +77,11 @@ export default function Navbar() {
             icon: MdOutlinePets,
             text: "Add new pet",
             to: "/dashboard/refugee/postpets",
+          },
+          {
+            icon: MdOutlineVolunteerActivism, 
+            text: "Volunteer",
+            to: `/volunteering/${data_refugee._id}`,
           },
         ]
       : []),
