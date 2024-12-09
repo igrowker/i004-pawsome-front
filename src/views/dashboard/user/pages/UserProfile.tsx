@@ -6,7 +6,6 @@ import {
   updateUserProfile,
 } from "../../../../redux/actions/userActions";
 import { RootState } from "@/redux/store";
-// import { DonationInterface } from "@/interfaces/DonationInterface";
 import { DonationInterface } from "@/interfaces/IDonation.ts";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 import { FaUserCircle } from "react-icons/fa";
@@ -30,7 +29,6 @@ const UserProfile: React.FC = () => {
   } = useSelector((state: RootState) => state.user);
 
   const { user } = useSelector((state: RootState) => state.auth);
-console.log(userData)
   const userId = user?.id;
 
   const [formData, setFormData] = useState<FormData>({
@@ -46,18 +44,15 @@ console.log(userData)
   const [profilePhoto, setProfilePhoto] = useState(user?.photo || "");
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);  
-
-  const [isEditing, setIsEditing] = useState(false);
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
-  const [isImageLoading, setIsImageLoading] = useState(false);
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const auth = useSelector((state: RootState) => state.auth);
 
   const tabsByRole: { [key: string]: string[] } = {
-    user: ["profile", "donations", "requests"], 
+    user: ["profile", "donations", "requests"],
     refugee: ["profile", "requests", "donations"],
   };
 
@@ -89,105 +84,62 @@ console.log(userData)
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-    
+
         if (!response.ok) {
-          throw new Error('Failed to fetch donations');
+          throw new Error("Failed to fetch donations");
         }
-    
+
         const data = await response.json();
-        setDonations(data.donationRequests || []);
+
+        // Filtrar donaciones por refugee_id (ID del refugio actual)
+        const filteredDonations = data.donationRequests.filter(
+          (donation: DonationInterface) => donation.refugee_id === userId
+        );
+
+        setDonations(filteredDonations || []);
       } catch (error) {
-        setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
+        setDonationsError(
+          error instanceof Error ? error.message : "Error al cargar las donaciones."
+        );
         console.error("Error fetching donations:", error);
       } finally {
         setDonationsLoading(false);
       }
     };
-    
+
     if (activeTab === "donations") {
       fetchDonations();
     }
-  }, [apiUrl, activeTab]);
-
-  useEffect(() => {
-    const fetchAdoptionRequests = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/api/adoption-requests?adopter_id=${userId}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch adoption requests');
-        }
-  
-        const data = await response.json();
-        console.log('Response Data:', data);
-  
-        if (Array.isArray(data)) {
-          setAdoptionRequests(data);
-        } else {
-          console.error('La respuesta no tiene el formato esperado');
-        }
-  
-      } catch (error) {
-        console.error('Error fetching adoption requests:', error);
-      }
-    };
-  
-    if (activeTab === "requests") {
-      fetchAdoptionRequests();
-    }
   }, [apiUrl, activeTab, userId]);
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(apiUrl);
 
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([_, value]) => value !== "")
     );
-  
+
     if (user?.id) {
       dispatch(updateUserProfile(user.id, filteredFormData as FormData));
-      console.log(filteredFormData);
-      setIsEditing(false);
+      setFormData(filteredFormData as FormData);
     } else {
       console.error("El usuario no tiene un ID válido para actualizar.");
     }
   };
-  
-
-  const handleUpload = (file: File, url: string) => {
-    console.log("URL generada para la imagen:", url);
-    if (!userId) {
-      return;
-      console.log("Archivo subido:", file);
-    }
-
-    setIsImageLoading(true);
-
-    dispatch(updateUserPhoto(userId, url)).then(() => {
-      dispatch(fetchUserProfile(userId)).finally(() => {
-        setIsImageLoading(false);
-      });
-    });
-  };
-
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
       <div className="flex flex-col sm:flex-row items-center sm:items-start mb-8">
         <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-100 overflow-hidden">
-          {isImageLoading ? (
-            <Spinner />
-          ) : profilePhoto ? (
+          {profilePhoto ? (
             <img
               src={profilePhoto}
               alt="User Profile"
               className="w-full h-full object-cover"
-              onLoad={() => setIsImageLoading(false)}
             />
           ) : (
             <FaUserCircle className="text-gray-400" size={48} />
@@ -203,7 +155,7 @@ console.log(userData)
         </div>
 
         <div className="ml-auto">
-          <ImageUpload onUpload={handleUpload} />
+          <ImageUpload onUpload={() => {}} />
         </div>
       </div>
 
@@ -234,54 +186,44 @@ console.log(userData)
           </h3>
           {loading && <p>Cargando...</p>}
           {error && <p className="text-red-500">{error}</p>}
-
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md mb-4"
-          >
-            {isEditing ? "Cancelar" : "Editar perfil"}
-          </button>
-
-          {isEditing && (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium">Nombre</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Correo electrónico</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Contraseña (opcional)</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                />
-              </div>
-              <button
-                type="submit"
-                className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md"
-              >
-                Guardar cambios
-              </button>
-            </form>
-          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium">Nombre</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Correo electrónico</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Contraseña (opcional)</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
+            <button
+              type="submit"
+              className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md"
+            >
+              Guardar cambios
+            </button>
+          </form>
         </div>
       )}
 
@@ -300,40 +242,16 @@ console.log(userData)
                 <li key={donation._id} className="border p-4 rounded-md">
                   <p>{donation.description}</p>
                   <p>{donation.targetAmountMoney}€</p>
-                  <img src={donation.imageUrl} alt="" className="w-16 h-16 rounded-full object-cover mr-4 bg-gray-400"/>
-                  <button>Donar</button>
                 </li>
               ))}
             </ul>
           ) : (
             <p>No hay donaciones.</p>
           )}
-          {/* Formulario de donación */}
           <h3 className="text-xl font-semibold mt-6 text-gray-800">
             Agregar nueva donación
           </h3>
           <DonationForm />
-        </div>
-      )}
-
-      {activeTab === "requests" && (
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Solicitudes de adopción
-          </h3>
-          {adoptionRequests.length > 0 ? (
-            <ul className="space-y-2">
-              {adoptionRequests.map((request, index) => (
-                <li key={index} className="border p-4 rounded-md">
-                  <p><strong>Nombre mascota:</strong> {request.petName}</p>
-                  <p><strong>Estado:</strong> {request.status}</p>
-                  <p><strong>Fecha:</strong> {request.date}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No tienes solicitudes de adopción.</p>
-          )}
         </div>
       )}
     </div>
