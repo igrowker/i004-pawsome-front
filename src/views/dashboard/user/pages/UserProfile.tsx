@@ -295,7 +295,7 @@ const UserProfile: React.FC = () => {
                 className="border rounded-lg p-4 shadow-md bg-white"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-semibold text-lg text-gray-700">
+                  <h4 className="font-semibold text-lg text-gray-800">
                     {donation.title}
                   </h4>
                   {donation.targetAmountMoney && (
