@@ -13,6 +13,7 @@ import { FaUserCircle } from "react-icons/fa";
 import ImageUpload from "./ImageUpload.tsx";
 import { useAppDispatch } from "@/hooks/useAppDispatch.ts";
 import { Spinner } from "@/components/ui/spinner.tsx";
+import DonationForm from "@/views/DonationForm.tsx";
 
 interface FormData {
   name: string;
@@ -299,12 +300,19 @@ console.log(userData)
                 <li key={donation._id} className="border p-4 rounded-md">
                   <p>{donation.description}</p>
                   <p>{donation.targetAmountMoney}€</p>
+                  <img src={donation.imageUrl} alt="" className="w-16 h-16 rounded-full object-cover mr-4 bg-gray-400"/>
+                  <button>Donar</button>
                 </li>
               ))}
             </ul>
           ) : (
             <p>No hay donaciones.</p>
           )}
+          {/* Formulario de donación */}
+          <h3 className="text-xl font-semibold mt-6 text-gray-800">
+            Agregar nueva donación
+          </h3>
+          <DonationForm />
         </div>
       )}
 
