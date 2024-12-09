@@ -111,7 +111,7 @@ console.log(userData)
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
       try {
-        const response = await fetch(`${apiUrl}/adoption-request/${userId}`);
+        const response = await fetch(`${apiUrl}/api/adoption-requests?adopter_id=${userId}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch adoption requests');
