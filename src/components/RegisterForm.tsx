@@ -157,6 +157,7 @@ const RegisterForm = () => {
           ></Input>
           {formErrors.confirmPassword && <p className="text-red-500">{formErrors.confirmPassword}</p>}
         </div>
+        
        
         <button className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto mt-4" type="submit">
           Registrar

@@ -508,12 +508,12 @@ const VolunteerForm = () => {
             placeholder="Rol o actividad específica de interés"
             name="role"
             required={true}
-            value={formData.rolePreferences.individualTeam}
+            value={formData.rolePreferences.role}
             onChange={(e) =>
               updateForm({
                 rolePreferences: {
                   ...formData.rolePreferences,
-                  individualTeam: e.target.value,
+                  role: e.target.value,
                 },
               })
             }
