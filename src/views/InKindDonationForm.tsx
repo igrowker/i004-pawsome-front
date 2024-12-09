@@ -40,13 +40,16 @@ const InKindDonationForm = () => {
     // Enviar la solicitud POST al backend
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/new-material-donation`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(donationData), // Enviar los datos como JSON
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/new-material-donation`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(donationData), // Enviar los datos como JSON
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error al enviar la donación.");
@@ -58,7 +61,6 @@ const InKindDonationForm = () => {
 
       const responseData = await response.json();
       console.log("Donación enviada correctamente:", responseData);
-
     } finally {
       setLoading(false);
     }
@@ -72,11 +74,18 @@ const InKindDonationForm = () => {
 
   return (
     <div className="flex flex-col justify-center items-center bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold text-center mb-6 text-gray-700 pt-5">Donación en Especie</h1>
+      <h1 className="text-2xl font-bold text-center mb-6 text-gray-700 pt-5">
+        Donación en Especie
+      </h1>
       <div className="bg-white rounded-3xl shadow-lg p-5 max-h-full w-full max-w-lg">
         <form noValidate className="space-y-4 mb-5" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-600">Nombre del material</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Nombre del material
+            </label>
             <input
               type="text"
               id="name"
@@ -86,7 +95,12 @@ const InKindDonationForm = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-600">Descripción del material</label>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Descripción del material
+            </label>
             <textarea
               id="description"
               value={description}
@@ -96,7 +110,12 @@ const InKindDonationForm = () => {
           </div>
 
           <div>
-            <label htmlFor="quantity" className="block text-sm font-medium text-gray-600">Cantidad de material</label>
+            <label
+              htmlFor="quantity"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Cantidad de material
+            </label>
             <input
               type="number"
               id="quantity"
@@ -107,11 +126,18 @@ const InKindDonationForm = () => {
           </div>
 
           <div>
-            <label htmlFor="materialStatus" className="block text-sm font-medium text-gray-600">Estado del material</label>
+            <label
+              htmlFor="materialStatus"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Estado del material
+            </label>
             <select
               id="materialStatus"
               value={materialStatus}
-              onChange={(e) => setMaterialStatus(e.target.value as "new" | "used")}
+              onChange={(e) =>
+                setMaterialStatus(e.target.value as "new" | "used")
+              }
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500"
             >
               <option value="new">Nuevo</option>
@@ -130,14 +156,20 @@ const InKindDonationForm = () => {
             {loading ? "Enviando..." : "Enviar Donación"}
           </button>
         </form>
-        <BackButton className="mt-5 justify-end" icon={<FaArrowLeft />} to={`/donationlist`} />
+        <BackButton
+          className="mt-5 justify-end"
+          icon={<FaArrowLeft />}
+          to={`/donationlist`}
+        />
       </div>
 
       {/* Modal de éxito */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-            <h2 className="text-xl font-bold mb-4">¡Donación realizada exitosamente!</h2>
+            <h2 className="text-xl font-bold mb-4">
+              ¡Donación realizada exitosamente!
+            </h2>
             <p className="text-gray-600 mb-6">Gracias por tu generosidad.</p>
             <button
               className="mt-4 w-full bg-secondaryLight text-white font-bold py-2 px-4 rounded-lg hover:bg-primaryLight transition-colors"

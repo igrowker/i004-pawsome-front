@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 export const createStripeSession = async (data: {
   title: string;
   description: string;
@@ -16,7 +18,7 @@ export const createStripeSession = async (data: {
     console.log("Datos enviados al backend para crear sesión:", data);
 
     const response = await axios.post(
-      "http://localhost:3000/payment/create-checkout-session",
+      `${baseURL}/payment/create-checkout-session`,
       data,
       {
         headers: {
