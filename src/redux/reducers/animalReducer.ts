@@ -11,6 +11,10 @@ import {
   CREATE_ANIMAL_SUCCESS,
   CREATE_ANIMAL_START,
   CREATE_ANIMAL_ERROR,
+  FETCH_ALL_ANIMALS_BY_REFUGEE_START,
+  FETCH_ALL_ANIMALS_BY_REFUGEE_SUCCESS,
+  FETCH_ALL_ANIMALS_BY_REFUGEE_ERROR
+
 } from "../actions/animalActions";
 
 import { IAnimal } from "@/interfaces/IAnimal";
@@ -22,6 +26,7 @@ export interface AnimalState {
   error: string | null;
   allAnimals: any[];
   animals: string[];
+  animalsByRefugee: IAnimal[];
 }
 
 const initialState: AnimalState = {
@@ -31,6 +36,7 @@ const initialState: AnimalState = {
   error: null,
   allAnimals: [],
   animals: [],
+  animalsByRefugee: [],
 };
 
 const animalReducer = (state = initialState, action: any): AnimalState => {
@@ -39,6 +45,8 @@ const animalReducer = (state = initialState, action: any): AnimalState => {
     case FETCH_ANIMAL_START:
       return { ...state, loading: true, error: null };
     case FETCH_ALL_ANIMALS_START:
+    case FETCH_ALL_ANIMALS_BY_REFUGEE_START:
+      return { ...state, loading: true, error: null };
     case FETCH_AVAILABLE_ANIMALS_START:
       return { ...state, loading: true, error: null };
     case CREATE_ANIMAL_START:
@@ -49,6 +57,8 @@ const animalReducer = (state = initialState, action: any): AnimalState => {
       return { ...state, loading: false, data: action.payload };
     case FETCH_ALL_ANIMALS_SUCCESS:
       return { ...state, loading: false, allAnimals: action.payload };
+    case FETCH_ALL_ANIMALS_BY_REFUGEE_SUCCESS:
+      return { ...state, loading: false, animalsByRefugee: action.payload };
     case FETCH_AVAILABLE_ANIMALS_SUCCESS:
       return { ...state, loading: false, availableAnimals: action.payload };
     case CREATE_ANIMAL_SUCCESS: {
@@ -65,6 +75,8 @@ const animalReducer = (state = initialState, action: any): AnimalState => {
     // ERROR
     case FETCH_ANIMAL_ERROR:
     case FETCH_ALL_ANIMALS_ERROR:
+      return { ...state, loading: false, error: action.payload };
+    case FETCH_ALL_ANIMALS_BY_REFUGEE_ERROR:
       return { ...state, loading: false, error: action.payload };
     case FETCH_AVAILABLE_ANIMALS_ERROR:
       return { ...state, loading: false, error: action.payload };
