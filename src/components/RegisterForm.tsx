@@ -167,8 +167,13 @@ const RegisterForm = () => {
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
-            <p className="text-lg mb-6">Tus datos han sido registrados correctamente.</p>
+          <div className="img_volunteercheck">
+              <img src="../../public/checkregister.jpg" alt="" />
+            </div>
+            <h2 className="text-2xl font-semibold mb-4">¡Excelente!</h2>
+            <p className="text-lg mb-6">
+              A partir de ahora ya eres parte de la manada Pawsome.
+            </p>
             <button
               className="bg-primaryLight text-white px-4 py-2 rounded-md"
               onClick={closePopup}

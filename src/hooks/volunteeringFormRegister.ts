@@ -91,7 +91,9 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        
       }
+      
     );
 
       // if (response.status === 201) {
@@ -103,6 +105,7 @@ export const useVolunteerRegister = (): VolunteerRegisterReturn => {
     } catch (error) {
       console.error("Error al procesar la solicitud", error);
     } finally {
+      setIsSuccess(true);
       setIsLoading(false);
     }
   };
