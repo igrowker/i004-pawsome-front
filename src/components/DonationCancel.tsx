@@ -5,7 +5,7 @@ const DonationCancel: React.FC = () => {
 
   const handleGoToDonations = () => {
     // Redirige a la lista de donaciones
-    navigate("/donationlist");
+    navigate("/home");
   };
 
   return (
