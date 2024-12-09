@@ -45,8 +45,10 @@ const UserProfile: React.FC = () => {
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
   const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
+  const [isImageLoading, setIsImageLoading] = useState(false);
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const auth = useSelector((state: RootState) => state.auth);
@@ -125,21 +127,38 @@ const UserProfile: React.FC = () => {
 
     if (user?.id) {
       dispatch(updateUserProfile(user.id, filteredFormData as FormData));
-      setFormData(filteredFormData as FormData);
+      setIsEditing(false);
     } else {
       console.error("El usuario no tiene un ID válido para actualizar.");
     }
+  };
+
+  const handleUpload = (file: File, url: string) => {
+    if (!userId) {
+      return;
+    }
+
+    setIsImageLoading(true);
+
+    dispatch(updateUserPhoto(userId, url)).then(() => {
+      dispatch(fetchUserProfile(userId)).finally(() => {
+        setIsImageLoading(false);
+      });
+    });
   };
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
       <div className="flex flex-col sm:flex-row items-center sm:items-start mb-8">
         <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-100 overflow-hidden">
-          {profilePhoto ? (
+          {isImageLoading ? (
+            <Spinner />
+          ) : profilePhoto ? (
             <img
               src={profilePhoto}
               alt="User Profile"
               className="w-full h-full object-cover"
+              onLoad={() => setIsImageLoading(false)}
             />
           ) : (
             <FaUserCircle className="text-gray-400" size={48} />
@@ -155,7 +174,7 @@ const UserProfile: React.FC = () => {
         </div>
 
         <div className="ml-auto">
-          <ImageUpload onUpload={() => {}} />
+          <ImageUpload onUpload={handleUpload} />
         </div>
       </div>
 
@@ -179,54 +198,6 @@ const UserProfile: React.FC = () => {
         ))}
       </div>
 
-      {activeTab === "profile" && (
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Editar Perfil
-          </h3>
-          {loading && <p>Cargando...</p>}
-          {error && <p className="text-red-500">{error}</p>}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Nombre</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Correo electrónico</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Contraseña (opcional)</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              />
-            </div>
-            <button
-              type="submit"
-              className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md"
-            >
-              Guardar cambios
-            </button>
-          </form>
-        </div>
-      )}
-
       {activeTab === "donations" && (
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-800">
@@ -242,6 +213,12 @@ const UserProfile: React.FC = () => {
                 <li key={donation._id} className="border p-4 rounded-md">
                   <p>{donation.description}</p>
                   <p>{donation.targetAmountMoney}€</p>
+                  <img
+                    src={donation.imageUrl}
+                    alt=""
+                    className="w-16 h-16 rounded-full object-cover bg-gray-400"
+                  />
+              
                 </li>
               ))}
             </ul>
