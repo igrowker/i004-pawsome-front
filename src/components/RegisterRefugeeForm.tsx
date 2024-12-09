@@ -6,7 +6,7 @@ import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
 import useRefugeeRegister from "@/hooks/refugeeRegister";
-// import UploadPhoto from "./UploadPhoto";
+import UploadPhoto from "./UploadPhoto";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();
@@ -126,7 +126,7 @@ const RegisterRefugeeForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
-         <div className="name">
+        <div className="name">
           <Input
             name="name"
             type="text"
@@ -219,6 +219,45 @@ const RegisterRefugeeForm = () => {
             <p className="text-red-500">{formErrors.confirmPassword}</p>
           )}
         </div>
+        <div className="image mb-4">
+        <div className="image mb-4">
+  <UploadPhoto
+    onPhotoUpload={(photoUrl) => updateForm({ image: photoUrl })}
+    buttonText="Subir Imagen"
+  />
+  {formData.image && (
+    <p className="text-gray-600 mt-2">Imagen subida: {formData.image}</p>
+  )}
+</div>
+
+        </div>
+
+        {/* <label
+    htmlFor="file"
+    className="border-2 rounded h-12 w-full flex items-center justify-between px-4 bg-white cursor-pointer"
+  >
+    <span
+      className={`truncate ${
+        formData.image
+          ? "text-black"
+          : "text-gray-400" // Estilo similar a un placeholder
+      }`}
+    >
+      {formData.image || "Imagen (opcional)"}
+    </span>
+    <span className="text-primaryLight font-semibold">Examinar</span>
+  </label>
+          <input
+            id="file"
+            name="file"
+            type="file"
+            className="hidden w-[100px]"
+            onChange={(e) =>
+              updateForm({
+                image: e.target.files ? e.target.files[0].name : "",
+              })
+            }
+          /> */}
 
         <button
           type="submit"
@@ -232,7 +271,7 @@ const RegisterRefugeeForm = () => {
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <div className="img_volunteercheck">
+            <div className="img_volunteercheck">
               <img src="../../public/checkregister.jpg" alt="" />
             </div>
             <h2 className="text-2xl font-semibold mb-4">¡Excelente!</h2>

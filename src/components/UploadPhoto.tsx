@@ -43,7 +43,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({ onPhotoUpload, buttonText = '
           headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
         }
   
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/file-upload/upload`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/files/upload`, {
           method: 'POST',
           headers,
           body: formData,
