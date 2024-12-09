@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 import BackButton from "@/components/VolverButton";
@@ -51,23 +51,23 @@ export default function RefugeProfile() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
-  
+
       if (!data.donationRequests || !Array.isArray(data.donationRequests)) {
         throw new Error("Estructura inesperada en la respuesta del servidor");
       }
-  
+
       const refugeeId = data_refugee.user_id || data_refugee._id;
       const filteredDonations = data.donationRequests.filter(
         (donation: DonationInterface) =>
           donation.refugee_id?.trim().toLowerCase() === refugeeId.trim().toLowerCase()
       );
-  
+
       setDonations(filteredDonations);
     } catch (error) {
       setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
@@ -115,6 +115,20 @@ export default function RefugeProfile() {
               <img className="mb-2" src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
             <RefugeDescription RefugeeDescription={data_refugee?.description} />
+
+            {/* Buttons */}
+            <div className="flex justify-center mt-5 gap-4">
+              <Link to={`/volunteering/${id}`}>
+                <button className="bg-teal-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-teal-600">
+                  Lista de Voluntariados
+                </button>
+              </Link>
+              <Link to={`/volunteer/${id}/oportunidades`}>
+                <button className="bg-teal-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-teal-600">
+                  Inscribirse como Voluntario
+                </button>
+              </Link>
+            </div>
 
             {/* Tabs */}
             <div className="flex justify-center mt-5">
