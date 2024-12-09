@@ -93,7 +93,6 @@ const UserProfile: React.FC = () => {
 
         const data = await response.json();
 
-        // Filtrar donaciones por refugee_id (ID del refugio actual)
         const filteredDonations = data.donationRequests.filter(
           (donation: DonationInterface) => donation.refugee_id === userId
         );
@@ -185,10 +184,11 @@ const UserProfile: React.FC = () => {
             onClick={() =>
               setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
             }
-            className={`pb-2 px-4 text-lg ${activeTab === tab
-              ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
-              : "text-gray-500"
-              }`}
+            className={`pb-2 px-4 text-lg ${
+              activeTab === tab
+                ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
+                : "text-gray-500"
+            }`}
           >
             {tab === "profile" && "Perfil"}
             {tab === "donations" && "Donaciones"}
@@ -197,6 +197,62 @@ const UserProfile: React.FC = () => {
           </button>
         ))}
       </div>
+
+      {activeTab === "profile" && (
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Editar Perfil</h3>
+          {loading && <p>Cargando...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md mb-4"
+          >
+            {isEditing ? "Cancelar" : "Editar perfil"}
+          </button>
+
+          {isEditing && (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium">Nombre</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Correo electrónico</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Contraseña (opcional)</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                />
+              </div>
+              <button
+                type="submit"
+                className="hover:bg-secondaryLight bg-primaryLight text-white px-4 py-2 rounded-md"
+              >
+                Guardar cambios
+              </button>
+            </form>
+          )}
+        </div>
+      )}
 
       {activeTab === "donations" && (
         <div>
@@ -218,16 +274,13 @@ const UserProfile: React.FC = () => {
                     alt=""
                     className="w-16 h-16 rounded-full object-cover bg-gray-400"
                   />
-              
                 </li>
               ))}
             </ul>
           ) : (
             <p>No hay donaciones.</p>
           )}
-          <h3 className="text-xl font-semibold mt-6 text-gray-800">
-            Agregar nueva donación
-          </h3>
+          <h3 className="text-xl font-semibold mt-6 text-gray-800">Agregar nueva donación</h3>
           <DonationForm />
         </div>
       )}

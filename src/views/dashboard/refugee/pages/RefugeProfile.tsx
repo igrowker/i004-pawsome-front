@@ -46,31 +46,32 @@ export default function RefugeProfile() {
 
   const fetchDonations = async () => {
     try {
-      const refugeeId = data_refugee.user_id || data_refugee._id;
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/donations/donation-requests`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/donations/donation-requests`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+  
       if (!response.ok) {
-        throw new Error("Failed to fetch donations");
+        throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
       }
-
+  
       const data = await response.json();
+  
+      if (!data.donationRequests || !Array.isArray(data.donationRequests)) {
+        throw new Error("Estructura inesperada en la respuesta del servidor");
+      }
+  
+      const refugeeId = data_refugee.user_id || data_refugee._id;
       const filteredDonations = data.donationRequests.filter(
         (donation: DonationInterface) =>
           donation.refugee_id?.trim().toLowerCase() === refugeeId.trim().toLowerCase()
       );
-
+  
       setDonations(filteredDonations);
     } catch (error) {
-      setDonationsError(
-        error instanceof Error ? error.message : "Error al cargar las donaciones."
-      );
+      setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
+      console.error("Error fetching donations:", error);
     } finally {
       setDonationsLoading(false);
     }
@@ -87,7 +88,12 @@ export default function RefugeProfile() {
         },
       });
     } else {
-      alert("Donación no monetaria. Por favor, contáctanos para continuar.");
+      navigate("/in-kind-donation", {
+        state: {
+          donationId: donation._id,
+          title: donation.title,
+        },
+      });
     }
   };
 
