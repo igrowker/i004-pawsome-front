@@ -6,7 +6,8 @@ import {
   updateUserProfile,
 } from "../../../../redux/actions/userActions";
 import { RootState } from "@/redux/store";
-import { DonationInterface } from "@/interfaces/DonationInterface";
+// import { DonationInterface } from "@/interfaces/DonationInterface";
+import { DonationInterface } from "@/interfaces/IDonation.ts";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
@@ -29,7 +30,7 @@ const UserProfile: React.FC = () => {
   } = useSelector((state: RootState) => state.user);
 
   const { user } = useSelector((state: RootState) => state.auth);
-
+console.log(userData)
   const userId = user?.id;
 
   const [formData, setFormData] = useState<FormData>({
@@ -136,19 +137,29 @@ const UserProfile: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+  
+    // Crear un nuevo objeto excluyendo propiedades vacías
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([_, value]) => value !== "")
+    );
+  
     if (user?.id) {
-      dispatch(updateUserProfile(user.id, formData));
+      dispatch(updateUserProfile(user.id, filteredFormData as FormData));
+      console.log(filteredFormData);
       setIsEditing(false);
     } else {
       console.error("El usuario no tiene un ID válido para actualizar.");
     }
   };
+  
 
   const handleUpload = (file: File, url: string) => {
     console.log("URL generada para la imagen:", url);
     if (!userId) {
       return;
+      console.log("Archivo subido:", file);
     }
+
     setIsImageLoading(true);
 
     dispatch(updateUserPhoto(userId, url)).then(() => {
@@ -157,6 +168,7 @@ const UserProfile: React.FC = () => {
       });
     });
   };
+
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
@@ -177,10 +189,11 @@ const UserProfile: React.FC = () => {
         </div>
         <div className="flex flex-col sm:ml-6 sm:flex-grow text-center sm:text-left">
           <h2 className="text-2xl font-semibold text-gray-900">
-            {user ? user.name : "No tienes nombre"}
+            {userData ? userData.name : "No tienes nombre"}
+          
           </h2>
           <p className="text-secondaryDark text-sm">
-            {user ? user.email : "No tienes email"}
+            {userData ? userData.email : "No tienes email"}
           </p>
         </div>
 
@@ -198,11 +211,10 @@ const UserProfile: React.FC = () => {
                 tab as "profile" | "donations" | "requests" | "favorite"
               )
             }
-            className={`pb-2 px-4 text-lg ${
-              activeTab === tab
-                ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
-                : "text-gray-500"
-            }`}
+            className={`pb-2 px-4 text-lg ${activeTab === tab
+              ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
+              : "text-gray-500"
+              }`}
           >
             {tab === "profile" && "Perfil"}
             {tab === "donations" && "Donaciones"}
@@ -286,7 +298,7 @@ const UserProfile: React.FC = () => {
           ) : donations.length > 0 ? (
             <ul className="space-y-2">
               {donations.map((donation) => (
-                <li key={donation.id} className="border p-4 rounded-md">
+                <li key={donation._id} className="border p-4 rounded-md">
                   <p>{donation.description}</p>
                   <p>{donation.targetAmountMoney}€</p>
                 </li>

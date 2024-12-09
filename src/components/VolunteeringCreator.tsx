@@ -1,25 +1,33 @@
 import Modal from "./ui/modal";
 import { useForm } from "react-form-ease";
-// import { Spinner } from "./ui/spinner";
+import { Spinner } from "./ui/spinner";
 import Input from "./ui/input";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { submitVolunteeringCreation } from "@/redux/actions/voluntRequestActions";
+import { useState } from "react";
 
 interface VolunteeringCreatorProps {
   isOpen: boolean;
   onClose: () => void;
   refugee_id: string | undefined
+  setRefreshFlag: Function;
 }
 
 
 const VolunteeringCreator = ({
   isOpen,
-  onClose,refugee_id
+  onClose,refugee_id, setRefreshFlag
 }: VolunteeringCreatorProps) => {
     const dispatch = useDispatch<AppDispatch>();
-    const handleSubmit = () => {
-        dispatch(submitVolunteeringCreation(formData))
+    const [isLoading, setIsLoading] = useState(false)
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsLoading(true);
+      const response = await dispatch(submitVolunteeringCreation(formData))
+      if (response?.status === 200){
+        setRefreshFlag(true);
+       }
     }
     const {
         formData,
@@ -46,6 +54,11 @@ const VolunteeringCreator = ({
         },
       });
 
+      const closePopup = () => {
+        setIsLoading(false)
+        onClose();
+      };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -62,12 +75,12 @@ const VolunteeringCreator = ({
               placeholder="Descripción"
               className=""
               value={formData.description}
-              onChange={(e) => updateForm({ description: e.target.value.trim() })}
+              onChange={(e) => updateForm({ description: e.target.value })}
             />
             {formErrors.description && (
               <p className="text-red-500">{formErrors.description}</p>
             )}
-            {/* {apiError && <p className="text-red-500">{apiError}</p>} */}
+
           </div>
           <div className="requirements">
             <Input
@@ -76,7 +89,7 @@ const VolunteeringCreator = ({
               placeholder="Requerimientos"
               className=""
               value={formData.requirements}
-              onChange={(e) => updateForm({ requirements: e.target.value.trim() })}
+              onChange={(e) => updateForm({ requirements: e.target.value })}
             ></Input>
             {formErrors.requirements && (
               <p className="text-red-500">{formErrors.requirements}</p>
@@ -90,7 +103,7 @@ const VolunteeringCreator = ({
               className=""
               value={formData.availability}
               onChange={(e) =>
-                updateForm({ availability: e.target.value.trim() })
+                updateForm({ availability: e.target.value })
               }
             ></Input>
             {formErrors.availability && (
@@ -104,16 +117,13 @@ const VolunteeringCreator = ({
             Registrar
           </button>
         </form>
-        {/* {isLoading && <Spinner />}
-        {isSubmitted && isSuccess && (
+        {isLoading && <Spinner />} 
+        {isLoading && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg text-center">
               <h2 className="text-2xl font-semibold mb-4">
-                ¡Registro Exitoso!
+              ¡Haz creado un voluntariado exitosamente!
               </h2>
-              <p className="text-lg mb-6">
-                Tus datos han sido registrados correctamente.
-              </p>
               <button
                 className="bg-primaryLight text-white px-4 py-2 rounded-md"
                 onClick={closePopup}
@@ -123,8 +133,6 @@ const VolunteeringCreator = ({
             </div>
           </div>
         )}
-
-        {formErrors && <p className="text-red-500">{apiError}</p>} */}
       </Modal>
       ;
     </>

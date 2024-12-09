@@ -1,6 +1,7 @@
 import { IVolunteeringByRefugeeId } from "@/interfaces/IVolunteeringByRefugee";
-import { GET_VOLUNTEERING, GET_VOLUNTEERING_ERROR, GET_VOLUNTEERING_BY_REFUGEE_ID } from "../actions/volunteeringActions";
+import { GET_VOLUNTEERING, GET_VOLUNTEERING_ERROR, GET_VOLUNTEERING_BY_REFUGEE_ID, UPDATE_VOLUNTEERING } from "../actions/volunteeringActions";
 import { Volunteering } from "@/interfaces/Volunteering";
+
 
 
 
@@ -31,6 +32,8 @@ type VolunteeringAction =
   | { type: typeof GET_VOLUNTEERING; payload: IVolunteeringByRefugeeId[] }
   | { type: typeof GET_VOLUNTEERING_BY_REFUGEE_ID; payload: IVolunteeringByRefugeeId}
   | {type: typeof GET_VOLUNTEERING_ERROR; payload: string }
+  | {type: typeof UPDATE_VOLUNTEERING; payload: IVolunteeringByRefugeeId}
+
 
 
 
@@ -53,8 +56,14 @@ type VolunteeringAction =
                 success: true
             }
             case GET_VOLUNTEERING_ERROR:
-                return { ...state, loading: false, error: action.payload };
-            
+                return { ...state, loading: false, error: action.payload }
+            case UPDATE_VOLUNTEERING: {
+                return {
+                    ...state,
+                    loading: false,
+                    volunteering_id: action.payload,
+                }
+            }
         default:
             return state;
     }

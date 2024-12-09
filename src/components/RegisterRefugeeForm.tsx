@@ -6,12 +6,18 @@ import Input from "./ui/input";
 import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
 import useRefugeeRegister from "@/hooks/refugeeRegister";
+// import UploadPhoto from "./UploadPhoto";
 
 const RegisterRefugeeForm = () => {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { formData, updateForm, validateForm, errors: formErrors = {}} = useForm({
+  const {
+    formData,
+    updateForm,
+    validateForm,
+    errors: formErrors = {},
+  } = useForm({
     data: {
       email: "",
       password: "",
@@ -56,7 +62,7 @@ const RegisterRefugeeForm = () => {
       },
       description: (value) => {
         if (!value) return "Por favor ingresa una descripción";
-        if(value.length < 10)
+        if (value.length < 10)
           return "La descripción debe tener entre 10 y 200 caracteres.";
         if (value.length > 200)
           return "La descripción debe tener entre 10 y 200 caracteres.";
@@ -90,11 +96,10 @@ const RegisterRefugeeForm = () => {
         name_refugee: formData.name_refugee,
         description: formData.description,
         img: formData.image || undefined,
-       
       });
-      
+
       if (result) {
-        console.log(result)
+        console.log(result);
         setIsSubmitted(true);
       }
     } catch (err) {
@@ -104,17 +109,16 @@ const RegisterRefugeeForm = () => {
 
   const closePopup = () => {
     setIsSubmitted(false);
-    navigate("/login")
-
+    navigate("/login");
   };
 
   return (
     <>
-    <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
-      <Link to={"/signin"}>
-        <PiArrowLineLeftLight />
-      </Link>
-    </button>
+      <button className="bg-primaryLight text-light text-2xl p-2 my-2 font-semibold rounded-full shadow-md hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 absolute">
+        <Link to={"/signin"}>
+          <PiArrowLineLeftLight />
+        </Link>
+      </button>
       <div className="">
         <img src="/dog.webp" alt="" className="w-full" />
       </div>
@@ -122,6 +126,58 @@ const RegisterRefugeeForm = () => {
         className="max-w-md md:max-w-2xl lg:max-w-3xl p-8 flex flex-col justify-center"
         onSubmit={handleSubmit}
       >
+         <div className="name">
+          <Input
+            name="name"
+            type="text"
+            placeholder="Nombre"
+            className=""
+            value={formData.name}
+            onChange={(e) => updateForm({ name: e.target.value })}
+          />
+          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
+        </div>
+
+        <div className="lastName">
+          <Input
+            name="last_name"
+            type="text"
+            placeholder="Apellidos"
+            className=""
+            value={formData.last_name}
+            onChange={(e) => updateForm({ last_name: e.target.value })}
+          />
+          {formErrors.last_name && (
+            <p className="text-red-500">{formErrors.last_name}</p>
+          )}
+        </div>
+
+        <div className="refugeeName">
+          <Input
+            name="name_refugee"
+            type="text"
+            placeholder="Nombre del Refugio"
+            className=""
+            value={formData.name_refugee}
+            onChange={(e) => updateForm({ name_refugee: e.target.value })}
+          />
+          {formErrors.name_refugee && (
+            <p className="text-red-500">{formErrors.name_refugee}</p>
+          )}
+        </div>
+
+        <div className="description">
+          <Input
+            name="description"
+            placeholder="Descripción del Refugio"
+            className=""
+            value={formData.description}
+            onChange={(e) => updateForm({ description: e.target.value })}
+          />
+          {formErrors.description && (
+            <p className="text-red-500">{formErrors.description}</p>
+          )}
+        </div>
         <div className="email text-">
           <Input
             name="email"
@@ -139,7 +195,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="password">
           <Input
-          name="password"
+            name="password"
             type="password"
             placeholder="Contraseña"
             value={formData.password}
@@ -152,7 +208,7 @@ const RegisterRefugeeForm = () => {
 
         <div className="confirmPassword">
           <Input
-          name="confirmPassword"
+            name="confirmPassword"
             type="password"
             placeholder="Confirmar Contraseña"
             className=""
@@ -164,91 +220,15 @@ const RegisterRefugeeForm = () => {
           )}
         </div>
 
-        <div className="name">
-          <Input
-          name="name"
-            type="text"
-            placeholder="Nombre"
-            className=""
-            value={formData.name}
-            onChange={(e) => updateForm({ name: e.target.value })}
-          />
-          {formErrors.name && <p className="text-red-500">{formErrors.name}</p>}
-        </div>
-
-        <div className="lastName">
-          <Input
-          name="last_name"
-            type="text"
-            placeholder="Apellidos"
-            className=""
-            value={formData.last_name}
-            onChange={(e) => updateForm({ last_name: e.target.value })}
-          />
-          {formErrors.last_name && (
-            <p className="text-red-500">{formErrors.last_name}</p>
-          )}
-        </div>
-
-        <div className="refugeeName">
-          <Input
-          name="name_refugee"
-            type="text"
-            placeholder="Nombre del Refugio"
-            className=""
-            value={formData.name_refugee}
-            onChange={(e) => updateForm({ name_refugee: e.target.value })}
-          />
-          {formErrors.name_refugee && (
-            <p className="text-red-500">{formErrors.name_refugee}</p>
-          )}
-        </div>
-
-        <div className="description">
-          <Input
-          name="description"
-            placeholder="Descripción del Refugio"
-            className=""
-            value={formData.description}
-            onChange={(e) => updateForm({ description: e.target.value })}
-          />
-          {formErrors.description && (
-            <p className="text-red-500">{formErrors.description}</p>
-          )}
-        </div>
-
-        <div className="image mb-4">
-          <label
-            htmlFor="file"
-            className="border-2 rounded h-12 w-full flex items-center justify-between px-4 bg-white cursor-pointer"
-          >
-            {formData.image ? (
-              <span className="text-grey truncate">{formData.image}</span>
-            ) : (
-              <span className="placeholder-text-base text-gray-700">
-                Imagen (opcional)
-              </span>
-            )}
-            <span className="text-primaryLight font-semibold">Examinar</span>
-          </label>
-          <input
-            type="file"
-            className="hidden"
-            placeholder=""
-            onChange={(e) =>
-              updateForm({
-                image: e.target.files ? e.target.files[0].name : "",
-              })
-            }
-          />
-        </div>
         <button
           type="submit"
           className="border-1 rounded-3xl h-14 w-[85%] bg-primaryLight text-white mb-[30px] mx-auto"
-        > Registrar
+        >
+          {" "}
+          Registrar
         </button>
       </form>
-      {isLoading && (<Spinner/>)}
+      {isLoading && <Spinner />}
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">

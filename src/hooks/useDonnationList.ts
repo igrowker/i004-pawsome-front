@@ -1,6 +1,10 @@
 import { getDonationsData } from "@/views/helpers/getDonations";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "@/redux/rootReducer";
+
+
 
 interface DonationInterface {
   _id: string,
@@ -8,13 +12,13 @@ interface DonationInterface {
   title: string,
   description: string,
   imageUrl: string,
-  monetaryDonation: boolean,
+  isMonetaryDonation: boolean,
   targetAmountMoney: number,
   targetItemsCount: number,
 }
-interface actualDonationInf{
-  refugee_id : string,
-  title :string,
+interface actualDonationInf {
+  refugee_id: string,
+  title: string,
 }
 
 export const useDonnationList = () => {
@@ -23,33 +27,38 @@ export const useDonnationList = () => {
   const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
   const [actualDonation, SetActualDonation] = useState<actualDonationInf>();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const { data_refugee } = useSelector((state: RootState) => state.refugee);
 
+  console.log (data_refugee.user_id)
 
   useEffect(() => {
-    const fetchDonations = async () => {
-      try {
-        const response = await getDonationsData();;
-        // console.log(response)
-    
-        if (response && Array.isArray(response.donationRequests)) {
-          const shelterFilter = response.donationRequests.filter(
-            (element: DonationInterface) => element.refugee_id === '674afd90d93aca13ac428584' // no tocar el filter, porque lo necesitamos para los refugios. De momento es estatico, remplazar por el refugio ID con el que esté trabajando. 
-          );
-          // console.log(shelterFilter)
-          setDonations(shelterFilter);
-        } else {
-          console.error("La estructura de la respuesta es incorrecta");
-        }
-      } catch (error) {
-        console.error("Error al obtener las donaciones:", error);
+    if(data_refugee._id){
+      fetchDonations();
+    }
+  
+
+  }, [data_refugee._id]);
+
+  const fetchDonations = async () => {
+    try {
+      const response = await getDonationsData();
+
+      if (response && Array.isArray(response.donationRequests)) {
+        setDonations(response.donationRequests); // Establecer las donaciones filtradas
+      } else {
+        console.error("La estructura de la respuesta es incorrecta");
       }
-    };
+    } catch (error) {
+      console.error("Error al obtener las donaciones:", error);
+    }
+  };
 
-   /*  dispatch(setDonationInfo(actualDonation.refugee_id, actualDonation.title)); */
-
-    fetchDonations();
-  }, []);
+  const filteredDonations = useMemo(() => {
+    if (data_refugee._id) {
+      return donations.filter((donation) => donation.refugee_id === data_refugee.user_id);
+    }
+    return [];
+  }, [donations, data_refugee.user_id]);
 
   const handleDonate = (donation: DonationInterface) => {
     const token = localStorage.getItem("token");
@@ -64,25 +73,18 @@ export const useDonnationList = () => {
         title: donation.title,
         description: donation.description,
         refugee_id: donation.refugee_id,
-/*         refugeeName: donation.refugee_id.name, */
+        refugeeName: data_refugee.name_refugee
       },
     });
   };
 
-  const form = () =>{
-    navigate('/in-kind-donation'); 
-  }
-
-  const handleInKindDonation = (elemen1:string, elemen2:string, elemen3:string) =>{
+  const handleInKindDonation = (elemen1: string, elemen2: string, elemen3: string) => {
     const donationInf = {
-      refugee_id : elemen1,
-      title : elemen2,
-      id : elemen3
+      refugee_id: elemen1,
+      title: elemen2,
+      id: elemen3
     }
     SetActualDonation(donationInf);
-    if (actualDonation){
-      form();
-    }
   }
 
   const handleCloseModal = () => setShowModal(false);
@@ -96,7 +98,7 @@ export const useDonnationList = () => {
     navigate("/register");
     setShowModal(false);
   };
-  
+
   console.log(donations)
   console.log(actualDonation)
 
@@ -106,7 +108,9 @@ export const useDonnationList = () => {
     handleInKindDonation,
     handleLogin,
     handleRegister,
-    donations,
-    showModal
+    showModal,
+    actualDonation,
+    setDonations,
+    donations: filteredDonations,
   }
 }

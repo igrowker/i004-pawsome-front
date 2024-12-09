@@ -5,6 +5,10 @@ export const VOLUNTEERING_CREATION_START = "VOLUNTEERING_CREATION_START";
 export const VOLUNTEERING_CREATION_SUCCESS = "VOLUNTEERING_CREATION_SUCCESS";
 export const VOLUNTEERING_CREATION_FAILURE = "VOLUNTEERING_CREATION_FAILURE";
 
+export const VOLUNTEERING_DELETE_START = "VOLUNTEERING_DELETE_START";
+export const VOLUNTEERING_DELETE_SUCCESS = "VOLUTEERING_DELETE_SUCCESS";
+export const VOLUNTEERING_DELETE_FAILURE = "VOLUNTEERING_DELETE_FAILURE";
+
 
 export const submitVolunteeringCreation = (creationVolunteeringData: {
     refugee_id: string,
@@ -23,7 +27,7 @@ export const submitVolunteeringCreation = (creationVolunteeringData: {
             type: VOLUNTEERING_CREATION_SUCCESS,
             payload: response.data,
         });
-        return Promise.resolve();
+        return response;
 
     } catch (error: any) {
         let errorMessage = "Error al procesar la solicitud";
@@ -46,3 +50,31 @@ export const submitVolunteeringCreation = (creationVolunteeringData: {
         return Promise.reject(errorMessage);
     }
 }
+
+export const deleteVolunteeringOpportunity = (id: string) => async (dispatch: AppDispatch) => {
+    dispatch({ type: VOLUNTEERING_DELETE_START }); 
+    try {
+        await apiClient.delete(`/volunteer/${id}`);
+        dispatch({
+            type: VOLUNTEERING_DELETE_SUCCESS,
+            payload: id, 
+        });
+        return Promise.resolve();
+    } catch (error: any) {
+        let errorMessage = "Error al eliminar la oportunidad";
+        if (error.response && error.response.status === 401) {
+            errorMessage = "No estás autenticado. Por favor inicia sesión.";
+        } else if (error.response && error.response.status === 403) {
+            errorMessage = "No tienes permisos para realizar esta acción.";
+        } else if (error.response && error.response.data) {
+            errorMessage = error.response.data.message || errorMessage;
+        } else {
+            errorMessage = error.message || errorMessage;
+        }
+        dispatch({
+            type: VOLUNTEERING_DELETE_FAILURE,
+            payload: errorMessage,
+        });
+        return Promise.reject(errorMessage);
+    }
+};

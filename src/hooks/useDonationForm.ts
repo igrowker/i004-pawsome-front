@@ -1,13 +1,16 @@
+import { RootState } from "@/redux/rootReducer";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 
 interface DonationPostInterface {
   refugee_id: string,
   title: string,
   description: string,
   imageUrl: string,
-  monetaryDonation: boolean | undefined,
+  isMonetaryDonation: boolean | undefined,
   cuantityDonation: number,
   donationNumber: number,
   status: string
@@ -23,18 +26,21 @@ export const useDonationForm = () => {
   const [donation, setDonation] = useState<DonationPostInterface>({
     title: '',
     description: '',
-    monetaryDonation: monetary,
+    isMonetaryDonation: monetary,
     cuantityDonation: 0,
     imageUrl: '',
-    refugee_id: "674afd90d93aca13ac428584",
+    refugee_id: "",
     status: 'active',
     donationNumber: 0
   })
+  const { data_refugee } = useSelector((state: RootState) => state.refugee);
+
+  
 
   useEffect(() => {
     setDonation(prevDonation => ({
       ...prevDonation,
-      monetaryDonation: monetary
+      isMonetaryDonation: monetary
     }));
   }, [monetary]);
 
@@ -73,7 +79,7 @@ export const useDonationForm = () => {
         title: donation.title,
         description: donation.description,
         imageUrl: donation.imageUrl,
-        monetaryDonation: donation.monetaryDonation,
+        isMonetaryDonation: donation.isMonetaryDonation,
         cuantityDonation: donation.cuantityDonation,
         donationNumber: donation.donationNumber,
         status: donation.status
@@ -91,7 +97,7 @@ export const useDonationForm = () => {
         alert('Ha ocurrido un error inesperado.');
       }
     }
-    navigate("/donationList")
+    navigate(`/refugee/${data_refugee._id}`);
   };
 
   return {
@@ -100,6 +106,6 @@ export const useDonationForm = () => {
     setDonation,
     handleInKindChange,
     handleMoneyChange,
-    handleSubmit
+    handleSubmit,
   }
 }

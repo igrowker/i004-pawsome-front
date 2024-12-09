@@ -60,7 +60,7 @@ export const logout = () => async (dispatch: Dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
       await axios.post(
-        `${process.env.VITE_BACKEND_URL}/auth/logout`,
+        `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
         {},
         {
           headers: {

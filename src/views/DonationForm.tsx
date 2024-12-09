@@ -11,22 +11,22 @@ const DonationForm = () =>{
             <form noValidate className="space-y-4 mb-5" onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="Title" className="block text-sm font-medium text-gray-600">Titulo</label>
-                    <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={donation.title}
+                    <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-teal-500" value={donation.title}
                     onChange={(e) => setDonation({ ...donation, title: e.target.value })} required />
                 </div>
                 <div>
                     <label htmlFor="donationDescription" className="block text-sm font-medium text-gray-600">Descripción de la donación</label>
                     <textarea
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-teal-500 resize-none" 
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-teal-500 resize-none" 
                         value={donation.description}
                         onChange={(e) => setDonation({ ...donation, description: e.target.value })}
                         required 
                     />
                 </div>
                 <div className="image mb-[25px]">
-                    <label htmlFor="file" className="border-2 rounded-3xl h-14 w-[85%] flex items-center justify-between px-4 bg-white cursor-pointer">
+                    <label htmlFor="file" className="border-2 rounded-md h-14 w-[85%] flex items-center justify-between px-4 bg-white cursor-pointer">
                         <span className="placeholder-black">Imagen (opcional)</span><span className="text-primaryLight font-semibold">Examinar</span></label>
-                        <input id="file" type="file" className="hidden"/>
+                        <input id="file" type="file" className="hidden" />
                 </div>
                 <label htmlFor="donationkind" className="block text-sm font-medium text-gray-600 pt-2">Tipo de donación </label>
                 <div className="flex items-center space-x-4">
@@ -58,14 +58,14 @@ const DonationForm = () =>{
                     { monetary ? 
                 <div className="mb-3">
                     <label htmlFor="donationAmount" className="block text-sm font-medium text-gray-600">¿Cuanto dinero necesitas recuardar?</label>
-                    <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500"
+                    <input type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-teal-500"
                      value={donation.cuantityDonation}
                      onChange={(e) => setDonation({ ...donation, cuantityDonation: +e.target.value })} />
                 </div>    
                     :
                 <div className="mb-3">
                     <label htmlFor="donationCuantity" className="block text-sm font-medium text-gray-600">¿Cuantas unidades necesitas recuardar?</label>
-                    <input type="number" id="number-input" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring focus:border-teal-500"
+                    <input type="number" id="number-input" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-teal-500"
                     value={donation.donationNumber}
                     onChange={(e) => setDonation({ ...donation, donationNumber: +e.target.value })} />
                 </div>   

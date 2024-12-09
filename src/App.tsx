@@ -27,6 +27,7 @@ import DonationAmount from "./components/DonationAmount";
 import DonationCancel from "./components/DonationCancel";
 import InKindDonationForm from "./views/InKindDonationForm";
 import RefugeProfile from "./views/dashboard/refugee/pages/RefugeProfile";
+import ScrollToTop from "./components/scrollToTop";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
@@ -44,10 +46,9 @@ function App() {
           <Route path="/donation-amount" element={<DonationAmount />} />
           <Route path="/donation-success" element={<DonationSuccess />} />
           <Route path="/donation-cancel" element={<DonationCancel />} />
-          <Route path="/volunteerform" element={<VolunteerForm />} />
           <Route path="/adopt/:animal_id" element={<AdoptPage />} />
           <Route path="/animalprofile/:id" element={<AnimalProfile />} />
-
+          <Route path="/volunteer/:id/oportunidades" element={<VolunteerForm/>}/>
           <Route path="/volunteering/:id" element={<VolunteeringList/>} /> 
           
           <Route path="/donation-form" element={<DonationForm />} />
@@ -70,7 +71,7 @@ function App() {
           <Route path="privacy" element={<PrivacyPolicy />} />
           {/* Ruta del usuario refugio y sus subrutas */}
           <Route path="/refugee/:id" element={<RefugeProfile />} />
-          
+
 
           {/* Ruta del usuario adoptante? volunteer? y sus subrutas */}
           <Route path="/user" element={<UsersRoutes />} />
