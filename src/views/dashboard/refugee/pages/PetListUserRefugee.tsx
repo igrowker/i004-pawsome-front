@@ -1,58 +1,49 @@
-import { fetchAllAnimalsByRefugee } from "@/redux/actions/animalActions";
+import PetCard from "@/components/PetCard";
+import { fetchAllAnimals } from "@/redux/actions/animalActions";
 import { AppDispatch, RootState } from "@/redux/store";
 import React, { useEffect, useState } from "react";
-import { FaFilter } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import FilterAdoption from "@/components/FilterAdoption";
-import { IAnimal } from "@/interfaces/IAnimal";
 import { IRefuge } from "@/interfaces/IRefugee";
-import PetCard from "@/components/PetCard";
 
-const PetListUserRefugee: React.FC = () => {
-  console.log("PetListUserRefugee renderizado");
-
+const PetListByRefugee: React.FC = () => {
   const [filter, setFilter] = useState("");
   const [speciesFilter, setSpeciesFilter] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
 
-  const { animalsByRefugee, loading } = useSelector(
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { allAnimals, loading } = useSelector(
     (state: RootState) => state.animal
   );
-  // Comprobación de que userRefugee esta tipado como IRefuge
-  const userRefugee = user?.refugee as IRefuge | undefined;
 
   useEffect(() => {
-    if (userRefugee) {
-      dispatch(fetchAllAnimalsByRefugee(userRefugee._id));
-    } else {
-      console.log("userRefugee no está definido", userRefugee);
+    if (user?.refugee) {
+      dispatch(fetchAllAnimals());
     }
-  }, [dispatch, userRefugee]);
+  }, [dispatch, user?.refugee]);
 
-  // Verifica si se están obteniendo los animales correctamente
-  useEffect(() => {
-    console.log(animalsByRefugee);  // Verifica el contenido de animalsByRefugee
-  }, [animalsByRefugee]);
+  // Comprobamos que user sea de tipo IREFUGE
+  const userRefugee = user?.refugee as IRefuge | undefined;
+  // Comprobamos que userRefugee esté definido y accedemos a pets
+  const userPets = userRefugee?.pets || [];
 
-  const userPets: IAnimal[] = animalsByRefugee || [];
 
-  useEffect(() => {
-    console.log(userPets);  // Verifica los animales que tienes en userPets
-  }, [userPets]);
+  const userRefugeePets = allAnimals.filter((animal) =>
+    userPets.includes(animal._id)
+  );
 
-  // Comprobación de si User refugee existe? Tiene la propiedad pets??
-
-  const filteredByNameOrBreed = userPets.filter(
-    (pet: IAnimal) =>
+  // Filtrar los animales cuando escribamos en el filtro 
+  const filteredByNameOrBreed = userRefugeePets.filter(
+    (pet) =>
       pet.name!.toLowerCase().includes(filter.toLowerCase()) ||
       pet.breed!.toLowerCase().includes(filter.toLowerCase())
   );
 
   // Filtrar los animales según la especie seleccionada en el filtro
   const filteredPets = filteredByNameOrBreed.filter(
-    (pet: IAnimal) =>
+    (pet) =>
       speciesFilter
         ? pet.species.toLowerCase().includes(speciesFilter.toLowerCase())
         : true
@@ -63,15 +54,12 @@ const PetListUserRefugee: React.FC = () => {
       <div className="flex mb-4 items-center">
         <input
           type="text"
-          placeholder="Search animals"
+          placeholder="Busca el animal"
           className="w-full md:w-1/3 p-1 border border-gray-300 rounded-3xl"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
-        <FaFilter
-          className="bg-primaryLight p-2 rounded-full ml-3"
-          style={{ fontSize: "2.1rem", color: "white" }}
-        />
+
       </div>
       <FilterAdoption onFilterChange={setSpeciesFilter} />
 
@@ -82,8 +70,8 @@ const PetListUserRefugee: React.FC = () => {
           {filteredPets.length > 0 ? (
             filteredPets.map((pet) => (
               <PetCard
-                key={pet._id}
                 _id={pet._id}
+                key={pet._id}
                 photos={pet.photos}
                 name={pet.name!}
                 breed={pet.breed!}
@@ -98,4 +86,4 @@ const PetListUserRefugee: React.FC = () => {
   );
 };
 
-export default PetListUserRefugee;
+export default PetListByRefugee;

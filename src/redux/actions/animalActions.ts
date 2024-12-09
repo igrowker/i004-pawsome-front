@@ -122,6 +122,7 @@ export const fetchAllAnimalsByRefugee = (id: string) => {
 
     try {
       const response = await apiClient.get(`/animals/refugee/${id}`);
+      console.log("Respuesta de la API:", response.data);
       dispatch(fetchAllAnimalsByRefugeeSuccess(response.data));
     } catch (error: unknown) {
       const errorMessage =

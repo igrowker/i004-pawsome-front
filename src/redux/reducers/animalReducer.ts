@@ -26,7 +26,7 @@ export interface AnimalState {
   error: string | null;
   allAnimals: any[];
   animals: string[];
-  animalsByRefugee: IAnimal[] | null;
+  animalsByRefugee: IAnimal[];
 }
 
 const initialState: AnimalState = {
@@ -46,6 +46,7 @@ const animalReducer = (state = initialState, action: any): AnimalState => {
       return { ...state, loading: true, error: null };
     case FETCH_ALL_ANIMALS_START:
     case FETCH_ALL_ANIMALS_BY_REFUGEE_START:
+      return { ...state, loading: true, error: null };
     case FETCH_AVAILABLE_ANIMALS_START:
       return { ...state, loading: true, error: null };
     case CREATE_ANIMAL_START:

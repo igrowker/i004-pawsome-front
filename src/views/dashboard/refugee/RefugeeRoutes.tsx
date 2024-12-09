@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import PostPets from "./pages/PostPets";
-import PetList from "./pages/PetList";
 import PetListUserRefugee from "./pages/PetListUserRefugee";
 
 function RefugeeRoutes() {
