@@ -3,11 +3,13 @@ import Modal from "./ui/modal";
 import Input from "./ui/input";
 import { IAnimal } from "@/interfaces/IAnimal";
 
+
 const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
 
-const PetCard: React.FC<Partial<IAnimal>> = ({
+const PetCard: React.FC<{ _id: string } & Partial<IAnimal>> = ({
+  // _id,
   name = "N/A",
   breed = "N/A",
   photos = "N/A",
@@ -36,7 +38,7 @@ const PetCard: React.FC<Partial<IAnimal>> = ({
         className="bg-primaryLight text-white font-bold py-3 rounded-3xl w-32 text-sm "
         onClick={openModal}
       >
-        Update Profile
+        Edítame
       </button>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="flex justify-center items-center text-xl font-bold">

@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import { PiArrowLineLeftLight } from "react-icons/pi";
 
 const VolunteerForm = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
@@ -29,7 +29,7 @@ const VolunteerForm = () => {
   const {
     formData,
     updateForm, validateForm,
-    errors: formErrors = {},
+    errors: formErrors = {}, 
   } = useForm<FormData>({
     data: {
       personalData: {
@@ -168,16 +168,16 @@ const VolunteerForm = () => {
   }, [formData]);
 
   const { isLoading, error: apiError, isSuccess, registerVolunteer } = useVolunteerRegister();
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     const isValid = validateForm();
     if (!isValid) {
       console.log("Errores en el formulario:", formErrors);
       return;
     }
-  
+
     try {
       const volunteerData: VolunteerRegisterData = {
         personalData: {
@@ -225,18 +225,17 @@ const VolunteerForm = () => {
       
       // const dataToSend = {formData: volunteerData, oportunidadId: formData.selectedVolunteering.volunteeringId}
       const result = await registerVolunteer(volunteerData);
-  
+
       if (result) {
         console.log("Registro exitoso:", result);
-        setIsSubmitted(true);
       }
     } catch (err) {
       console.error("Error al registrar:", err);
-      
+
     }
   };
-  
-  
+
+
   const closePopup = () => {
     navigate(`/volunteering/${id}`);
     setIsSubmitted(false);
@@ -353,11 +352,11 @@ const VolunteerForm = () => {
           </div>
         </fieldset>
 
-        <fieldset className="space-y-2 mt-10">
-          <Legend
-            text="Disponibilidad"
-            className="text-2xl font-bold font-roboto text-[#374151]"
-          />
+          <fieldset className="space-y-2 mt-10">
+            <Legend
+              text="Disponibilidad"
+              className="text-2xl font-bold font-roboto text-[#374151]"
+            />
 
           <div className="pt-2">
             <Input
@@ -508,12 +507,12 @@ const VolunteerForm = () => {
             placeholder="Rol o actividad específica de interés"
             name="role"
             required={true}
-            value={formData.rolePreferences.individualTeam}
+            value={formData.rolePreferences.role}
             onChange={(e) =>
               updateForm({
                 rolePreferences: {
                   ...formData.rolePreferences,
-                  individualTeam: e.target.value,
+                  role: e.target.value,
                 },
               })
             }
@@ -680,9 +679,12 @@ const VolunteerForm = () => {
       {isSubmitted && isSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-2xl font-semibold mb-4">¡Registro Exitoso!</h2>
+            <div>
+              <img src="../../public/volunteercheck.png" alt="" />
+            </div>
+            <h2 className="text-2xl font-semibold mb-4">¡Felicidades!</h2>
             <p className="text-lg mb-6">
-              Tus datos han sido registrados correctamente.
+              Tu formulario fue enviado correctamente.
             </p>
             <button
               className="bg-primaryLight text-white px-4 py-2 rounded-md"

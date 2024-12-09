@@ -21,7 +21,7 @@ const DonationSuccess: React.FC = () => {
         </button>
         <button
           className="mt-4 bg-gray-200 text-teal-600 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
-          onClick={() => navigate("/donationlist")}
+          onClick={() => navigate("/home")}
         >
           Ver más oportunidades de donación
         </button>

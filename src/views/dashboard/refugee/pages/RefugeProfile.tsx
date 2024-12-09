@@ -3,12 +3,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/rootReducer";
 import RefugeDescription from "@/components/RefugeeDescription";
 import { IAnimal } from "@/interfaces/IAnimal";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { fetchRefugeeById } from "@/redux/actions/refugeeActions";
 import BackButton from "@/components/VolverButton";
 import { FaArrowLeft } from "react-icons/fa";
 import PetCardPublic from "@/components/PetCardPublic";
+import { DonationInterface } from "@/interfaces/IDonation";
 
 export default function RefugeProfile() {
   const dispatch = useAppDispatch();
@@ -16,49 +17,88 @@ export default function RefugeProfile() {
   const navigate = useNavigate();
   const { data_refugee } = useSelector((state: RootState) => state.refugee);
 
-  // console.log(data_refugee);
-  // agrego un estado para ver que botón pintar
-  const [filter, setFilter] = useState("")
-  const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([])
+  const [donations, setDonations] = useState<DonationInterface[]>([]);
+  const [filteredAnimals, setFilteredAnimals] = useState<IAnimal[]>([]);
+  const [donationsLoading, setDonationsLoading] = useState(true);
+  const [donationsError, setDonationsError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"animals" | "donations">("animals");
 
-
+  // Fetch data for the refugee
   useEffect(() => {
     if (id) {
       dispatch(fetchRefugeeById(id));
     }
   }, [id, dispatch]);
 
-  // Establecer los animales filtrados cuando cambia data_refugee
+  // Filter animals when data_refugee changes
   useEffect(() => {
     if (data_refugee?.pets && Array.isArray(data_refugee.pets)) {
       setFilteredAnimals(data_refugee.pets);
     }
   }, [data_refugee]);
 
-  // Función para filtrar animales por especie
-  const setAnimalFilter = (event: MouseEvent<HTMLButtonElement>) => {
-    const selectedFilter = event.currentTarget.textContent || "";
-    setFilter(selectedFilter);
-    getAnimalsBySpecie(selectedFilter);
-  };
+  // Fetch donations associated with the refugee
+  useEffect(() => {
+    if (data_refugee?._id) {
+      fetchDonations();
+    }
+  }, [data_refugee]);
 
-  const getAnimalsBySpecie = (filterValue: string) => {
-    if (data_refugee?.pets && Array.isArray(data_refugee.pets)) {
-      const filtered = data_refugee.pets.filter((pet: IAnimal) =>
-        filterValue ? pet.species.toLowerCase() === filterValue.toLowerCase() : true
+  const fetchDonations = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/donations/donation-requests`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+  
+      if (!data.donationRequests || !Array.isArray(data.donationRequests)) {
+        throw new Error("Estructura inesperada en la respuesta del servidor");
+      }
+  
+      const refugeeId = data_refugee.user_id || data_refugee._id;
+      const filteredDonations = data.donationRequests.filter(
+        (donation: DonationInterface) =>
+          donation.refugee_id?.trim().toLowerCase() === refugeeId.trim().toLowerCase()
       );
-      setFilteredAnimals(filtered);
+  
+      setDonations(filteredDonations);
+    } catch (error) {
+      setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
+      console.error("Error fetching donations:", error);
+    } finally {
+      setDonationsLoading(false);
     }
   };
 
-
-  // Función para aplicar estilos a los botones del filtro
-  const getStylesButton = (labelButton: string) =>
-    filter === labelButton ? "border-b-4 border-secondaryDark text-secondaryDark" : "";
-
-  const handleClick = () => {
-    navigate(`/volunteering/${data_refugee._id}`);
+  const handleDonate = (donation: DonationInterface) => {
+    if (donation.isMonetaryDonation) {
+      navigate("/donation-amount", {
+        state: {
+          refugeeId: donation.refugee_id,
+          donationId: donation._id,
+          title: donation.title,
+          description: donation.description,
+        },
+      });
+    } else {
+      navigate("/in-kind-donation", {
+        state: {
+          donationId: donation._id,
+          title: donation.title,
+        },
+      });
+    }
   };
+
+  const getStylesTab = (tab: string) =>
+    activeTab === tab ? "border-b-4 border-secondaryDark text-secondaryDark font-bold" : "";
 
   return (
     <>
@@ -75,74 +115,81 @@ export default function RefugeProfile() {
               <img className="mb-2" src="/refugee-profile-paw.png" alt="Imagen de patitar" />
             </div>
             <RefugeDescription RefugeeDescription={data_refugee?.description} />
-            <div className="flex gap-1 justify-around">
-                <button className="text-sm inline-block rounded font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white"> <Link to={`/volunteer/${id}/oportunidades`}>Ser voluntario</Link>
-                </button>
-              <Link to={`/donationlist`}>
-                <button className="text-sm inline-block font-roboto mt-[15px] mb-[13px] p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white">
-                  Donar
-                </button>
-              </Link>
-            </div>
-            <div className="relative group">
-              <button
-                className={`w-full ${data_refugee.opportunities.length === 0
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-teal-500 hover:bg-teal-600"
-                  } text-sm inline-block font-roboto mt-0 mb-2 p-3 rounded-full text-black font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-all py-3 bg-white`}
-                disabled={data_refugee.opportunities.length === 0}
-                onClick={() => {
-                  if (data_refugee.opportunities.length > 0) {
-                    handleClick();
-                  }
-                }}
-              >
-                {data_refugee.opportunities.length === 0
-                  ? "Voluntariados abiertos"
-                  : "Voluntariados"}
-              </button>
 
-              {data_refugee.opportunities.length === 0 && (
-                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-black text-white text-sm font-medium py-1 px-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  No hay voluntariados
-                </span>
-              )}
+            {/* Tabs */}
+            <div className="flex justify-center mt-5">
+              <button
+                className={`px-4 py-2 ${getStylesTab("animals")}`}
+                onClick={() => setActiveTab("animals")}
+              >
+                Animales
+              </button>
+              <button
+                className={`px-4 py-2 ${getStylesTab("donations")}`}
+                onClick={() => setActiveTab("donations")}
+              >
+                Donaciones
+              </button>
             </div>
-            {/* <h5 className="text-xs font-robot">NUESTRA MANADA</h5> */}
-            <div className="flex justify-around mt-2">
-              {["Perro", "Gato", "Otro"].map((item) => (
-                <button
-                  key={item}
-                  onClick={(event) => {
-                    setAnimalFilter(event);
-                    getAnimalsBySpecie(item);
-                  }}
-                  className={getStylesButton(item)}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
+
+            {/* Content */}
+            {activeTab === "animals" && (
+              <div className="mt-5">
+                {filteredAnimals.length === 0 ? (
+                  <p className="text-gray-500 text-center">No hay animales para mostrar.</p>
+                ) : (
+                  <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredAnimals.map((animal) => (
+                      <PetCardPublic
+                        key={animal._id}
+                        _id={animal._id}
+                        name={animal.name}
+                        photos={animal.photos}
+                        breed={animal.breed}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === "donations" && (
+              <div className="mt-5">
+                <h3 className="text-xl font-semibold mb-4">Donaciones</h3>
+                {donationsLoading ? (
+                  <p className="text-gray-500">Cargando donaciones...</p>
+                ) : donationsError ? (
+                  <p className="text-red-500">{donationsError}</p>
+                ) : donations.length === 0 ? (
+                  <p className="text-gray-500">No hay donaciones para este refugio.</p>
+                ) : (
+                  <ul className="space-y-4">
+                    {donations.map((donation) => (
+                      <li key={donation._id} className="border p-4 rounded-md">
+                        <p className="font-semibold">{donation.title}</p>
+                        <p>{donation.description}</p>
+                        {donation.isMonetaryDonation ? (
+                          <p>Monto necesario: {donation.targetAmountMoney}€</p>
+                        ) : (
+                          <p>Artículos necesarios: {donation.targetItemsCount}</p>
+                        )}
+                        <button
+                          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                          onClick={() => handleDonate(donation)}
+                        >
+                          {donation.isMonetaryDonation ? "Donar" : "Donar en especie"}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Mostrar animales filtrados */}
-      <div className="mt-5 mx-5">
-        {filteredAnimals.length === 0 ? (
-          <p className="text-gray-500 text-center">
-            No hay animales para mostrar.
-          </p>
-        ) : (
-          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {filteredAnimals.map(animal => (
-              <PetCardPublic key={animal._id} _id={animal._id} name={animal.name} photos={animal.photos} breed={animal.breed} />
-            ))}
-          </div>
-        )}
-        <BackButton className="m-5 p-5 justify-self-center" icon={<FaArrowLeft />} to="/home" />
-      </div>
+      <BackButton className="m-5 p-5 justify-self-center" icon={<FaArrowLeft />} to="/home" />
     </>
   );
 }
-

@@ -69,7 +69,7 @@ const InKindDonationForm = () => {
   const handleCloseModal = () => {
     setShowSuccessModal(false);
     // Redirigir a DonationList después de cerrar el modal
-    navigate("/donationlist");
+    navigate("/home");
   };
 
   return (

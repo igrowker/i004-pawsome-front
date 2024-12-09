@@ -6,13 +6,13 @@ import {
   updateUserProfile,
 } from "../../../../redux/actions/userActions";
 import { RootState } from "@/redux/store";
-// import { DonationInterface } from "@/interfaces/DonationInterface";
 import { DonationInterface } from "@/interfaces/IDonation.ts";
 import { AdoptionRequest } from "@/interfaces/AdoptionRequestInterface";
 import { FaUserCircle } from "react-icons/fa";
 import ImageUpload from "./ImageUpload.tsx";
 import { useAppDispatch } from "@/hooks/useAppDispatch.ts";
 import { Spinner } from "@/components/ui/spinner.tsx";
+import DonationForm from "@/views/DonationForm.tsx";
 
 interface FormData {
   name: string;
@@ -29,7 +29,6 @@ const UserProfile: React.FC = () => {
   } = useSelector((state: RootState) => state.user);
 
   const { user } = useSelector((state: RootState) => state.auth);
-console.log(userData)
   const userId = user?.id;
 
   const [formData, setFormData] = useState<FormData>({
@@ -45,8 +44,7 @@ console.log(userData)
   const [profilePhoto, setProfilePhoto] = useState(user?.photo || "");
 
   const [donations, setDonations] = useState<DonationInterface[]>([]);
-  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);  
-
+  const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequest[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const [donationsError, setDonationsError] = useState<string | null>(null);
@@ -56,7 +54,7 @@ console.log(userData)
   const auth = useSelector((state: RootState) => state.auth);
 
   const tabsByRole: { [key: string]: string[] } = {
-    user: ["profile", "donations", "requests"], 
+    user: ["profile", "donations", "requests"],
     refugee: ["profile", "requests", "donations"],
   };
 
@@ -88,81 +86,55 @@ console.log(userData)
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-    
+
         if (!response.ok) {
-          throw new Error('Failed to fetch donations');
+          throw new Error("Failed to fetch donations");
         }
-    
+
         const data = await response.json();
-        setDonations(data.donationRequests || []);
+
+        const filteredDonations = data.donationRequests.filter(
+          (donation: DonationInterface) => donation.refugee_id === userId
+        );
+
+        setDonations(filteredDonations || []);
       } catch (error) {
-        setDonationsError(error instanceof Error ? error.message : "Error al cargar las donaciones.");
+        setDonationsError(
+          error instanceof Error ? error.message : "Error al cargar las donaciones."
+        );
         console.error("Error fetching donations:", error);
       } finally {
         setDonationsLoading(false);
       }
     };
-    
+
     if (activeTab === "donations") {
       fetchDonations();
     }
-  }, [apiUrl, activeTab]);
-
-  useEffect(() => {
-    const fetchAdoptionRequests = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/api/adoption-requests?adopter_id=${userId}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch adoption requests');
-        }
-  
-        const data = await response.json();
-        console.log('Response Data:', data);
-  
-        if (Array.isArray(data)) {
-          setAdoptionRequests(data);
-        } else {
-          console.error('La respuesta no tiene el formato esperado');
-        }
-  
-      } catch (error) {
-        console.error('Error fetching adoption requests:', error);
-      }
-    };
-  
-    if (activeTab === "requests") {
-      fetchAdoptionRequests();
-    }
   }, [apiUrl, activeTab, userId]);
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(apiUrl);
 
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([_, value]) => value !== "")
     );
-  
+
     if (user?.id) {
       dispatch(updateUserProfile(user.id, filteredFormData as FormData));
-      console.log(filteredFormData);
       setIsEditing(false);
     } else {
       console.error("El usuario no tiene un ID válido para actualizar.");
     }
   };
-  
 
   const handleUpload = (file: File, url: string) => {
-    console.log("URL generada para la imagen:", url);
     if (!userId) {
       return;
-      console.log("Archivo subido:", file);
     }
 
     setIsImageLoading(true);
@@ -173,7 +145,6 @@ console.log(userData)
       });
     });
   };
-
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-20">
@@ -213,10 +184,11 @@ console.log(userData)
             onClick={() =>
               setActiveTab(tab as "profile" | "donations" | "requests" | "favorite")
             }
-            className={`pb-2 px-4 text-lg ${activeTab === tab
-              ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
-              : "text-gray-500"
-              }`}
+            className={`pb-2 px-4 text-lg ${
+              activeTab === tab
+                ? "text-secondaryDark border-b-2 border-secondaryDark font-semibold"
+                : "text-gray-500"
+            }`}
           >
             {tab === "profile" && "Perfil"}
             {tab === "donations" && "Donaciones"}
@@ -228,9 +200,7 @@ console.log(userData)
 
       {activeTab === "profile" && (
         <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Editar Perfil
-          </h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Editar Perfil</h3>
           {loading && <p>Cargando...</p>}
           {error && <p className="text-red-500">{error}</p>}
 
@@ -299,33 +269,19 @@ console.log(userData)
                 <li key={donation._id} className="border p-4 rounded-md">
                   <p>{donation.description}</p>
                   <p>{donation.targetAmountMoney}€</p>
+                  <img
+                    src={donation.imageUrl}
+                    alt=""
+                    className="w-16 h-16 rounded-full object-cover bg-gray-400"
+                  />
                 </li>
               ))}
             </ul>
           ) : (
             <p>No hay donaciones.</p>
           )}
-        </div>
-      )}
-
-      {activeTab === "requests" && (
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Solicitudes de adopción
-          </h3>
-          {adoptionRequests.length > 0 ? (
-            <ul className="space-y-2">
-              {adoptionRequests.map((request, index) => (
-                <li key={index} className="border p-4 rounded-md">
-                  <p><strong>Nombre mascota:</strong> {request.petName}</p>
-                  <p><strong>Estado:</strong> {request.status}</p>
-                  <p><strong>Fecha:</strong> {request.date}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No tienes solicitudes de adopción.</p>
-          )}
+          <h3 className="text-xl font-semibold mt-6 text-gray-800">Agregar nueva donación</h3>
+          <DonationForm />
         </div>
       )}
     </div>
